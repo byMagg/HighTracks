@@ -19,6 +19,7 @@ const tracksReadOne = async (req, res) => {
         sendJSONresponse(res, 200, response.data)
     } catch (error) {
         console.log(error)
+        sendJSONresponse(res, 400, "Error")
     }
 };
 
