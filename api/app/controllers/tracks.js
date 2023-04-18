@@ -14,14 +14,11 @@ const tracksReadOne = (req, res) => {
         headers: {
             Authorization: `Bearer ${config.TOKEN_SECRET}`
         }
-    }
-    )
-        .then(function (response) {
-            sendJSONresponse(res, 200, response.data)
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+    }).then(function (response) {
+        sendJSONresponse(res, 200, response.data)
+    }).catch(function (error) {
+        console.log(error);
+    });
 };
 
 module.exports = {
