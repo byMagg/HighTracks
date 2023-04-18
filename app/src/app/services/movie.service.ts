@@ -1,16 +1,15 @@
-import { Injectable } from '@angular/core';
+import { EnvironmentInjector, Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MovieDetails } from '../models/movie-details.model';
-import { Movie } from '../models/movie.model';
+import { MovieDetails } from '../models/MovieDetails';
+import { Movie } from '../models/Movie';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class MovieService {
-
   url = 'http://www.omdbapi.com/';
   apiKey = '95303372';
 

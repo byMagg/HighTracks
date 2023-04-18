@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { Movie } from 'src/app/models/movie.model';
+import { Movie } from 'src/app/models/Movie';
 import { MovieService } from 'src/app/services/movie.service';
 
 @Component({

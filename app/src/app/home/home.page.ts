@@ -11,8 +11,7 @@ import { IonicModule, NavController } from '@ionic/angular';
   standalone: true,
   imports: [CommonModule,
     FormsModule,
-    IonicModule
-  ]
+    IonicModule,]
 })
 export class HomePage implements OnInit {
 

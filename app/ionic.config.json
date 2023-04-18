@@ -1,5 +1,5 @@
 {
-  "name": "activity-2",
+  "name": "app",
   "integrations": {
     "capacitor": {}
   },

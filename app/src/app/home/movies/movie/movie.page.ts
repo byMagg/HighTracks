@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { MovieDetails } from 'src/app/models/movie-details.model';
+import { MovieDetails } from 'src/app/models/MovieDetails';
 import { MovieService } from 'src/app/services/movie.service';
 
 @Component({
