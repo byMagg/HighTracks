@@ -1,12 +1,19 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { MovieDetails } from 'src/app/models/MovieDetails';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
+import { MovieDetails } from 'src/app/models/movie-details.model';
 import { MovieService } from 'src/app/services/movie.service';
 
 @Component({
   selector: 'app-movie',
   templateUrl: './movie.page.html',
   styleUrls: ['./movie.page.scss'],
+  standalone: true,
+  imports: [CommonModule,
+    FormsModule,
+    IonicModule,]
 })
 export class MoviePage implements OnInit {
 
