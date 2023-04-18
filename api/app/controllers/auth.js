@@ -16,7 +16,7 @@ const sendJSONresponse = (res, status, content) => {
 const login = async (req, res) => {
     axios.post(`https://accounts.spotify.com/api/token?grant_type=client_credentials&client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,)
         .then(function (response) {
-            console.log(response);
+            console.log(response.data.access_token);
         })
         .catch(function (error) {
             console.log(error);

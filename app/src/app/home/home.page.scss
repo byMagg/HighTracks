@@ -1,0 +1,52 @@
+#container {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#container strong {
+  font-size: 20px;
+  line-height: 26px;
+}
+
+#container h1 {
+  margin: 100px 0;
+  position: relative;
+  left: 10%;
+  width: 80%;
+  font-size: 60px;
+  font-weight: 600;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: repeating-radial-gradient(circle closest-corner at 100px 100px, #553c9a, #b393d3 10%, #553c9a 20%);
+}
+
+ion-content {
+  display: flex;
+  align-content: center;
+}
+
+ion-button {
+  --background: #553c9a;
+}
+
+#searchBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  margin: 0 auto;
+}
+
+#terms-container {
+  width: min-content;
+  margin: 20px auto;
+}
+
+#terms-container>ion-label {
+  margin: 20px;
+}

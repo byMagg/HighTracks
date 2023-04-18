@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="movies"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="details">{{details.Title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="details" id="container">
+    <div>
+      <ion-card>
+        <ion-img src="{{details.Poster}}" alt=""></ion-img>
+      </ion-card>
+    </div>
+    <div id="info">
+      <p><span>{{ details.Plot }}</span></p>
+      <div id="main-info">
+        <div>
+          <span>{{ details.Runtime }}</span>
+        </div>
+        <div>
+          <span>{{ details.Genre }}</span>
+        </div>
+        <div>
+          <span>{{ details.Year }}</span>
+        </div>
+      </div>
+      <p><span>{{ details.Country }}</span></p>
+      <p>Director: <span>{{ details.Director }}</span></p>
+      <p>Actors: <span>{{ details.Actors }}</span></p>
+      <p>IMDB Rating: <span>{{ details.imdbRating }}</span></p>
+    </div>
+  </div>
+
+</ion-content>
