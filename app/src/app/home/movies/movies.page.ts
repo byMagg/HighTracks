@@ -14,7 +14,8 @@ import { MovieService } from 'src/app/services/movie.service';
   imports: [CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule]
+    RouterModule,
+  ]
 })
 export class MoviesPage implements OnInit {
 

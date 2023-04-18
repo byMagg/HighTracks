@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 
@@ -9,5 +10,5 @@ import { IonicModule } from '@ionic/angular';
   imports: [IonicModule],
 })
 export class AppComponent {
-  constructor() {}
+  constructor() { }
 }
