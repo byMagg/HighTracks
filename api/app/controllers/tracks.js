@@ -9,16 +9,17 @@ const sendJSONresponse = (res, status, content) => {
     res.json(content);
 };
 /* GET api/tracks/trackid */
-const tracksReadOne = (req, res) => {
-    axios.get(`https://api.spotify.com/v1/tracks/${req.params.tracksid}`, {
-        headers: {
-            Authorization: `Bearer ${config.TOKEN_SECRET}`
-        }
-    }).then(function (response) {
+const tracksReadOne = async (req, res) => {
+    try {
+        const response = await axios.get(`https://api.spotify.com/v1/tracks/${req.params.tracksid}`, {
+            headers: {
+                Authorization: `Bearer ${config.TOKEN_SECRET}`
+            }
+        })
         sendJSONresponse(res, 200, response.data)
-    }).catch(function (error) {
-        console.log(error);
-    });
+    } catch (error) {
+        console.log(error)
+    }
 };
 
 module.exports = {
