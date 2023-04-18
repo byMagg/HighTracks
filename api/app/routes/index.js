@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const ctrlTracks = require('../controllers/tracks');
+const ctrlAuth = require('../controllers/auth')
 
-// Restaurants
-router.get('/tracks', ctrlTracks.tracksReadAll);
+// Tracks
 router.get('/tracks/:tracksid', ctrlTracks.tracksReadOne);
-router.put('/tracks/:tracksid', ctrlTracks.tracksUpdateOne);
+router.get('/login', ctrlAuth.login);
+// router.get('/logged', ctrlAuth.logged);
 
 module.exports = router;
