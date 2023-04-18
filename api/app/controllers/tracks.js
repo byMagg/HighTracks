@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
+const { token } = require('./auth');
+const axios = require('axios')
 const track = mongoose.model('Track');
+var config = require('../config');
 
 const sendJSONresponse = (res, status, content) => {
     res.status(status);
@@ -7,15 +10,17 @@ const sendJSONresponse = (res, status, content) => {
 };
 /* GET api/tracks/trackid */
 const tracksReadOne = (req, res) => {
-    track
-        .findById(req.params.trackid)
-        .exec((err, track) => {
-            if (!track) {
-                return sendJSONresponse(res, 404, { "message": "track not found" });
-            } else if (err) {
-                return sendJSONresponse(res, 404, err);
-            }
-            sendJSONresponse(res, 200, track);
+    axios.get(`https://api.spotify.com/v1/tracks/${req.params.tracksid}`, {
+        headers: {
+            Authorization: `Bearer ${config.TOKEN_SECRET}`
+        }
+    }
+    )
+        .then(function (response) {
+            sendJSONresponse(res, 200, response.data)
+        })
+        .catch(function (error) {
+            console.log(error);
         });
 };
 
