@@ -8,6 +8,6 @@ export const routes: Routes = [
   },
   {
     path: 'movies',
-    loadComponent: () => import('./movies/movies.page').then(m => m.MoviesPage)
+    loadChildren: () => import('./movies/movies.routes').then(m => m.routes)
   }
 ];
