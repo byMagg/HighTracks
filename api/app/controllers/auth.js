@@ -22,7 +22,6 @@ const generateToken = async (req, res) => {
     }
 };
 
-
 module.exports = {
     generateToken,
 };
