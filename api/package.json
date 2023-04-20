@@ -1,5 +1,5 @@
 {
-  "name": "mywebapp2020",
+  "name": "hightracks",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -11,11 +11,8 @@
     "debug": "~2.6.9",
     "dotenv": "^16.0.3",
     "express": "~4.16.1",
-    "http-errors": "~1.6.3",
     "mongoose": "^5.13.17",
-    "morgan": "^1.10.0",
     "node-fetch": "^3.3.1",
-    "nodemon": "^2.0.22",
-    "querystring": "^0.2.1"
+    "nodemon": "^2.0.22"
   }
 }

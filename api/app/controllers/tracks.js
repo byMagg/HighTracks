@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { token } = require('./auth');
 const axios = require('axios')
 const track = mongoose.model('Track');
 var config = require('../config');
