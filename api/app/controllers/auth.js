@@ -6,6 +6,7 @@ const sendJSONresponse = (res, status, content) => {
     res.json(content);
 };
 
+
 /* GET api/generate_token */
 const generateToken = async (req, res) => {
     try {
