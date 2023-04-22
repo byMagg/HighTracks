@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const axios = require('axios')
 const Track = mongoose.model('Track');
 var config = require('../config');
+const { sendJSONresponse } = require('../request.js')
 
 /* GET api/tracks/search/name */
 const tracksSearchSpotify = async (req, res) => {
@@ -11,10 +12,10 @@ const tracksSearchSpotify = async (req, res) => {
                 Authorization: `Bearer ${config.TOKEN_SECRET_SPOTIFY}`
             }
         })
-        res.status(200).send(response.data);
+        sendJSONresponse(res, 200, response.data)
     } catch (error) {
         console.error(`Error al obtener la información de la canción: ${error.message}`);
-        res.status(400).send({
+        sendJSONresponse(res, 400, {
             "error": {
                 "code": "400",
                 "message": "La solicitud es incorrecta. Verifique que la información proporcionada sea válida y esté completa."
@@ -32,9 +33,9 @@ const trackGetOne = async (req, res) => {
         if (!track) {
             return res.status(404).send('No se encontró la pista con el nombre especificado.');
         }
-        res.send(track);
+        sendJSONresponse(res, 200, track)
     } catch (err) {
-        res.status(500).send(err);
+        sendJSONresponse(res, 500, err)
     }
 };
 
@@ -47,9 +48,9 @@ const trackGetAll = async (req, res) => {
         if (!track) {
             return res.status(404).send('No se encontró la pista con el nombre especificado.');
         }
-        res.send(track);
+        sendJSONresponse(res, 200, track)
     } catch (err) {
-        res.status(500).send(err);
+        sendJSONresponse(res, 500, err)
     }
 };
 
@@ -58,9 +59,9 @@ const trackInsert = async (req, res) => {
     try {
         const track = new Track(req.body);
         await track.save();
-        res.status(201).send(track);
+        sendJSONresponse(res, 201, track)
     } catch (err) {
-        res.status(400).send(err);
+        sendJSONresponse(res, 400, err)
     }
 };
 
@@ -75,9 +76,9 @@ const trackUpdate = async (req, res) => {
         if (!updatedTrack) {
             return res.status(404).send('No se encontró ningún Track con el ID proporcionado.');
         }
-        res.send(updatedTrack);
+        sendJSONresponse(res, 200, updatedTrack)
     } catch (err) {
-        res.status(500).send(err);
+        sendJSONresponse(res, 500, err)
     }
 };
 
@@ -89,9 +90,9 @@ const trackDelete = async (req, res) => {
         if (!deletedTrack) {
             return res.status(404).send('No se encontró ningún Track con el ID proporcionado.');
         }
-        res.send(deletedTrack);
+        sendJSONresponse(res, 200, deletedTrack)
     } catch (err) {
-        res.status(500).send(err);
+        sendJSONresponse(res, 500, err)
     }
 };
 

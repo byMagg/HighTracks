@@ -1,24 +1,18 @@
 const axios = require('axios')
 var config = require('../config');
 const jwt = require('jsonwebtoken');
-
-const sendJSONresponse = (res, status, content) => {
-    if (res === undefined) return;
-    res.status(status);
-    res.json(content);
-};
+const { sendJSONresponse } = require('../request.js')
 
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
-    if (!token) return res.status(401).send('No se proporcionó un token de autenticación.');
-
+    if (!token) return sendJSONresponse(res, 401, 'No se proporcionó un token de autenticación.')
     try {
         const secret = config.JWT_SECRET;
         req.user = jwt.verify(token, secret);
         next();
     } catch (err) {
-        res.status(401).send('Token de autenticación no válido.');
+        sendJSONresponse(res, 401, 'Token de autenticación no válido.')
     }
 }
 
@@ -43,9 +37,9 @@ const login = async (req, res) => {
         //     return res.status(401).send('Nombre de usuario o contraseña incorrectos.');
         // }
         const token = generateToken(req.body);
-        res.send({ token });
+        sendJSONresponse(res, 200, { token })
     } catch (err) {
-        res.status(500).send(err);
+        sendJSONresponse(res, 500, err);
     }
 };
 
