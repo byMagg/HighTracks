@@ -20,16 +20,13 @@ const tracksReadOne = async (req, res) => {
         })
         sendJSONresponse(res, 200, response.data)
     } catch (error) {
-        if (error.response.status == 401) {
-            sendJSONresponse(res, 200, "TODO: FALTA EL NUEVO TOKEN")
-        } else {
-            sendJSONresponse(res, 400, {
-                "error": {
-                    "code": "400",
-                    "message": "La solicitud es incorrecta. Verifique que la información proporcionada sea válida y esté completa."
-                }
-            })
-        }
+        console.error(`Error al obtener la información de la canción: ${error.message}`);
+        sendJSONresponse(res, 400, {
+            "error": {
+                "code": "400",
+                "message": "La solicitud es incorrecta. Verifique que la información proporcionada sea válida y esté completa."
+            }
+        })
     }
 };
 

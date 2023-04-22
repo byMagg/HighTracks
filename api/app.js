@@ -14,6 +14,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', apiRouter);
 
+const ctrlAuth = require('./app/controllers/auth');
+ctrlAuth.generateToken();
+
 app.use((req, res) => {
   res.status(404).send({
     "error": {
