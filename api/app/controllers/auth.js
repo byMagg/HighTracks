@@ -8,7 +8,7 @@ const sendJSONresponse = (res, status, content) => {
     res.json(content);
 };
 
-function verifyToken(req, res, next) {
+const verifyToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
     if (!token) return res.status(401).send('No se proporcionó un token de autenticación.');
@@ -23,7 +23,7 @@ function verifyToken(req, res, next) {
 }
 
 // Función para generar un token JWT para un usuario
-function generateToken(user) {
+const generateToken = (user) => {
     console.log(user)
     const payload = {
         username: user.username
