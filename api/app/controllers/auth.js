@@ -14,7 +14,7 @@ const verifyToken = (req, res, next) => {
     if (!token) return res.status(401).send('No se proporcionó un token de autenticación.');
 
     try {
-        const secret = config.TOKEN_SECRET;
+        const secret = config.JWT_SECRET;
         req.user = jwt.verify(token, secret);
         next();
     } catch (err) {
@@ -24,11 +24,10 @@ const verifyToken = (req, res, next) => {
 
 // Función para generar un token JWT para un usuario
 const generateToken = (user) => {
-    console.log(user)
     const payload = {
         username: user.username
     };
-    const secret = config.TOKEN_SECRET;
+    const secret = config.JWT_SECRET;
     const options = {
         expiresIn: '1h'
     };
