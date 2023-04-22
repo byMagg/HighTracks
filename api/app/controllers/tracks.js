@@ -2,18 +2,15 @@ const mongoose = require('mongoose');
 const axios = require('axios')
 const track = mongoose.model('Track');
 var config = require('../config');
-const express = require('express');
-const router = express.Router();
-const ctrlAuth = require('../controllers/auth')
 
 const sendJSONresponse = (res, status, content) => {
     res.status(status);
     res.json(content);
 };
-/* GET api/tracks/trackid */
-const tracksReadOne = async (req, res) => {
+/* GET api/tracks/search */
+const tracksSearchSpotify = async (req, res) => {
     try {
-        const response = await axios.get(`https://api.spotify.com/v1/tracks/${req.params.tracksid}`, {
+        const response = await axios.get(`https://api.spotify.com/v1/search?type=track&q=${req.params.search}`, {
             headers: {
                 Authorization: `Bearer ${config.TOKEN_SECRET}`
             }
@@ -31,5 +28,5 @@ const tracksReadOne = async (req, res) => {
 };
 
 module.exports = {
-    tracksReadOne,
+    tracksSearchSpotify,
 };
