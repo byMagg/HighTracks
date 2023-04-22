@@ -8,7 +8,7 @@ const tracksSearchSpotify = async (req, res) => {
     try {
         const response = await axios.get(`https://api.spotify.com/v1/search?type=track&q=${req.params.search}`, {
             headers: {
-                Authorization: `Bearer ${config.TOKEN_SECRET}`
+                Authorization: `Bearer ${config.TOKEN_SECRET_SPOTIFY}`
             }
         })
         res.status(200).send(response.data);
