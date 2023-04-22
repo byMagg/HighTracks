@@ -3,11 +3,6 @@ const axios = require('axios')
 const Track = mongoose.model('Track');
 var config = require('../config');
 
-const sendJSONresponse = (res, status, content) => {
-    res.status(status);
-    res.json(content);
-};
-
 /* GET api/tracks/search */
 const tracksSearchSpotify = async (req, res) => {
     try {

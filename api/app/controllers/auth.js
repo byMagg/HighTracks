@@ -18,11 +18,11 @@ const generateToken = async (req, res) => {
             config.TOKEN_SECRET = spotifyToken;
             console.log(`Token de Spotify actualizado: ${spotifyToken}`);
             setTimeout(generateToken, (data.expires_in - 60) * 1000);
-            sendJSONresponse(res, 200, response.data)
+            res.status(200).send(response.data);
         } else {
             console.error('Error al obtener el token de Spotify');
             setTimeout(generateToken, 60000);
-            sendJSONresponse(res, 400, {
+            res.status(400).send({
                 "error": {
                     "code": "400",
                     "message": "La solicitud es incorrecta. Verifique que la información proporcionada sea válida y esté completa."
@@ -32,7 +32,7 @@ const generateToken = async (req, res) => {
     } catch (error) {
         console.error(`Error al obtener el token de Spotify: ${error.message}`);
         setTimeout(generateToken, 60000);
-        sendJSONresponse(res, 400, {
+        res.status(400).send({
             "error": {
                 "code": "400",
                 "message": "La solicitud es incorrecta. Verifique que la información proporcionada sea válida y esté completa."
