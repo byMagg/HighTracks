@@ -5,8 +5,12 @@ const ctrlAuth = require('../controllers/auth')
 
 // Tracks
 router.get('/generate_token', ctrlAuth.generateToken);
-router.get('/tracks/:search', ctrlTracks.tracksSearchSpotify);
+
+router.get('/search/:name', ctrlTracks.tracksSearchSpotify);
+
 router.post('/tracks', ctrlTracks.trackInsert);
-// router.get('/logged', ctrlAuth.logged);
+router.get('/tracks/:name', ctrlTracks.trackGetOne);
+router.put('/tracks/:id', ctrlTracks.trackUpdate);
+router.delete('/tracks/:id', ctrlTracks.trackDelete);
 
 module.exports = router;
