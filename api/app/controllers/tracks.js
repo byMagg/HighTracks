@@ -38,6 +38,21 @@ const trackGetOne = async (req, res) => {
     }
 };
 
+/* GET api/tracks/ */
+const trackGetAll = async (req, res) => {
+    try {
+        const name = req.params.name;
+        const regex = new RegExp(name, 'i');
+        const track = await Track.find({ name: regex });
+        if (!track) {
+            return res.status(404).send('No se encontró la pista con el nombre especificado.');
+        }
+        res.send(track);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+};
+
 /* POST api/tracks/ */
 const trackInsert = async (req, res) => {
     try {
@@ -86,6 +101,7 @@ module.exports = {
     tracksSearchSpotify,
     trackInsert,
     trackGetOne,
+    trackGetAll,
     trackUpdate,
     trackDelete
 };

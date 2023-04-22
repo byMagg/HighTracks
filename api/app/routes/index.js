@@ -8,8 +8,9 @@ router.get('/generate_token', ctrlAuth.generateToken);
 
 router.get('/search/:name', ctrlTracks.tracksSearchSpotify);
 
-router.post('/tracks', ctrlTracks.trackInsert);
 router.get('/tracks/:name', ctrlTracks.trackGetOne);
+router.get('/tracks', ctrlTracks.trackGetAll);
+router.post('/tracks', ctrlTracks.trackInsert);
 router.put('/tracks/:id', ctrlTracks.trackUpdate);
 router.delete('/tracks/:id', ctrlTracks.trackDelete);
 
