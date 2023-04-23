@@ -17,16 +17,13 @@
           </div>
           <div id="card-info">
             <div>
-              <p>test</p>
-              <!-- <p>{{movie.Title}}</p> -->
+              <p>{{track.name}}</p>
             </div>
             <div>
-              <p>test</p>
-              <!-- <p>{{movie.Year}}</p> -->
+              <p *ngFor="let artist of track.album.artists">{{artist.name}}</p>
             </div>
             <div>
-              <p>test</p>
-              <!-- <p>{{movie.Type}}</p> -->
+              <p>{{( track.duration_ms | date:'mm:ss')}} min</p>
             </div>
           </div>
         </ion-card>
