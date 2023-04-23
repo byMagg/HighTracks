@@ -5,18 +5,14 @@
     </ion-toolbar>
   </ion-header>
   <div id="container">
-    <h1>Búsqueda de películas</h1>
+    <h1>HIGH TRACKS</h1>
     <div id="searchBar">
-      <ion-searchbar mode="ios" [disabled]="!checked" (keyup.enter)="search()" [(ngModel)]="searchTerm"
+      <ion-searchbar mode="ios" (keyup.enter)="search()" [(ngModel)]="searchTerm"
         placeholder="Introduce el nombre de la película"></ion-searchbar>
-      <ion-button [disabled]="!checked" (click)="search()"><ion-icon slot="end" name="search"></ion-icon>
+      <ion-button (click)="search()"><ion-icon slot="end" name="search"></ion-icon>
         Buscar
       </ion-button>
     </div>
-    <ion-item lines="none" shape="round" id="terms-container">
-      <ion-checkbox color="tertiary" [checked]="checked" [(ngModel)]="checked"></ion-checkbox>
-      <ion-label>Acepta los términos de uso</ion-label>
-    </ion-item>
   </div>
 
 </ion-content>
