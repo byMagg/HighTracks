@@ -25,7 +25,6 @@ const tracksSearchSpotify = async (req, res) => {
     }
 };
 
-/* GET api/tracks/:name */
 const trackGetOne = async (req, res) => {
     try {
         const name = req.params.name;
