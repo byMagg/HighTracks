@@ -66,6 +66,31 @@ const ctrlAuth = require('../controllers/auth')
  *                 type: string
  *               score:
  *                 type: integer
+ *   responses:
+ *     UnauthorizedError:
+ *       description: Unauthorized access error
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 description: Descriptive error message
+ *             example:
+ *               message: Unauthorized access
+ *     BadRequest:
+ *       description: Bad request error
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 description: Descriptive error message
+ *             example:
+ *               message: Bad request
  */
 
 // Token
@@ -81,6 +106,7 @@ router.get('/search/:search', ctrlTracks.tracksSearchSpotify);
  * /tracks/{name}:
  *   get:
  *     summary: Obtiene una canción por su nombre
+ *     tags: [Tracks]
  *     description: Obtiene una canción por su nombre desde la base de datos
  *     security:
  *       - bearerAuth: []
@@ -99,24 +125,29 @@ router.get('/search/:search', ctrlTracks.tracksSearchSpotify);
  *             schema:
  *               $ref: '#/components/schemas/Track'
  *       400:
- *         description: La solicitud es incorrecta. Verifique que la información proporcionada sea válida y esté completa.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: object
- *                   properties:
- *                     code:
- *                       type: string
- *                       example: "400"
- *                     message:
- *                       type: string
- *                       example: "La solicitud es incorrecta. Verifique que la información proporcionada sea válida y esté completa."
+ *         $ref: '#/components/responses/BadRequest'
  *
  */
 router.get('/tracks/:name', ctrlAuth.verifyToken, ctrlTracks.trackGetOne);
+
+/**
+ * @swagger
+ * /tracks:
+ *   get:
+ *     summary: Obtiene todas las canciones.
+ *     tags: [Tracks]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Track'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ */
 router.get('/tracks', ctrlAuth.verifyToken, ctrlTracks.trackGetAll);
 router.post('/tracks', ctrlAuth.verifyToken, ctrlTracks.trackInsert);
 router.put('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackUpdate);
