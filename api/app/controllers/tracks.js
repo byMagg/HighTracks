@@ -108,9 +108,9 @@ const trackInsertComment = async (req, res) => {
         track.comments.push(comment);
 
         const updatedTrack = await track.save();
-        res.json(updatedTrack);
+        sendJSONresponse(res, 201, updatedTrack);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        sendJSONresponse(res, 500, error)
     }
 }
 
