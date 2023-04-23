@@ -67,7 +67,9 @@ const ctrlAuth = require('../controllers/auth')
  *               score:
  *                 type: integer
  *   responses:
- *     UnauthorizedError:
+ *     DeleteSuccess:
+ *       description: Eliminación exitosa de la pista
+ *     Unauthorized:
  *       description: Unauthorized access error
  *       content:
  *         application/json:
@@ -77,8 +79,11 @@ const ctrlAuth = require('../controllers/auth')
  *               message:
  *                 type: string
  *                 description: Descriptive error message
- *             example:
- *               message: Unauthorized access
+ *                 example: Unauthorized access
+ *               code:
+ *                 type: integer
+ *                 description: Código de error
+ *                 example: 401
  *     BadRequest:
  *       description: Bad request error
  *       content:
@@ -89,8 +94,41 @@ const ctrlAuth = require('../controllers/auth')
  *               message:
  *                 type: string
  *                 description: Descriptive error message
- *             example:
- *               message: Bad request
+ *                 example: Bad request
+ *               code:
+ *                 type: integer
+ *                 description: Código de error
+ *                 example: 400
+ *     InternalServer:
+ *       description: Error interno del servidor
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 description: Descripción del error
+ *                 example: Error interno del servidor
+ *               code:
+ *                 type: integer
+ *                 description: Código de error
+ *                 example: 500
+ *     NotFound:
+ *       description: Recurso no encontrado
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 description: Descripción del error
+ *                 example: Recurso no encontrado
+ *               code:
+ *                 type: integer
+ *                 description: Código de error
+ *                 example: 404
  */
 
 // Token
@@ -146,11 +184,107 @@ router.get('/tracks/:name', ctrlAuth.verifyToken, ctrlTracks.trackGetOne);
  *             schema:
  *               $ref: '#/components/schemas/Track'
  *       401:
- *         $ref: '#/components/responses/UnauthorizedError'
+ *         $ref: '#/components/responses/Unauthorized'
  */
 router.get('/tracks', ctrlAuth.verifyToken, ctrlTracks.trackGetAll);
+
+/**
+ * @swagger
+ * /tracks:
+ *   post:
+ *     summary: Insert a new track
+ *     tags: [Tracks]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Track'
+ *     responses:
+ *       201:
+ *         description: The inserted track
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Track'
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       500:
+ *         $ref: '#/components/responses/InternalServer'
+ */
 router.post('/tracks', ctrlAuth.verifyToken, ctrlTracks.trackInsert);
+
+/**
+ * @swagger
+ * /tracks/{id}:
+ *   put:
+ *     summary: Actualiza un track por su ID.
+ *     description: Actualiza la información de un track por su ID.
+ *     tags:
+ *       - Tracks
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID de la canción a buscar
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       description: Objeto que contiene los campos a actualizar del track
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Track'
+ *     responses:
+ *       '200':
+ *         description: Respuesta exitosa.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Track'
+ *       '400':
+ *         $ref: '#/components/responses/BadRequest'
+ *       '401':
+ *         $ref: '#/components/responses/Unauthorized'
+ *       '404':
+ *         $ref: '#/components/responses/NotFound'
+ *       '500':
+ *         $ref: '#/components/responses/InternalServer'
+ */
 router.put('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackUpdate);
+
+/**
+ * @swagger
+ * /tracks/{id}:
+ *   delete:
+ *     summary: Elimina una pista
+ *     description: Elimina una pista a partir de su ID
+ *     tags: [Tracks]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID de la pista a eliminar
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       '200':
+ *         $ref: '#/components/responses/DeleteSuccess'
+ *       '404':
+ *         $ref: '#/components/responses/NotFound'
+ *       '500':
+ *         $ref: '#/components/responses/InternalServer'
+ */
 router.delete('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackDelete);
 
 //Comments
