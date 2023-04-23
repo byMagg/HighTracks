@@ -16,6 +16,9 @@ router.post('/tracks', ctrlAuth.verifyToken, ctrlTracks.trackInsert);
 router.put('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackUpdate);
 router.delete('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackDelete);
 
+//Comments
+router.post('/tracks/:id/comments', ctrlAuth.verifyToken, ctrlTracks.trackInsertComment);
+
 // Auth
 router.post('/login', ctrlAuth.login);
 

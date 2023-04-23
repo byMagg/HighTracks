@@ -96,8 +96,27 @@ const trackDelete = async (req, res) => {
     }
 };
 
+const trackInsertComment = async (req, res) => {
+    try {
+        const track = await Track.findById(req.params.id);
+        if (!track) {
+            return res.status(404).json({ error: 'Track not found' });
+        }
+
+        const { author, text, score } = req.body;
+        const comment = { author, text, score };
+        track.comments.push(comment);
+
+        const updatedTrack = await track.save();
+        res.json(updatedTrack);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 module.exports = {
     tracksSearchSpotify,
+    trackInsertComment,
     trackInsert,
     trackGetOne,
     trackGetAll,

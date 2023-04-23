@@ -15,6 +15,11 @@ const trackSchema = new mongoose.Schema({
         name: String,
     }],
     external_urls: [{ spotify: String }],
+    comments: [{
+        author: { type: String, required: true },
+        text: String,
+        score: Number,
+    }]
 });
 
 mongoose.model('Track', trackSchema);
