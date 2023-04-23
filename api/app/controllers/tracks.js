@@ -4,7 +4,7 @@ const Track = mongoose.model('Track');
 var config = require('../config');
 const { sendJSONresponse } = require('../request.js')
 
-/* GET api/tracks/search/name */
+/* GET api/search/:name */
 const tracksSearchSpotify = async (req, res) => {
     try {
         const response = await axios.get(`https://api.spotify.com/v1/search?type=track&q=${req.params.search}`, {
@@ -24,7 +24,7 @@ const tracksSearchSpotify = async (req, res) => {
     }
 };
 
-/* GET api/tracks/ */
+/* GET api/tracks/:name */
 const trackGetOne = async (req, res) => {
     try {
         const name = req.params.name;
@@ -39,7 +39,7 @@ const trackGetOne = async (req, res) => {
     }
 };
 
-/* GET api/tracks/ */
+/* GET api/tracks */
 const trackGetAll = async (req, res) => {
     try {
         const name = req.params.name;

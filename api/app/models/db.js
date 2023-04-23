@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const dbURI = 'mongodb://localhost/HighTracks';
-mongoose.connect(dbURI, { useUnifiedTopology: true, useNewUrlParser: true });
+mongoose.connect(dbURI, { useUnifiedTopology: true, useFindAndModify: false, useNewUrlParser: true });
 
 // CONNECTION EVENTS
 mongoose.connection.on('connected', () => {
