@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const axios = require('axios')
 const Track = mongoose.model('Track');
-var config = require('../config');
+const config = require('../config');
 const { sendJSONresponse } = require('../request.js')
+const { ObjectId } = mongoose.Types;
 
 /* GET api/search/:name */
 const tracksSearchSpotify = async (req, res) => {
@@ -98,7 +99,13 @@ const trackDelete = async (req, res) => {
 
 const trackInsertComment = async (req, res) => {
     try {
-        const track = await Track.findById(req.params.id);
+        const trackId = req.params.id;
+
+        if (!ObjectId.isValid(trackId)) {
+            return res.status(400).json({ error: 'Invalid track ID' });
+        }
+
+        const track = await Track.findById(trackId);
         if (!track) {
             return res.status(404).json({ error: 'Track not found' });
         }
