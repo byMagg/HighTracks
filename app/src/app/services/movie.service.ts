@@ -15,7 +15,6 @@ export class MovieService {
   constructor(private http: HttpClient) { }
 
   searchMovies(title: string): Observable<Track[]> {
-    console.log(title)
     return this.http.get<Track[]>(`${this.url}/${encodeURI(title)}`).pipe(
       map((results: any) => results['tracks']['items'])
     );

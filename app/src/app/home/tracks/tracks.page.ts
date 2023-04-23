@@ -20,7 +20,7 @@ import { MovieService } from 'src/app/services/movie.service';
 export class MoviesPage implements OnInit {
 
   searchTerm: string = '';
-  movies: Track[] | undefined;
+  tracks: Track[] | undefined;
   movie: string | undefined
 
   constructor(public movieService: MovieService, public route: ActivatedRoute) {
@@ -31,8 +31,9 @@ export class MoviesPage implements OnInit {
   }
 
   searchChanged() {
-    this.movieService.searchMovies(this.searchTerm).subscribe(movies => {
-      this.movies = movies;
+    this.movieService.searchMovies(this.searchTerm).subscribe(tracks => {
+      console.log(tracks[0].album.images[0].url);
+      this.tracks = tracks;
     })
   }
 

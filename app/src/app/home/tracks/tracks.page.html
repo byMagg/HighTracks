@@ -11,9 +11,9 @@
   <div id="container">
     <ion-grid [fixed]="true">
       <ion-row>
-        <ion-card button *ngFor="let movie of movies" [routerLink]="[movie.id]">
+        <ion-card button *ngFor="let track of tracks" [routerLink]="[track.id]">
           <div id="img-container">
-            <ion-img src="{{movie.images}}"></ion-img>
+            <ion-img src="{{track.album.images[0].url}}"></ion-img>
           </div>
           <div id="card-info">
             <div>
