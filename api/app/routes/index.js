@@ -12,6 +12,15 @@ const ctrlAuth = require('../controllers/auth')
  *       scheme: bearer
  *       bearerFormat: JWT
  *   schemas:
+ *     Comment:
+ *       type: object
+ *       properties:
+ *         author:
+ *           type: string
+ *         text:
+ *           type: string
+ *         score:
+ *           type: integer
  *     Track:
  *       type: object
  *       properties:
@@ -58,14 +67,7 @@ const ctrlAuth = require('../controllers/auth')
  *         comments:
  *           type: array
  *           items:
- *             type: object
- *             properties:
- *               author:
- *                 type: string
- *               text:
- *                 type: string
- *               score:
- *                 type: integer
+ *             $ref: '#/components/schemas/Comment'
  *   responses:
  *     DeleteSuccess:
  *       description: Eliminación exitosa de la pista
@@ -288,6 +290,42 @@ router.put('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackUpdate);
 router.delete('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackDelete);
 
 //Comments
+/**
+ * @swagger
+ * /tracks/{id}/comments:
+ *   post:
+ *     summary: Agrega un comentario a un track
+ *     tags: [Comments]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         description: ID del track al que se desea agregar un comentario
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       description: Objeto que contiene la información del comentario a agregar
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Comment'
+ *     responses:
+ *       '201':
+ *         description: Comentario agregado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Comment'
+ *       '400':
+ *         $ref: '#/components/responses/BadRequest'
+ *       '401':
+ *         $ref: '#/components/responses/Unauthorized'
+ *       '404':
+ *         $ref: '#/components/responses/NotFound'
+ *       '500':
+ *         $ref: '#/components/responses/InternalServer'
+ */
 router.post('/tracks/:id/comments', ctrlAuth.verifyToken, ctrlTracks.trackInsertComment);
 
 // Auth
