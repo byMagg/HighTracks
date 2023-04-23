@@ -134,9 +134,97 @@ const ctrlAuth = require('../controllers/auth')
  */
 
 // Token
+/**
+ * @swagger
+ * /generate_token:
+ *   get:
+ *     summary: Generar token de autorización de Spotify
+ *     tags:
+ *       - Auth
+ *     parameters:
+ *       - name: grant_type
+ *         in: query
+ *         description: Tipo de concesión de la autorización
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [client_credentials]
+ *       - name: client_id
+ *         in: query
+ *         description: ID del cliente de la aplicación de Spotify
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: your_client_id
+ *       - name: client_secret
+ *         in: query
+ *         description: Clave secreta del cliente de la aplicación de Spotify
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: your_client_secret
+ *     responses:
+ *       '200':
+ *         description: Token de autorización generado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 access_token:
+ *                   type: string
+ *                   description: Token de acceso generado
+ *                   example: BQBJSNsy7khF8ySlw1MwtuUVNz...
+ *                 token_type:
+ *                   type: string
+ *                   description: Tipo de token generado
+ *                   example: Bearer
+ *                 expires_in:
+ *                   type: integer
+ *                   description: Tiempo de expiración del token generado
+ *                   example: 3600
+ *       '400':
+ *         $ref: '#/components/responses/BadRequest'
+ *       '401':
+ *         $ref: '#/components/responses/Unauthorized'
+ *       '500':
+ *         $ref: '#/components/responses/InternalServer'
+ */
 router.get('/generate_token', ctrlAuth.generateTokenSpotify);
 
 // Search
+/**
+ * @swagger
+ * /search/{search}:
+ *   get:
+ *     tags: [Tracks]
+ *     summary: Buscar tracks en Spotify
+ *     description: Busca tracks en Spotify que contengan el término de búsqueda especificado en el parámetro `search`
+ *     parameters:
+ *       - in: path
+ *         name: search
+ *         required: true
+ *         description: Término de búsqueda
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Lista de tracks encontrados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Track'
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalServer'
+ */
 router.get('/search/:search', ctrlTracks.tracksSearchSpotify);
 
 // Tracks
@@ -329,6 +417,53 @@ router.delete('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackDelete);
 router.post('/tracks/:id/comments', ctrlAuth.verifyToken, ctrlTracks.trackInsertComment);
 
 // Auth
+/**
+ * @swagger
+ * /login:
+ *   post:
+ *     summary: Autenticación de usuario y generación de token JWT
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: Correo electrónico del usuario
+ *                 example: usuario@example.com
+ *               password:
+ *                 type: string
+ *                 description: Contraseña del usuario
+ *                 example: p@ssw0rd
+ *     responses:
+ *       200:
+ *         description: Autenticación exitosa, devuelve un token JWT
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   description: Token JWT generado
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+ *       401:
+ *         description: Autenticación fallida, credenciales inválidas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error
+ *                   example: Credenciales inválidas, verifique su correo electrónico y contraseña
+ *       500:
+ *         $ref: '#/components/responses/InternalServerError'
+ */
 router.post('/login', ctrlAuth.login);
 
 module.exports = router;
