@@ -7,7 +7,7 @@ export const routes: Routes = [
     component: HomePage,
   },
   {
-    path: 'movies',
-    loadChildren: () => import('./movies/movies.routes').then(m => m.routes)
+    path: 'tracks',
+    loadChildren: () => import('./tracks/tracks.routes').then(m => m.routes)
   }
 ];

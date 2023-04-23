@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { MoviePage } from './movie.page';
+import { MoviePage } from './track.page';
 
 describe('MoviePage', () => {
   let component: MoviePage;
@@ -9,7 +9,7 @@ describe('MoviePage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ MoviePage ],
+      declarations: [MoviePage],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 

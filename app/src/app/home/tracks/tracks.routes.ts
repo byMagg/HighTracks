@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { MoviesPage } from './movies.page';
+import { MoviesPage } from './tracks.page';
 
 export const routes: Routes = [
   {
@@ -9,6 +9,6 @@ export const routes: Routes = [
   },
   {
     path: ':id',
-    loadComponent: () => import('./movie/movie.page').then(m => m.MoviePage)
+    loadComponent: () => import('./track/track.page').then(m => m.MoviePage)
   }
 ];

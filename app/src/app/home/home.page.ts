@@ -29,7 +29,7 @@ export class HomePage implements OnInit {
       relativeTo: this.route,
       queryParams: { s: this.searchTerm },
     };
-    this.navCtrl.navigateForward(['movies'], navigationExtras);
+    this.navCtrl.navigateForward(['tracks'], navigationExtras);
   }
 
 }

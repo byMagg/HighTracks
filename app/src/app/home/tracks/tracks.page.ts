@@ -3,13 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { Movie } from 'src/app/models/movie.model';
+import { Track } from 'src/app/models/track.model';
 import { MovieService } from 'src/app/services/movie.service';
 
 @Component({
-  selector: 'app-movies',
-  templateUrl: './movies.page.html',
-  styleUrls: ['./movies.page.scss'],
+  selector: 'app-tracks',
+  templateUrl: './tracks.page.html',
+  styleUrls: ['./tracks.page.scss'],
   standalone: true,
   imports: [CommonModule,
     FormsModule,
@@ -20,7 +20,7 @@ import { MovieService } from 'src/app/services/movie.service';
 export class MoviesPage implements OnInit {
 
   searchTerm: string = '';
-  movies: Movie[] | undefined;
+  movies: Track[] | undefined;
   movie: string | undefined
 
   constructor(public movieService: MovieService, public route: ActivatedRoute) {
