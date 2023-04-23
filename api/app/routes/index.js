@@ -83,7 +83,7 @@ router.get('/search/:search', ctrlTracks.tracksSearchSpotify);
  *     summary: Obtiene una canción por su nombre
  *     description: Obtiene una canción por su nombre desde la base de datos
  *     security:
- *       - jwt: []
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: name
