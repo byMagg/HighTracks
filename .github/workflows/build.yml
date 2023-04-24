@@ -39,5 +39,5 @@ jobs:
         if: contains(github.ref,'refs/heads/master')
         with:
           branch: gh-pages
-          folder: www
+          folder: app/www
           clean: true
