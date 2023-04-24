@@ -19,7 +19,7 @@ jobs:
       - name: Configure git to trust the workspace despite the different owner
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          git config --global --add safe.directory /__w/bymagg.github.io/hightracks/github-pages-deploy-action-temp-deployment-folder
+          git config --global --add safe.directory /__w/bymagg.github.io/github-pages-deploy-action-temp-deployment-folder
       - uses: actions/checkout@v2
       - name: Install Ionic
         run: npm install -g @ionic/cli
