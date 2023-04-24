@@ -34,6 +34,7 @@ jobs:
         with:
           name: www
           path: www/
+        working-directory: ./app
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         if: contains(github.ref,'refs/heads/main')
@@ -41,3 +42,4 @@ jobs:
           branch: gh-pages
           folder: www
           clean: true
+        working-directory: ./app
