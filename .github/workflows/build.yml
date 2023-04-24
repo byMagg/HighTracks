@@ -33,8 +33,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: www
-          path: www/
-        working-directory: ./app
+          path: app/www/
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         if: contains(github.ref,'refs/heads/main')
