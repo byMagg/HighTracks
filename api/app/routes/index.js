@@ -3,6 +3,7 @@ const router = express.Router();
 const ctrlTracks = require('../controllers/tracks');
 const ctrlAuth = require('../controllers/auth')
 
+
 /**
  * @swagger
  * components:
