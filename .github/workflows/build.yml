@@ -42,4 +42,3 @@ jobs:
           branch: gh-pages
           folder: www
           clean: true
-        working-directory: ./app
