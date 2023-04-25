@@ -21,7 +21,7 @@ const trackSchema = new mongoose.Schema({
             _id: false,
             height: Number,
             url: String,
-            width: Number
+            width: Number,
         }],
         release_date: String,
         release_date_precision: String,

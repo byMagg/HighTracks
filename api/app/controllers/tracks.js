@@ -16,6 +16,7 @@ const tracksSearchSpotify = async (req, res) => {
         sendJSONresponse(res, 200, response.data)
     } catch (error) {
         console.error(`Error al obtener la información de la canción: ${error.message}`);
+        console.error(error);
         sendJSONresponse(res, 400, {
             "error": {
                 "code": "400",
