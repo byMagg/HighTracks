@@ -43,7 +43,7 @@ const login = async (req, res) => {
     }
 };
 
-/* GET api/generate_token */
+/* POST api/generate_token */
 const generateTokenSpotify = async (req, res) => {
     try {
         const response = await axios.post(`https://accounts.spotify.com/api/token?grant_type=client_credentials&client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,)

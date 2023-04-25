@@ -31,7 +31,7 @@ const trackGetOne = async (req, res) => {
         const regex = new RegExp(name, 'i');
         const track = await Track.findOne({ name: regex });
         if (!track) {
-            return res.status(404).send('No se encontró la pista con el nombre especificado.');
+            return sendJSONresponse(res, 404, 'No se encontró la pista con el nombre especificado.');
         }
         sendJSONresponse(res, 200, track)
     } catch (err) {
@@ -46,7 +46,7 @@ const trackGetAll = async (req, res) => {
         const regex = new RegExp(name, 'i');
         const track = await Track.find({ name: regex });
         if (!track) {
-            return res.status(404).send('No se encontró la pista con el nombre especificado.');
+            return sendJSONresponse(res, 404, 'No se encontró la pista con el nombre especificado.');
         }
         sendJSONresponse(res, 200, track)
     } catch (err) {
@@ -74,7 +74,7 @@ const trackUpdate = async (req, res) => {
             runValidators: true
         });
         if (!updatedTrack) {
-            return res.status(404).send('No se encontró ningún Track con el ID proporcionado.');
+            return sendJSONresponse(res, 404, 'No se encontró la pista con el ID especificado.');
         }
         sendJSONresponse(res, 200, updatedTrack)
     } catch (err) {
@@ -88,7 +88,7 @@ const trackDelete = async (req, res) => {
         const trackId = req.params.id;
         const deletedTrack = await Track.findOneAndDelete({ _id: trackId });
         if (!deletedTrack) {
-            return res.status(404).send('No se encontró ningún Track con el ID proporcionado.');
+            return sendJSONresponse(res, 404, 'No se encontró la pista con el ID especificado.');
         }
         sendJSONresponse(res, 200, deletedTrack)
     } catch (err) {
@@ -101,12 +101,12 @@ const trackInsertComment = async (req, res) => {
         const trackId = req.params.id;
 
         if (!ObjectId.isValid(trackId)) {
-            return res.status(400).json({ error: 'Invalid track ID' });
+            return sendJSONresponse(res, 400, 'Invalid track ID');
         }
 
         const track = await Track.findById(trackId);
         if (!track) {
-            return res.status(404).json({ error: 'Track not found' });
+            return sendJSONresponse(res, 404, 'No se encontró la pista con el ID especificado.');
         }
 
         const { author, text, score } = req.body;
