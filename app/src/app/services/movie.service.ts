@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MovieDetails } from '../models/movie-details.model';
 import { Track } from '../models/track.model';
 
 @Injectable({
@@ -19,9 +18,5 @@ export class MovieService {
       map((results: any) => results['tracks']['items'])
     );
   }
-
-  // searchMovieDetails(id: string): Observable<MovieDetails> {
-  //   return this.http.get<MovieDetails>(`${this.url}?i=${encodeURI(id)}&apikey=${this.apiKey}`);
-  // }
 
 }
