@@ -15,6 +15,20 @@ ion-img {
     height: 100%;
 }
 
+ion-card ion-button {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+}
+
+ion-button[shape=circle] {
+    --border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    --padding-start: 0;
+    --padding-end: 0;
+}
 
 #img-container {
     position: relative;

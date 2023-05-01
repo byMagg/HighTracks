@@ -11,19 +11,22 @@
   <div id="container">
     <ion-grid [fixed]="true">
       <ion-row>
-        <ion-card button *ngFor="let track of tracks" [routerLink]="[track.id]">
-          <div id="img-container">
-            <ion-img src="{{track.album.images[0].url}}"></ion-img>
-          </div>
-          <div id="card-info">
-            <div>
-              <p>{{track.name}}</p>
+        <ion-card button *ngFor="let track of tracks">
+          <ion-button shape="circle"><ion-icon icon="add"></ion-icon></ion-button>
+          <div [routerLink]="[track.id]">
+            <div id="img-container">
+              <ion-img src="{{track.album.images[0].url}}"></ion-img>
             </div>
-            <div>
-              <p *ngFor="let artist of track.album.artists">{{artist.name}}</p>
-            </div>
-            <div>
-              <p>{{( track.duration_ms | date:'mm:ss')}} min</p>
+            <div id="card-info">
+              <div>
+                <p>{{track.name}}</p>
+              </div>
+              <div>
+                <p *ngFor="let artist of track.album.artists">{{artist.name}}</p>
+              </div>
+              <div>
+                <p>{{( track.duration_ms | date:'mm:ss')}} min</p>
+              </div>
             </div>
           </div>
         </ion-card>
