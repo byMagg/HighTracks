@@ -90,9 +90,9 @@ export class LoginPage implements OnInit {
   }
 
   logout() {
-    this.router.navigate(["/home"]);
     this.authService.doLogout()
       .then(res => {
+        this.router.navigate(["/home"]);
         console.log("User logout");
       }, err => {
         console.log(err);
