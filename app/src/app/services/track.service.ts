@@ -8,7 +8,7 @@ import { Track } from '../models/track.model';
   providedIn: 'root'
 })
 
-export class MovieService {
+export class TrackService {
   url = 'http://localhost:3000/api/search';
 
   constructor(private http: HttpClient) { }

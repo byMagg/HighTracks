@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { Track } from 'src/app/models/track.model';
-import { MovieService } from 'src/app/services/movie.service';
+import { TrackService } from 'src/app/services/track.service';
 
 @Component({
   selector: 'app-tracks',
@@ -17,13 +17,13 @@ import { MovieService } from 'src/app/services/movie.service';
     RouterModule,
   ]
 })
-export class MoviesPage implements OnInit {
+export class TracksPage implements OnInit {
 
   searchTerm: string = '';
   tracks: Track[] | undefined;
   movie: string | undefined
 
-  constructor(public movieService: MovieService, public route: ActivatedRoute) {
+  constructor(public trackService: TrackService, public route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.searchTerm = params['s'];
       this.searchChanged()
@@ -31,7 +31,7 @@ export class MoviesPage implements OnInit {
   }
 
   searchChanged() {
-    this.movieService.searchMovies(this.searchTerm).subscribe(tracks => {
+    this.trackService.searchMovies(this.searchTerm).subscribe(tracks => {
       console.log(tracks[0]);
       this.tracks = tracks;
     })
