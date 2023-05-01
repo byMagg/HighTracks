@@ -5,45 +5,77 @@
 </ion-header>
 
 <ion-content>
+  <section>
+    <article *ngIf="formValidationLogin">
+      <form class="form" [formGroup]="formValidationLogin" (ngSubmit)="tryLogin(formValidationLogin.value)">
+        <h2>Inicio de sesión</h2>
+        <ion-item>
+          <ion-label position="floating" color="primary">Email: </ion-label>
+          <ion-input type="text" formControlName="email"></ion-input>
+        </ion-item>
+        <div>
+          <ng-container *ngFor="let validation of formValidationMessages.email">
+            <div class="error-message"
+              *ngIf="formValidationLogin?.get('email')?.hasError(validation.type) && (formValidationLogin.get('email')?.dirty || formValidationLogin.get('email')?.touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+        <ion-item>
+          <ion-label position="floating" color="primary">Contraseña: </ion-label>
+          <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
+        <div>
+          <ng-container *ngFor="let validation of formValidationMessages.password">
+            <div class="error-message"
+              *ngIf="formValidationLogin.get('password')?.hasError(validation.type) && (formValidationLogin.get('password')?.dirty || formValidationLogin.get('password')?.touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+        <div class="div-button-login">
+          <ion-button type="submit" [disabled]="!formValidationLogin.valid">Iniciar sesión</ion-button>
+        </div>
+        <div class="div-label-error">
+          <ion-label class="error-message">{{ errorMessage }}</ion-label>
+        </div>
+      </form>
+    </article>
 
-  <div *ngIf="formValidation">
-
-    <form class="form" [formGroup]="formValidation" (ngSubmit)="tryLogin(formValidation.value)">
-      <ion-item>
-        <ion-label class="label-title">Introduzca sus datos para acceder a la aplicación:</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating" color="primary">Email: </ion-label>
-        <ion-input type="text" formControlName="email"></ion-input>
-      </ion-item>
-      <div>
-        <ng-container *ngFor="let validation of formValidationMessages.email">
-          <div class="error-message"
-            *ngIf="formValidation?.get('email')?.hasError(validation.type) && (formValidation.get('email')?.dirty || formValidation.get('email')?.touched)">
-            {{ validation.message }}
-          </div>
-        </ng-container>
-      </div>
-      <ion-item>
-        <ion-label position="floating" color="primary">Contraseña: </ion-label>
-        <ion-input type="password" formControlName="password"></ion-input>
-      </ion-item>
-      <div>
-        <ng-container *ngFor="let validation of formValidationMessages.password">
-          <div class="error-message"
-            *ngIf="formValidation.get('password')?.hasError(validation.type) && (formValidation.get('password')?.dirty || formValidation.get('password')?.touched)">
-            {{ validation.message }}
-          </div>
-        </ng-container>
-      </div>
-      <div class="div-button-login">
-        <ion-button type="submit" [disabled]="!formValidation.valid">Iniciar sesión</ion-button>
-      </div>
-      <div class="div-label-error">
-        <ion-label class="error-message">{{ errorMessage }}</ion-label>
-      </div>
-    </form>
-
-  </div>
-
+    <article *ngIf="formValidationSignup">
+      <form class="form" [formGroup]="formValidationSignup" (ngSubmit)="trySignup(formValidationSignup.value)">
+        <h2>Registro</h2>
+        <ion-item>
+          <ion-label position="floating" color="primary">Email: </ion-label>
+          <ion-input type="text" formControlName="email"></ion-input>
+        </ion-item>
+        <div>
+          <ng-container *ngFor="let validation of formValidationMessages.email">
+            <div class="error-message"
+              *ngIf="formValidationSignup?.get('email')?.hasError(validation.type) && (formValidationSignup.get('email')?.dirty || formValidationSignup.get('email')?.touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+        <ion-item>
+          <ion-label position="floating" color="primary">Contraseña: </ion-label>
+          <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
+        <div>
+          <ng-container *ngFor="let validation of formValidationMessages.password">
+            <div class="error-message"
+              *ngIf="formValidationSignup.get('password')?.hasError(validation.type) && (formValidationSignup.get('password')?.dirty || formValidationSignup.get('password')?.touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+        <div class="div-button-login">
+          <ion-button type="submit" [disabled]="!formValidationSignup.valid">Crear Cuenta</ion-button>
+        </div>
+        <div class="div-label-error">
+          <ion-label class="error-message">{{ errorMessage }}</ion-label>
+        </div>
+      </form>
+    </article>
+  </section>
 </ion-content>

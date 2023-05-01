@@ -31,7 +31,7 @@ export class InsertTracksPage implements OnInit {
   }
 
   searchChanged() {
-    this.trackService.searchMovies(this.searchTerm).subscribe(tracks => {
+    this.trackService.searchTracksSpotify(this.searchTerm).subscribe(tracks => {
       console.log(tracks[0]);
       this.tracks = tracks;
     })

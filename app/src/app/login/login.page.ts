@@ -18,7 +18,8 @@ import { IonicModule } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  formValidation: FormGroup | undefined;
+  formValidationLogin: FormGroup | undefined;
+  formValidationSignup: FormGroup | undefined;
   errorMessage: string = '';
 
   formValidationMessages = {
@@ -39,7 +40,17 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.formValidation = this.formBuilder.group({
+    this.formValidationLogin = this.formBuilder.group({
+      email: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+      ])),
+      password: new FormControl('', Validators.compose([
+        Validators.minLength(6),
+        Validators.required
+      ])),
+    });
+    this.formValidationSignup = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
@@ -51,6 +62,19 @@ export class LoginPage implements OnInit {
     });
   }
 
+  trySignup(value: { email: string; password: string; }) {
+    this.authService.doSignup(value)
+      .then(res => {
+        console.log(res);
+        this.errorMessage = "";
+        this.router.navigate(["/home"]);
+      }, err => {
+        console.log(err);
+        this.errorMessage = err.message;
+      })
+  }
+
+
   tryLogin(value: { email: string; password: string; }) {
     this.authService.doLogin(value)
       .then(res => {
@@ -60,8 +84,6 @@ export class LoginPage implements OnInit {
         this.errorMessage = 'Error al autenticar'
         if (err.code == "auth/wrong-password") this.errorMessage = "Contraseña incorrecta"
         if (err.code == "auth/user-not-found") this.errorMessage = "Usuario no encontrado"
-
       })
-
   }
 }

@@ -13,7 +13,7 @@ export class TrackService {
 
   constructor(private http: HttpClient) { }
 
-  searchMovies(title: string): Observable<Track[]> {
+  searchTracksSpotify(title: string): Observable<Track[]> {
     return this.http.get<Track[]>(`${this.url}/${encodeURI(title)}`).pipe(
       map((results: any) => results['tracks']['items'])
     );
