@@ -232,18 +232,18 @@ router.get('/search/:search', ctrlTracks.tracksSearchSpotify);
 /**
  * @swagger
  *  basepath: /api
- * /tracks/{name}:
+ * /tracks/{id}:
  *   get:
- *     summary: Obtiene una canción por su nombre
+ *     summary: Obtiene una canción por su id
  *     tags: [Tracks]
- *     description: Obtiene una canción por su nombre desde la base de datos
+ *     description: Obtiene una canción por su id desde la base de datos
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: name
+ *         name: id
  *         required: true
- *         description: Nombre de la canción a buscar
+ *         description: ID de la canción a buscar
  *         schema:
  *           type: string
  *     responses:
@@ -257,7 +257,7 @@ router.get('/search/:search', ctrlTracks.tracksSearchSpotify);
  *         $ref: '#/components/responses/BadRequest'
  *
  */
-router.get('/tracks/:name', ctrlAuth.verifyToken, ctrlTracks.trackGetOne);
+router.get('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackGetOneById);
 
 /**
  * @swagger

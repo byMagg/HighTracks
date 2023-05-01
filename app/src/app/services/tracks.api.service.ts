@@ -7,8 +7,8 @@ import { Track } from '../models/track.model';
 @Injectable({
   providedIn: 'root'
 })
+export class TracksApiService {
 
-export class TrackService {
   url = 'http://localhost:3000/api/search';
 
   constructor(private http: HttpClient) { }
@@ -19,4 +19,9 @@ export class TrackService {
     );
   }
 
+  searchTracks(title: string): Observable<Track[]> {
+    return this.http.get<Track[]>(`${this.url}/${encodeURI(title)}`).pipe(
+      map((results: any) => results['tracks']['items'])
+    );
+  }
 }

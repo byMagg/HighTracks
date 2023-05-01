@@ -9,7 +9,7 @@ const commentSchema = new mongoose.Schema({
 });
 
 const trackSchema = new mongoose.Schema({
-    id: { type: String, required: true },
+    _id: { type: String, required: true },
     album: {
         id: String,
         artists: [{

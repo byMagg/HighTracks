@@ -26,13 +26,12 @@ const tracksSearchSpotify = async (req, res) => {
     }
 };
 
-const trackGetOne = async (req, res) => {
+const trackGetOneById = async (req, res) => {
     try {
-        const name = req.params.name;
-        const regex = new RegExp(name, 'i');
-        const track = await Track.findOne({ name: regex });
+        const id = req.params.id;
+        const track = await Track.findOne({ _id: id });
         if (!track) {
-            return sendJSONresponse(res, 404, 'No se encontró la pista con el nombre especificado.');
+            return sendJSONresponse(res, 404, 'No se encontró la pista con el id especificado.');
         }
         sendJSONresponse(res, 200, track)
     } catch (err) {
@@ -43,9 +42,7 @@ const trackGetOne = async (req, res) => {
 /* GET api/tracks */
 const trackGetAll = async (req, res) => {
     try {
-        const name = req.params.name;
-        const regex = new RegExp(name, 'i');
-        const track = await Track.find({ name: regex });
+        const track = await Track.find({});
         if (!track) {
             return sendJSONresponse(res, 404, 'No se encontró la pista con el nombre especificado.');
         }
@@ -62,6 +59,9 @@ const trackInsert = async (req, res) => {
         await track.save();
         sendJSONresponse(res, 201, track)
     } catch (err) {
+        if (err.code === 11000) {
+            sendJSONresponse(res, 400, 'Ya existe una pista con el ID especificado.');
+        }
         sendJSONresponse(res, 400, err)
     }
 };
@@ -125,7 +125,7 @@ module.exports = {
     tracksSearchSpotify,
     trackInsertComment,
     trackInsert,
-    trackGetOne,
+    trackGetOneById,
     trackGetAll,
     trackUpdate,
     trackDelete

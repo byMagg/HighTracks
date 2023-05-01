@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { TrackService } from 'src/app/services/track.service';
+import { TracksApiService } from 'src/app/services/tracks.api.service';
 
 @Component({
   selector: 'app-track',
@@ -16,12 +16,12 @@ import { TrackService } from 'src/app/services/track.service';
 })
 export class TrackPage implements OnInit {
 
-  movieId = "";
+  trackId: String | undefined;
 
-  constructor(public trackService: TrackService, private route: ActivatedRoute) {
+  constructor(public apiService: TracksApiService, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
-      this.movieId = params['id'];
-      console.log(this.movieId);
+      this.trackId = params['id'];
+      console.log(this.trackId);
     })
   }
 
