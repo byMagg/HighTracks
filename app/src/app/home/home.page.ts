@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, NavigationExtras } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, RouterModule } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 
 @Component({
@@ -11,7 +11,8 @@ import { IonicModule, NavController } from '@ionic/angular';
   standalone: true,
   imports: [CommonModule,
     FormsModule,
-    IonicModule,]
+    IonicModule,
+    RouterModule]
 })
 export class HomePage implements OnInit {
 
