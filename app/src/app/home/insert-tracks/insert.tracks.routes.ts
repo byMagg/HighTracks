@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 
-import { TracksPage } from './tracks.page';
+import { InsertTracksPage } from './insert.tracks.page';
 
 export const routes: Routes = [
   {
     path: '',
-    component: TracksPage
+    component: InsertTracksPage
   },
   {
     path: ':id',
