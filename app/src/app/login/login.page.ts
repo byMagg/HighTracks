@@ -21,6 +21,7 @@ export class LoginPage implements OnInit {
   formValidationLogin: FormGroup | undefined;
   formValidationSignup: FormGroup | undefined;
   errorMessage: string = '';
+  logged: boolean = false;
 
   formValidationMessages = {
     'email': [
@@ -60,6 +61,7 @@ export class LoginPage implements OnInit {
         Validators.required
       ])),
     });
+    this.logged = this.authService.checkLogged();
   }
 
   trySignup(value: { email: string; password: string; }) {
@@ -84,6 +86,16 @@ export class LoginPage implements OnInit {
         this.errorMessage = 'Error al autenticar'
         if (err.code == "auth/wrong-password") this.errorMessage = "Contraseña incorrecta"
         if (err.code == "auth/user-not-found") this.errorMessage = "Usuario no encontrado"
+      })
+  }
+
+  logout() {
+    this.router.navigate(["/home"]);
+    this.authService.doLogout()
+      .then(res => {
+        console.log("User logout");
+      }, err => {
+        console.log(err);
       })
   }
 }

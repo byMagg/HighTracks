@@ -1,11 +1,14 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Login</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">logout</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <section>
+  <section *ngIf="!logged">
     <article *ngIf="formValidationLogin">
       <form class="form" [formGroup]="formValidationLogin" (ngSubmit)="tryLogin(formValidationLogin.value)">
         <h2>Inicio de sesión</h2>
