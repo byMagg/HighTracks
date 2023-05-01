@@ -13,7 +13,7 @@ jobs:
     container: node:16-alpine
     defaults:
       run:
-        working-directory: ./app
+        working-directory: app
     steps:
       - name: Install git and rsync 📚
         run: |
