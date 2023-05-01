@@ -61,6 +61,7 @@ const trackInsert = async (req, res) => {
     } catch (err) {
         if (err.code === 11000) {
             sendJSONresponse(res, 400, 'Ya existe una pista con el ID especificado.');
+            return;
         }
         sendJSONresponse(res, 400, err)
     }
