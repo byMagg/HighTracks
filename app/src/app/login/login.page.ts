@@ -69,7 +69,7 @@ export class LoginPage implements OnInit {
       .then(res => {
         console.log(res);
         this.errorMessage = "";
-        this.router.navigate(["/home"]);
+        this.router.navigate(["/"]);
       }, err => {
         console.log(err);
         this.errorMessage = err.message;
@@ -80,6 +80,7 @@ export class LoginPage implements OnInit {
   async tryLogin(value: { email: string; password: string; }) {
     try {
       await this.authService.doLogin(value);
+      this.router.navigate(["/"]);
     } catch (error) {
       if (error instanceof FirebaseError) {
         if (error.code == "auth/wrong-password") this.errorMessage = "Contraseña incorrecta";
@@ -91,7 +92,7 @@ export class LoginPage implements OnInit {
   async logout() {
     this.authService.doLogout()
       .then(res => {
-        this.router.navigate(["/home"]);
+        this.router.navigate(["/"]);
         console.log(res);
       }, err => {
         console.log(err);

@@ -20,7 +20,16 @@ export class TracksApiService {
 
   searchTracksSpotify(title: string): Observable<Track[]> {
     return this.http.get<Track[]>(`${this.url}search/${encodeURI(title)}`).pipe(
-      map((results: any) => results['tracks']['items'])
+      map((results: any) => {
+        const tracks = results['tracks']['items'];
+        return tracks.map((track: any) => {
+          return {
+            _id: track.id,
+            ...track,
+            id: undefined
+          };
+        });
+      })
     );
   }
 
@@ -35,7 +44,14 @@ export class TracksApiService {
   }
 
   getTrack(trackId: string): Observable<Track> {
-    return this.http.get<Track>(`${this.url}tracks/${trackId}`);
+    return this.http.get<Track>(`${this.url}tracks/${trackId}`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    }).pipe(
+      map((results: Track) => results)
+    );
+
   }
 
   // checkTrack(trackId: string): boolean {

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { Track } from 'src/app/models/track.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { TracksApiService } from 'src/app/services/tracks.api.service';
 
 @Component({
@@ -19,20 +20,39 @@ import { TracksApiService } from 'src/app/services/tracks.api.service';
 })
 export class TracksPage implements OnInit {
 
-  searchTerm: string = '';
+  query: string = '';
   tracks: Track[] | undefined;
   track: string | undefined
 
-  constructor(public apiService: TracksApiService, public route: ActivatedRoute) {
+  toggleInsert: boolean = false;
+
+  constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService) {
     this.route.queryParams.subscribe(params => {
-      this.searchTerm = params['s'];
-      this.searchChanged()
+      this.query = params['s'];
+      this.search();
     })
   }
 
-  searchChanged() {
-    this.apiService.searchTracksSpotify(this.searchTerm).subscribe(tracks => {
+  toggleInsertTrack() {
+    this.toggleInsert = !this.toggleInsert;
+    if (this.toggleInsert) {
+      this.searchSpotify();
+    } else {
+      this.search();
+    }
+  }
+
+  searchSpotify() {
+    this.apiService.searchTracksSpotify(this.query).subscribe(tracks => {
       this.tracks = tracks;
+      console.log(this.tracks[0])
+    });
+  }
+
+  search() {
+    this.apiService.searchTracks(this.query).subscribe(tracks => {
+      this.tracks = tracks;
+      console.log(this.tracks[0])
     });
   }
 

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { Track } from 'src/app/models/track.model';
 import { TracksApiService } from 'src/app/services/tracks.api.service';
 
 @Component({
@@ -16,12 +17,18 @@ import { TracksApiService } from 'src/app/services/tracks.api.service';
 })
 export class TrackPage implements OnInit {
 
-  trackId: String | undefined;
+  trackId: string | undefined;
+  track: Track | undefined;
 
   constructor(public apiService: TracksApiService, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
       this.trackId = params['id'];
-      console.log(this.trackId);
+      console.log(this.trackId)
+      if (this.trackId) {
+        this.apiService.getTrack(this.trackId).subscribe(track => {
+          this.track = track;
+        });
+      }
     })
   }
 

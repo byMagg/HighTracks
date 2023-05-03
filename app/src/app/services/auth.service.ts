@@ -50,7 +50,6 @@ export class AuthService {
     try {
       const response = await this.afAuth.signInWithEmailAndPassword(value.email, value.password);
       if (response.user) {
-        this.fetchJWT();
         return response;
       }
     } catch (error) {

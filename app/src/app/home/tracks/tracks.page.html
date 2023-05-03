@@ -1,9 +1,22 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button>
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{searchTerm}}</ion-title>
+    <ion-title>
+      <div id="searchBar">
+        <ion-searchbar mode="ios" (keyup.enter)="toggleInsert ?  searchSpotify() : search()" [(ngModel)]="query"
+          placeholder="Introduce el nombre de la película"></ion-searchbar>
+        <ion-button (click)="toggleInsert ? searchSpotify() : search()"><ion-icon slot="end" name="search"></ion-icon>
+          Buscar
+        </ion-button>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end" *ngIf="this.authService.checkLogged()">
+      <ion-button (click)="toggleInsertTrack()">
+        {{toggleInsert ? 'Mostrar listado' : 'Añadir canciones'}}
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -12,8 +25,9 @@
     <ion-grid [fixed]="true">
       <ion-row>
         <ion-card button *ngFor="let track of tracks">
-          <ion-button shape="circle" (click)="insertTrack(track)"><ion-icon icon="add"></ion-icon></ion-button>
-          <div [routerLink]="[track.id]">
+          <ion-button *ngIf="toggleInsert" shape="circle" (click)="insertTrack(track)"><ion-icon
+              icon="add"></ion-icon></ion-button>
+          <div [routerLink]="[track._id]">
             <div id="img-container">
               <ion-img src="{{track.album.images[0].url}}"></ion-img>
             </div>

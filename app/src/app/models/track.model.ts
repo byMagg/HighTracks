@@ -1,5 +1,5 @@
 export interface Track {
-  id: string
+  _id: string
   name: string
   duration_ms: number
   album: Album
