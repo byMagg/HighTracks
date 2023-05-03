@@ -27,6 +27,7 @@ export class TrackPage implements OnInit {
       if (this.trackId) {
         this.apiService.getTrack(this.trackId).subscribe(track => {
           this.track = track;
+          console.log(this.track)
         });
       }
     })

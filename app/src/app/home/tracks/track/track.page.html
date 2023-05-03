@@ -8,31 +8,31 @@
 </ion-header>
 
 <ion-content>
-  <!-- 
-  <div *ngIf="details" id="container">
+
+  <div *ngIf="track" id="container">
     <div>
       <ion-card>
-        <ion-img src="{{details.Poster}}" alt=""></ion-img>
+        <ion-img src="{{track.album.images[0].url}}" alt=""></ion-img>
       </ion-card>
     </div>
     <div id="info">
-      <p><span>{{ details.Plot }}</span></p>
+      <p><span>{{ track.duration_ms }}</span></p>
       <div id="main-info">
         <div>
-          <span>{{ details.Runtime }}</span>
+          <span>{{ track.external_urls }}</span>
         </div>
         <div>
-          <span>{{ details.Genre }}</span>
+          <span>{{ track.popularity }}</span>
         </div>
         <div>
-          <span>{{ details.Year }}</span>
+          <span *ngFor="let artist of track.album.artists">{{ artist.name }}</span>
         </div>
       </div>
-      <p><span>{{ details.Country }}</span></p>
-      <p>Director: <span>{{ details.Director }}</span></p>
-      <p>Actors: <span>{{ details.Actors }}</span></p>
-      <p>IMDB Rating: <span>{{ details.imdbRating }}</span></p>
+      <!-- <p><span>{{ track.Country }}</span></p>
+      <p>Director: <span>{{ track.Director }}</span></p>
+      <p>Actors: <span>{{ track.Actors }}</span></p>
+      <p>IMDB Rating: <span>{{ track.imdbRating }}</span></p> -->
     </div>
-  </div> -->
+  </div>
 
 </ion-content>
