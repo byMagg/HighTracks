@@ -8,8 +8,8 @@ import { TracksApiService } from 'src/app/services/tracks.api.service';
 
 @Component({
   selector: 'app-tracks',
-  templateUrl: './insert.tracks.page.html',
-  styleUrls: ['./insert.tracks.page.scss'],
+  templateUrl: './tracks.page.html',
+  styleUrls: ['./tracks.page.scss'],
   standalone: true,
   imports: [CommonModule,
     FormsModule,
@@ -17,7 +17,7 @@ import { TracksApiService } from 'src/app/services/tracks.api.service';
     RouterModule,
   ]
 })
-export class InsertTracksPage implements OnInit {
+export class TracksPage implements OnInit {
 
   searchTerm: string = '';
   tracks: Track[] | undefined;

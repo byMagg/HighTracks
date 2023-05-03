@@ -12,25 +12,20 @@ import { IonicModule, NavController } from '@ionic/angular';
   imports: [CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule]
+    RouterModule,]
 })
 export class HomePage implements OnInit {
 
-  searchTerm: string = '';
-  checked: boolean = false;
+  query: string | undefined;
 
   constructor(private navCtrl: NavController, private route: ActivatedRoute) { }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
   search() {
     let navigationExtras: NavigationExtras = {
-      relativeTo: this.route,
-      queryParams: { s: this.searchTerm },
+      queryParams: { s: this.query },
     };
     this.navCtrl.navigateForward(['tracks'], navigationExtras);
   }
-
 }

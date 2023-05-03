@@ -8,6 +8,6 @@ export const routes: Routes = [
   },
   {
     path: 'tracks',
-    loadChildren: () => import('./insert-tracks/insert.tracks.routes').then(m => m.routes)
+    loadChildren: () => import('./tracks/tracks.routes').then(m => m.routes)
   }
 ];
