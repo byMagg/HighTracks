@@ -3,14 +3,10 @@ export interface Track {
   name: string
   duration_ms: number
   album: Album
-  external_urls: string
-  popularity: number
-  preview_url: string
 }
 
 export interface Album {
   artists: Artist[]
-  external_urls: string
   id: string
   images: Image[]
   name: string
@@ -20,10 +16,8 @@ export interface Album {
 }
 
 export interface Artist {
-  external_urls: string
   id: string
   name: string
-  uri: string
 }
 
 export interface Image {

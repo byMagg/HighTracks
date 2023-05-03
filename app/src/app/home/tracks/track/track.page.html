@@ -19,19 +19,15 @@
       <p><span>{{ track.duration_ms }}</span></p>
       <div id="main-info">
         <div>
-          <span>{{ track.external_urls }}</span>
+          <span>{{ track.album.release_date }}</span>
         </div>
         <div>
-          <span>{{ track.popularity }}</span>
+          <span>{{ track.album.total_tracks }}</span>
         </div>
         <div>
           <span *ngFor="let artist of track.album.artists">{{ artist.name }}</span>
         </div>
       </div>
-      <!-- <p><span>{{ track.Country }}</span></p>
-      <p>Director: <span>{{ track.Director }}</span></p>
-      <p>Actors: <span>{{ track.Actors }}</span></p>
-      <p>IMDB Rating: <span>{{ track.imdbRating }}</span></p> -->
     </div>
   </div>
 

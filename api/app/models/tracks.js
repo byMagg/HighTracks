@@ -12,6 +12,7 @@ const trackSchema = new mongoose.Schema({
     _id: { type: String, required: true },
     album: {
         id: String,
+        name: String,
         artists: [{
             _id: false,
             id: String,
