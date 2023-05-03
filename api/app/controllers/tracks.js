@@ -29,7 +29,7 @@ const tracksSearchSpotify = async (req, res) => {
 const trackGetOneById = async (req, res) => {
     try {
         const id = req.params.id;
-        const track = await Track.findOne({ _id: id });
+        const track = await Track.findById(id);
         if (!track) {
             return sendJSONresponse(res, 404, 'No se encontró la pista con el id especificado.');
         }
@@ -104,10 +104,6 @@ const trackDelete = async (req, res) => {
 const trackInsertComment = async (req, res) => {
     try {
         const trackId = req.params.id;
-
-        if (!ObjectId.isValid(trackId)) {
-            return sendJSONresponse(res, 400, 'Invalid track ID');
-        }
 
         const track = await Track.findById(trackId);
         if (!track) {
