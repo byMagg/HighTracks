@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { FirebaseError } from 'firebase/app';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginPage implements OnInit {
   formValidationLogin: FormGroup | undefined;
   formValidationSignup: FormGroup | undefined;
   errorMessage: string = '';
-  logged: boolean = false;
+  logged = this.authService.checkLogged();
 
   formValidationMessages = {
     'email': [
@@ -61,7 +62,6 @@ export class LoginPage implements OnInit {
         Validators.required
       ])),
     });
-    this.logged = this.authService.checkLogged();
   }
 
   trySignup(value: { email: string; password: string; }) {
@@ -77,23 +77,22 @@ export class LoginPage implements OnInit {
   }
 
 
-  tryLogin(value: { email: string; password: string; }) {
-    this.authService.doLogin(value)
-      .then(res => {
-        this.router.navigate(["/home"]);
-        console.log(res)
-      }, err => {
-        this.errorMessage = 'Error al autenticar'
-        if (err.code == "auth/wrong-password") this.errorMessage = "Contraseña incorrecta"
-        if (err.code == "auth/user-not-found") this.errorMessage = "Usuario no encontrado"
-      })
+  async tryLogin(value: { email: string; password: string; }) {
+    try {
+      await this.authService.doLogin(value);
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        if (error.code == "auth/wrong-password") this.errorMessage = "Contraseña incorrecta";
+        if (error.code == "auth/user-not-found") this.errorMessage = "Usuario no encontrado";
+      }
+    }
   }
 
-  logout() {
+  async logout() {
     this.authService.doLogout()
       .then(res => {
         this.router.navigate(["/home"]);
-        console.log("User logout");
+        console.log(res);
       }, err => {
         console.log(err);
       })

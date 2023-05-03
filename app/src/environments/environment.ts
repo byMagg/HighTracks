@@ -11,7 +11,8 @@ export const environment = {
     storageBucket: "hightracks-46986.appspot.com",
     messagingSenderId: "643779822309",
     appId: "1:643779822309:web:10e7cb0f1b7b47128c8a0c"
-  }
+  },
+  url: 'http://localhost:3000/api/',
 };
 
 /*

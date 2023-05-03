@@ -31,18 +31,12 @@ export class InsertTracksPage implements OnInit {
   }
 
   searchChanged() {
-    this.apiService.searchTracksSpotify(this.searchTerm).subscribe(tracks => {
+    this.apiService.searchTracks(this.searchTerm).subscribe(tracks => {
+      console.log(this.searchTerm)
+      console.log(tracks)
       this.tracks = tracks;
     });
   }
-
-  insertTrack(track: Track) {
-    this.apiService.insertTrack(track);
-  }
-
-  // checkTrack(trackId: string) {
-  //   return this.apiService.checkTrack(trackId);
-  // }
 
   ngOnInit() {
 

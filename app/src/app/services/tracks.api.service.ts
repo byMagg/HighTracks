@@ -1,27 +1,62 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Track } from '../models/track.model';
+import { AuthService } from './auth.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TracksApiService {
 
-  url = 'http://localhost:3000/api/search';
+  url = environment.url;
+  token = this.authService.getJWT();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) {
+
+  }
 
   searchTracksSpotify(title: string): Observable<Track[]> {
-    return this.http.get<Track[]>(`${this.url}/${encodeURI(title)}`).pipe(
+    return this.http.get<Track[]>(`${this.url}search/${encodeURI(title)}`).pipe(
       map((results: any) => results['tracks']['items'])
     );
   }
 
   searchTracks(title: string): Observable<Track[]> {
-    return this.http.get<Track[]>(`${this.url}/${encodeURI(title)}`).pipe(
-      map((results: any) => results['tracks']['items'])
+    return this.http.get<Track[]>(`${this.url}tracks/search/${encodeURI(title)}`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    }).pipe(
+      map((results: Track[]) => results)
     );
+  }
+
+  getTrack(trackId: string): Observable<Track> {
+    return this.http.get<Track>(`${this.url}tracks/${trackId}`);
+  }
+
+  // checkTrack(trackId: string): boolean {
+  //   this.http.get<Track>(`${this.url}tracks/${trackId}`).subscribe(res => {
+  //     console.log(res);
+  //     return true;
+  //   });
+  //   return false;
+  // }
+
+  insertTrack(track: Track) {
+    this.http.post<Track>(`${this.url}tracks/`, track, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return of(error.error);
+      })
+    ).subscribe(res => {
+      console.log(res);
+    });
   }
 }

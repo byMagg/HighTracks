@@ -1,10 +1,15 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button>
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>{{searchTerm}}</ion-title>
   </ion-toolbar>
+  <ion-searchbar mode="ios" (keyup.enter)="searchChanged()" [(ngModel)]="searchTerm"
+    placeholder="Introduce el nombre de la canción"></ion-searchbar>
+  <ion-button (click)="searchChanged()"><ion-icon slot="end" name="search"></ion-icon>
+    Buscar
+  </ion-button>
 </ion-header>
 
 <ion-content>
@@ -12,7 +17,6 @@
     <ion-grid [fixed]="true">
       <ion-row>
         <ion-card button *ngFor="let track of tracks">
-          <ion-button shape="circle" (click)="insertTrack(track)"><ion-icon icon="add"></ion-icon></ion-button>
           <div [routerLink]="[track.id]">
             <div id="img-container">
               <ion-img src="{{track.album.images[0].url}}"></ion-img>

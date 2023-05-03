@@ -228,6 +228,8 @@ router.get('/generate_token', ctrlAuth.generateTokenSpotify);
  */
 router.get('/search/:search', ctrlTracks.tracksSearchSpotify);
 
+router.get('/tracks/search/:search', ctrlTracks.trackSearchByName);
+
 // Tracks
 /**
  * @swagger

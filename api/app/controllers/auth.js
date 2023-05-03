@@ -19,7 +19,7 @@ const verifyToken = (req, res, next) => {
 // Función para generar un token JWT para un usuario
 const generateToken = (user) => {
     const payload = {
-        username: user.username
+        email: user.email
     };
     const secret = config.JWT_SECRET;
     const options = {
@@ -31,8 +31,8 @@ const generateToken = (user) => {
 /* POST api/login */
 const login = async (req, res) => {
     try {
-        const { username, password } = req.body;
-        // const user = await User.findOne({ username });
+        const { email, password } = req.body;
+        // const user = await User.findOne({ email });
         // if (!user || user.password !== password) {
         //     return res.status(401).send('Nombre de usuario o contraseña incorrectos.');
         // }
