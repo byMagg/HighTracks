@@ -55,7 +55,10 @@ const trackGetAll = async (req, res) => {
 /* POST api/tracks/ */
 const trackInsert = async (req, res) => {
     try {
-        const track = new Track(req.body);
+        const track = new Track({
+            _id: req.body.id,
+            ...req.body
+        });
         await track.save();
         sendJSONresponse(res, 201, track)
     } catch (err) {
