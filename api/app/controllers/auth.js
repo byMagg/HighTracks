@@ -53,11 +53,11 @@ const generateTokenSpotify = async (req, res) => {
             spotifyToken = data.access_token;
             config.TOKEN_SECRET_SPOTIFY = spotifyToken;
             console.log(`Token de Spotify actualizado: ${spotifyToken}`);
-            setTimeout(generateToken, (data.expires_in - 60) * 1000);
+            setTimeout(generateTokenSpotify, (data.expires_in - 60) * 1000);
             sendJSONresponse(res, 200, response.data)
         } else {
             console.error('Error al obtener el token de Spotify');
-            setTimeout(generateToken, 60000);
+            setTimeout(generateTokenSpotify, 60000);
             sendJSONresponse(res, 400, {
                 "error": {
                     "code": "400",
@@ -67,7 +67,7 @@ const generateTokenSpotify = async (req, res) => {
         }
     } catch (error) {
         console.error(`Error al obtener el token de Spotify: ${error.message}`);
-        setTimeout(generateToken, 60000);
+        setTimeout(generateTokenSpotify, 60000);
         sendJSONresponse(res, 400, {
             "error": {
                 "code": "400",
