@@ -5,8 +5,8 @@
     </ion-buttons>
     <ion-title>
       <ion-segment [(ngModel)]="filter" *ngIf="!toggleInsert">
-        <ion-segment-button (click)="changeParams()" [value]="enum.key" *ngFor="let enum of searchFilters | keyvalue;">
-          {{enum.key}}
+        <ion-segment-button (click)="changeParams()" [value]="enum" *ngFor="let enum of searchFilters;">
+          {{enum}}
         </ion-segment-button>
       </ion-segment>
     </ion-title>

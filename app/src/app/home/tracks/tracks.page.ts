@@ -34,7 +34,7 @@ export class TracksPage implements OnInit {
   displayInsert: boolean = AuthService.logged;
   filter: SearchFilter = SearchFilter.name;
 
-  searchFilters = SearchFilter;
+  searchFilters = Object.values(SearchFilter);
 
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router) {
     this.route.queryParams.subscribe(params => {
