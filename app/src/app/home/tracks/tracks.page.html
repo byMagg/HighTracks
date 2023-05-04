@@ -4,31 +4,33 @@
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>
-      <div id="searchBar">
-        <ion-searchbar mode="ios" (keyup.enter)="search()" [(ngModel)]="query"
-          placeholder="Introduce el nombre de la canción"></ion-searchbar>
-        <ion-button (click)="search()"><ion-icon slot="end" name="search"></ion-icon>
-          Buscar
-        </ion-button>
-      </div>
-    </ion-title>
-    <ion-buttons slot="end">
       <ion-segment [(ngModel)]="filter" *ngIf="!toggleInsert">
         <ion-segment-button (click)="changeParams()" [value]="enum.key" *ngFor="let enum of searchFilters | keyvalue;">
           {{enum.key}}
         </ion-segment-button>
       </ion-segment>
+    </ion-title>
+    <ion-buttons slot="end">
       <ion-button *ngIf="displayInsert" (click)="toggleInsertTrack()">
         {{toggleInsert ? 'Mostrar listado' : 'Añadir canciones'}}
       </ion-button>
     </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <div id="searchBar">
+      <ion-searchbar mode="ios" (keyup.enter)="search()" [(ngModel)]="query"
+        placeholder="Introduce el nombre de la canción"></ion-searchbar>
+      <ion-button (click)="search()"><ion-icon slot="end" name="search"></ion-icon>
+        Buscar
+      </ion-button>
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div id="container">
     <ion-grid [fixed]="true">
-      <ion-row>
+      <ion-row class="ion-justify-content-center">
         <ion-card button *ngFor="let track of tracks">
           <ion-button *ngIf="toggleInsert" shape="circle" (click)="insertTrack(track)"><ion-icon
               icon="add"></ion-icon></ion-button>

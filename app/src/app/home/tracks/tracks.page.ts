@@ -43,14 +43,11 @@ export class TracksPage implements OnInit {
       if (Object.values(SearchFilter).includes(params['f'])) {
         this.filter = params['f']
       }
-      console.log("logged: " + AuthService.logged)
-      console.log("filter: " + this.filter)
       this.search();
     })
   }
 
   changeParams() {
-    console.log("changeParams: " + this.query + " " + this.filter)
     let params = {
       s: this.query,
       f: this.filter
