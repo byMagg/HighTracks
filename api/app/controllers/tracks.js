@@ -40,6 +40,48 @@ const trackSearchByName = async (req, res) => {
     }
 };
 
+const trackSearchByField = async (req, res) => {
+    try {
+        const artist = req.query.artist;
+        const name = req.query.name;
+        const date = req.query.date;
+        let track = {};
+        if (artist) {
+            const regex = new RegExp(artist, "i");
+            track = await Track.find({ "album.artists.name": regex });
+        }
+        if (name) {
+            const regex = new RegExp(name, "i");
+            track = await Track.find({ name: regex });
+        }
+        if (date) {
+            const regex = date;
+            track = await Track.find({ "album.artists.date": regex });
+
+        }
+        if (!track) {
+            return sendJSONresponse(res, 404, 'No se encontró la pista con el id especificado.');
+        }
+        sendJSONresponse(res, 200, track)
+    } catch (err) {
+        sendJSONresponse(res, 500, err)
+    }
+};
+
+// const trackSearchByDate = async (req, res) => {
+//     try {
+//         const search = req.params.search;
+//         const regex = new RegExp(search, "i");
+//         const track = await Track.find({ name: regex });
+//         if (!track) {
+//             return sendJSONresponse(res, 404, 'No se encontró la pista con el id especificado.');
+//         }
+//         sendJSONresponse(res, 200, track)
+//     } catch (err) {
+//         sendJSONresponse(res, 500, err)
+//     }
+// };
+
 const trackGetOneById = async (req, res) => {
     try {
         const id = req.params.id;
@@ -152,6 +194,7 @@ const commentGetAll = async (req, res) => {
 module.exports = {
     tracksSearchSpotify,
     trackSearchByName,
+    trackSearchByField,
     trackInsertComment,
     commentGetAll,
     trackInsert,
