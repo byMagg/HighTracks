@@ -10,5 +10,23 @@
 			"path": ".github"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/Thumbs.db": true,
+			"**/.browserslistrc": true,
+			"**/.editorconfig": true,
+			"**/capacitor.config.ts": true,
+			"**/karma.conf.js": true,
+			"**/ionic.config.json": true,
+			"**/ionic.starter.json": true,
+			"**/angular.json": true,
+			"**/.eslintrc.json": true
+		},
+		"explorerExclude.backup": {}
+	}
 }
