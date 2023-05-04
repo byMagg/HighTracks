@@ -32,7 +32,7 @@ export class TracksApiService {
   }
 
   searchTracks(title: string): Observable<Track[]> {
-    return this.http.get<Track[]>(`${this.url}tracks/search/${encodeURI(title)}`, {
+    return this.http.get<Track[]>(`${this.url}tracks/search?name=${encodeURI(title)}`, {
       headers: {
         Authorization: `Bearer ${this.token}`
       }
@@ -90,3 +90,4 @@ export class TracksApiService {
     );
   }
 }
+

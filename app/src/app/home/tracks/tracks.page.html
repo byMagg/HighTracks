@@ -12,8 +12,13 @@
         </ion-button>
       </div>
     </ion-title>
-    <ion-buttons slot="end" *ngIf="displayInsert">
-      <ion-button (click)="toggleInsertTrack()">
+    <ion-buttons slot="end">
+      <ion-segment [value]="filter">
+        <ion-segment-button *ngFor="let enum of searchFilters | keyvalue;">
+          {{enum.key}}
+        </ion-segment-button>
+      </ion-segment>
+      <ion-button *ngIf="displayInsert" (click)="toggleInsertTrack()">
         {{toggleInsert ? 'Mostrar listado' : 'Añadir canciones'}}
       </ion-button>
     </ion-buttons>

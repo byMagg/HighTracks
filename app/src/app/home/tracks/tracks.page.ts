@@ -7,6 +7,12 @@ import { Track } from 'src/app/models/track.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { TracksApiService } from 'src/app/services/tracks.api.service';
 
+export enum SearchFilter {
+  name = "name",
+  artist = "artist",
+  date = "date"
+}
+
 @Component({
   selector: 'app-tracks',
   templateUrl: './tracks.page.html',
@@ -26,6 +32,9 @@ export class TracksPage implements OnInit {
 
   toggleInsert: boolean = false;
   displayInsert: boolean = AuthService.logged;
+  filter: SearchFilter = SearchFilter.name;
+
+  searchFilters = SearchFilter;
 
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService) {
     this.route.queryParams.subscribe(params => {
@@ -79,5 +88,4 @@ export class TracksPage implements OnInit {
   ngOnInit() {
 
   }
-
 }
