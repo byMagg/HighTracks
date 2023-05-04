@@ -2,15 +2,16 @@ ion-card {
     height: 100%;
 }
 
+ion-img {
+    height: 400px;
+}
+
 #container {
     display: flex;
     // height: 400px;
-    // justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
-}
-
-#container>div {
-    margin-left: 100px;
+    gap: 20px;
 }
 
 #info {
@@ -36,4 +37,11 @@ ion-card {
     border-radius: 5px;
     margin: 0 auto;
     padding: 5px;
+}
+
+comments {
+    display: flex;
+    width: 80%;
+    margin: 0 auto;
+    max-width: 500px;
 }

@@ -21,7 +21,7 @@ export class CommentsComponent implements OnInit {
   @Input() trackId: string | undefined;
   author: string | undefined;
   text: string | undefined;
-  score: number | undefined;
+  score: number = 0;
   comments: Comment[] | undefined;
 
 
@@ -40,7 +40,10 @@ export class CommentsComponent implements OnInit {
       };
       console.log(comment)
       this.apiService.insertComment(this.trackId, comment);
-      // this.comment = undefined;
+      this.author = undefined;
+      this.text = undefined;
+      this.score = 0;
+      this.getComments();
     }
   }
 
