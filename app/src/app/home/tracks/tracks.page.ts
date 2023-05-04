@@ -51,14 +51,21 @@ export class TracksPage implements OnInit {
 
   changeParams() {
     console.log("changeParams: " + this.query + " " + this.filter)
+    let params = {
+      s: this.query,
+      f: this.filter
+    }
+    if (this.query == "") params['s'] = undefined;
+
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: {
-        s: this.query,
-        f: this.filter
-      },
+      queryParams: params,
       queryParamsHandling: 'merge'
     });
+  }
+
+  navigateToTrack(trackId: string) {
+    this.router.navigate([`/tracks/${trackId}`]);
   }
 
   toggleInsertTrack() {
@@ -68,6 +75,7 @@ export class TracksPage implements OnInit {
 
   search() {
     console.log(this.query)
+    this.changeParams();
     if (this.query) {
       if (this.toggleInsert) {
         this.searchSpotify(this.query);
@@ -75,7 +83,7 @@ export class TracksPage implements OnInit {
         this.searchDB(this.query);
       }
     } else {
-
+      this.getAllTracks();
     }
   }
 
@@ -94,13 +102,16 @@ export class TracksPage implements OnInit {
     });
   }
 
+  getAllTracks() {
+    this.apiService.getTracks().subscribe(tracks => {
+      this.tracks = tracks;
+      console.log(this.tracks[0])
+    });
+  }
+
   insertTrack(track: Track) {
     this.apiService.insertTrack(track);
   }
-
-  // checkTrack(trackId: string) {
-  //   return this.apiService.checkTrack(trackId);
-  // }
 
   ngOnInit() {
 

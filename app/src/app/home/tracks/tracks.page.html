@@ -32,7 +32,7 @@
         <ion-card button *ngFor="let track of tracks">
           <ion-button *ngIf="toggleInsert" shape="circle" (click)="insertTrack(track)"><ion-icon
               icon="add"></ion-icon></ion-button>
-          <div [routerLink]="[track._id]">
+          <div (click)="navigateToTrack(track._id)">
             <div id="img-container">
               <ion-img src="{{track.album.images[0].url}}"></ion-img>
             </div>

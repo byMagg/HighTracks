@@ -53,6 +53,16 @@ export class TracksApiService {
 
   }
 
+  getTracks(): Observable<Track[]> {
+    return this.http.get<Track[]>(`${this.url}tracks/`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    }).pipe(
+      map((results: Track[]) => results)
+    );
+  }
+
   insertTrack(track: Track) {
     this.http.post<Track>(`${this.url}tracks/`, track, {
       headers: {
