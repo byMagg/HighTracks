@@ -419,6 +419,9 @@ router.delete('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackDelete);
  */
 router.post('/tracks/:id/comments', ctrlAuth.verifyToken, ctrlTracks.trackInsertComment);
 
+router.get('/tracks/:id/comments', ctrlAuth.verifyToken, ctrlTracks.commentGetAll);
+
+
 // Auth
 /**
  * @swagger

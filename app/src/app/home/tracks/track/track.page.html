@@ -16,19 +16,20 @@
       </ion-card>
     </div>
     <div id="info">
-      <p><span>{{ track.duration_ms }}</span></p>
+      <div *ngFor="let artist of track.album.artists">
+        <span>{{ artist.name }}</span>
+      </div>
       <div id="main-info">
+        <div>
+          <span>{{ track.duration_ms | date: 'mm:ss' }} min</span>
+        </div>
         <div>
           <span>{{ track.album.release_date }}</span>
         </div>
-        <div>
-          <span>{{ track.album.total_tracks }}</span>
-        </div>
-        <div>
-          <span *ngFor="let artist of track.album.artists">{{ artist.name }}</span>
-        </div>
+
       </div>
     </div>
   </div>
+  <comments [trackId]="trackId"></comments>
 
 </ion-content>

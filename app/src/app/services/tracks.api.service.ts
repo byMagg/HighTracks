@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Track } from '../models/track.model';
+import { Track, Comment } from '../models/track.model';
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
 
@@ -54,14 +54,6 @@ export class TracksApiService {
 
   }
 
-  // checkTrack(trackId: string): boolean {
-  //   this.http.get<Track>(`${this.url}tracks/${trackId}`).subscribe(res => {
-  //     console.log(res);
-  //     return true;
-  //   });
-  //   return false;
-  // }
-
   insertTrack(track: Track) {
     this.http.post<Track>(`${this.url}tracks/`, track, {
       headers: {
@@ -74,5 +66,29 @@ export class TracksApiService {
     ).subscribe(res => {
       console.log(res);
     });
+  }
+
+  insertComment(trackId: string, comment: Comment) {
+    this.http.post<Comment>(`${this.url}tracks/${trackId}/comments`, comment, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return of(error.error);
+      })
+    ).subscribe(res => {
+      console.log(res);
+    });
+  }
+
+  getComments(trackId: string): Observable<Comment[]> {
+    return this.http.get<Comment[]>(`${this.url}tracks/${trackId}/comments`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    }).pipe(
+      map((results: Comment[]) => results)
+    );
   }
 }

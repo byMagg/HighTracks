@@ -3,6 +3,7 @@ export interface Track {
   name: string
   duration_ms: number
   album: Album
+  comments: Comment[]
 }
 
 export interface Album {
@@ -24,4 +25,10 @@ export interface Image {
   height: number
   url: string
   width: number
+}
+
+export interface Comment {
+  author: string
+  text: string
+  score: number
 }

@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { Track } from 'src/app/models/track.model';
 import { TracksApiService } from 'src/app/services/tracks.api.service';
+import { CommentsComponent } from "./comments/comments.component";
 
 @Component({
   selector: 'app-track',
@@ -13,7 +14,7 @@ import { TracksApiService } from 'src/app/services/tracks.api.service';
   standalone: true,
   imports: [CommonModule,
     FormsModule,
-    IonicModule,]
+    IonicModule, CommentsComponent]
 })
 export class TrackPage implements OnInit {
 

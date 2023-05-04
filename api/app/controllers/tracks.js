@@ -135,10 +135,25 @@ const trackInsertComment = async (req, res) => {
     }
 }
 
+const commentGetAll = async (req, res) => {
+    try {
+        const trackId = req.params.id;
+
+        const track = await Track.findById(trackId);
+        if (!track) {
+            return sendJSONresponse(res, 404, 'No se encontró la pista con el ID especificado.');
+        }
+        sendJSONresponse(res, 200, track.comments);
+    } catch (error) {
+        sendJSONresponse(res, 500, error)
+    }
+}
+
 module.exports = {
     tracksSearchSpotify,
     trackSearchByName,
     trackInsertComment,
+    commentGetAll,
     trackInsert,
     trackGetOneById,
     trackGetAll,

@@ -6,7 +6,7 @@
     <ion-title>
       <div id="searchBar">
         <ion-searchbar mode="ios" (keyup.enter)="toggleInsert ?  searchSpotify() : search()" [(ngModel)]="query"
-          placeholder="Introduce el nombre de la película"></ion-searchbar>
+          placeholder="Introduce el nombre de la canción"></ion-searchbar>
         <ion-button (click)="toggleInsert ? searchSpotify() : search()"><ion-icon slot="end" name="search"></ion-icon>
           Buscar
         </ion-button>
