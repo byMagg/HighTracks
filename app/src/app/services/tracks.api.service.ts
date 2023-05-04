@@ -5,6 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Track, Comment } from '../models/track.model';
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
+import { SearchFilter } from '../home/tracks/tracks.page';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +32,8 @@ export class TracksApiService {
     );
   }
 
-  searchTracks(title: string): Observable<Track[]> {
-    return this.http.get<Track[]>(`${this.url}tracks/search?name=${encodeURI(title)}`, {
+  searchTracks(title: string, _field: SearchFilter = SearchFilter.name): Observable<Track[]> {
+    return this.http.get<Track[]>(`${this.url}tracks/search?${_field}=${encodeURI(title)}`, {
       headers: {
         Authorization: `Bearer ${this.token}`
       }

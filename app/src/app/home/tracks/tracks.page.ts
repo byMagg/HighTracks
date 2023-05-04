@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { Track } from 'src/app/models/track.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -21,7 +21,7 @@ export enum SearchFilter {
   imports: [CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule,
+    RouterModule
   ]
 })
 export class TracksPage implements OnInit {
@@ -36,13 +36,29 @@ export class TracksPage implements OnInit {
 
   searchFilters = SearchFilter;
 
-  constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService) {
+  constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router) {
     this.route.queryParams.subscribe(params => {
       console.log(params)
       this.query = params['s'];
+      if (Object.values(SearchFilter).includes(params['f'])) {
+        this.filter = params['f']
+      }
       console.log("logged: " + AuthService.logged)
+      console.log("filter: " + this.filter)
       this.search();
     })
+  }
+
+  changeParams() {
+    console.log("changeParams: " + this.query + " " + this.filter)
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        s: this.query,
+        f: this.filter
+      },
+      queryParamsHandling: 'merge'
+    });
   }
 
   toggleInsertTrack() {
@@ -71,7 +87,8 @@ export class TracksPage implements OnInit {
   }
 
   searchDB(query: string) {
-    this.apiService.searchTracks(query).subscribe(tracks => {
+    console.log("searchDB: " + query + " " + this.filter)
+    this.apiService.searchTracks(query, this.filter).subscribe(tracks => {
       this.tracks = tracks;
       console.log(this.tracks[0])
     });
