@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { HttpClient } from '@angular/common/http';
-import { FirebaseError } from 'firebase/app';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
 
+  public static logged: boolean = false;
   userData: any;
-  logged: boolean = false;
   token: string | undefined;
 
   constructor(
@@ -24,14 +24,17 @@ export class AuthService {
         localStorage.setItem('user', JSON.stringify(this.userData));
       }
     });
+    this.fetchJWT();
+    this.checkLogged();
   }
 
   checkLogged() {
     if (localStorage.getItem('user') === null) {
       this.userData = null;
+      AuthService.logged = false;
       return false;
     }
-    console.log(localStorage.getItem('JWT'))
+    AuthService.logged = true;
     return true;
   }
 
@@ -61,13 +64,13 @@ export class AuthService {
     try {
       await this.afAuth.signOut();
       localStorage.removeItem('user');
-      localStorage.removeItem('JWT');
     } catch (error) {
       console.log(error);
     }
   }
 
   fetchJWT() {
+    console.log(this.getUser().email)
     this.http.post('http://localhost:3000/api/login', {
       email: this.getUser().email,
     }).subscribe((res: any) => {

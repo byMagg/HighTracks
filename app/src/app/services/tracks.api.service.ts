@@ -14,9 +14,7 @@ export class TracksApiService {
   url = environment.url;
   token = this.authService.getJWT();
 
-  constructor(private http: HttpClient, private authService: AuthService) {
-
-  }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   searchTracksSpotify(title: string): Observable<Track[]> {
     return this.http.get<Track[]>(`${this.url}search/${encodeURI(title)}`).pipe(

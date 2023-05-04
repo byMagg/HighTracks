@@ -20,37 +20,49 @@ import { TracksApiService } from 'src/app/services/tracks.api.service';
 })
 export class TracksPage implements OnInit {
 
-  query: string = '';
+  query: string | undefined;
   tracks: Track[] | undefined;
-  track: string | undefined
+  track: string | undefined;
 
   toggleInsert: boolean = false;
+  displayInsert: boolean = AuthService.logged;
 
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService) {
     this.route.queryParams.subscribe(params => {
+      console.log(params)
       this.query = params['s'];
+      console.log("logged: " + AuthService.logged)
       this.search();
     })
   }
 
   toggleInsertTrack() {
     this.toggleInsert = !this.toggleInsert;
-    if (this.toggleInsert) {
-      this.searchSpotify();
+    this.search()
+  }
+
+  search() {
+    console.log(this.query)
+    if (this.query) {
+      if (this.toggleInsert) {
+        this.searchSpotify(this.query);
+      } else {
+        this.searchDB(this.query);
+      }
     } else {
-      this.search();
+
     }
   }
 
-  searchSpotify() {
-    this.apiService.searchTracksSpotify(this.query).subscribe(tracks => {
+  searchSpotify(query: string) {
+    this.apiService.searchTracksSpotify(query).subscribe(tracks => {
       this.tracks = tracks;
       console.log(this.tracks[0])
     });
   }
 
-  search() {
-    this.apiService.searchTracks(this.query).subscribe(tracks => {
+  searchDB(query: string) {
+    this.apiService.searchTracks(query).subscribe(tracks => {
       this.tracks = tracks;
       console.log(this.tracks[0])
     });

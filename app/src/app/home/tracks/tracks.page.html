@@ -5,14 +5,14 @@
     </ion-buttons>
     <ion-title>
       <div id="searchBar">
-        <ion-searchbar mode="ios" (keyup.enter)="toggleInsert ?  searchSpotify() : search()" [(ngModel)]="query"
+        <ion-searchbar mode="ios" (keyup.enter)="search()" [(ngModel)]="query"
           placeholder="Introduce el nombre de la canción"></ion-searchbar>
-        <ion-button (click)="toggleInsert ? searchSpotify() : search()"><ion-icon slot="end" name="search"></ion-icon>
+        <ion-button (click)="search()"><ion-icon slot="end" name="search"></ion-icon>
           Buscar
         </ion-button>
       </div>
     </ion-title>
-    <ion-buttons slot="end" *ngIf="this.authService.checkLogged()">
+    <ion-buttons slot="end" *ngIf="displayInsert">
       <ion-button (click)="toggleInsertTrack()">
         {{toggleInsert ? 'Mostrar listado' : 'Añadir canciones'}}
       </ion-button>
