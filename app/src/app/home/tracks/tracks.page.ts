@@ -38,7 +38,8 @@ export class TracksPage implements OnInit {
 
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router) {
     this.route.queryParams.subscribe(params => {
-      console.log(params)
+      console.log(this.displayInsert)
+      console.log(AuthService.logged)
       this.query = params['s'];
       if (Object.values(SearchFilter).includes(params['f'])) {
         this.filter = params['f']

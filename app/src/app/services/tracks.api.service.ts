@@ -77,7 +77,7 @@ export class TracksApiService {
     });
   }
 
-  insertComment(trackId: string, comment: Comment) {
+  insertComment(trackId: string, comment: Comment): Observable<Comment> {
     this.http.post<Comment>(`${this.url}tracks/${trackId}/comments`, comment, {
       headers: {
         Authorization: `Bearer ${this.token}`
@@ -87,8 +87,9 @@ export class TracksApiService {
         return of(error.error);
       })
     ).subscribe(res => {
-      console.log(res);
+      return res;
     });
+    return of(comment);
   }
 
   getComments(trackId: string): Observable<Comment[]> {

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Route, Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { TracksApiService } from 'src/app/services/tracks.api.service';
 import { Comment } from 'src/app/models/track.model';
@@ -25,7 +25,7 @@ export class CommentsComponent implements OnInit {
   comments: Comment[] | undefined;
 
 
-  constructor(private apiService: TracksApiService) { }
+  constructor(private apiService: TracksApiService, private router: Router) { }
 
   ngOnInit() {
     this.getComments();
@@ -33,17 +33,18 @@ export class CommentsComponent implements OnInit {
 
   sendComment() {
     if (this.trackId && this.author && this.text && this.score) {
-      const comment: Comment = {
+
+      let comment: Comment = {
         author: this.author,
         text: this.text,
         score: this.score
-      };
-      console.log(comment)
-      this.apiService.insertComment(this.trackId, comment);
+      }
+      this.apiService.insertComment(this.trackId, comment).subscribe(() => {
+        this.getComments();
+      });
       this.author = undefined;
       this.text = undefined;
       this.score = 0;
-      this.getComments();
     }
   }
 

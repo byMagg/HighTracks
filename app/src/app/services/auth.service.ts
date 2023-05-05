@@ -18,14 +18,21 @@ export class AuthService {
     public afAuth: AngularFireAuth,
     private http: HttpClient
   ) {
+    this.updateLogin();
+  }
+
+  updateLogin() {
     this.afAuth.authState.subscribe((user) => {
       if (user) {
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(this.userData));
+        AuthService.logged = true;
+      } else {
+        this.userData = null;
+        localStorage.removeItem('user');
+        AuthService.logged = false;
       }
     });
-    this.fetchJWT();
-    this.checkLogged();
   }
 
   checkLogged() {
@@ -44,6 +51,7 @@ export class AuthService {
         .then(
           res => {
             resolve(res)
+            this.updateLogin();
           },
           err => reject(err))
     })
@@ -53,6 +61,7 @@ export class AuthService {
     try {
       const response = await this.afAuth.signInWithEmailAndPassword(value.email, value.password);
       if (response.user) {
+        this.updateLogin();
         return response;
       }
     } catch (error) {
@@ -63,16 +72,15 @@ export class AuthService {
   async doLogout() {
     try {
       await this.afAuth.signOut();
-      localStorage.removeItem('user');
+      this.updateLogin();
     } catch (error) {
       console.log(error);
     }
   }
 
   fetchJWT() {
-    console.log(this.getUser().email)
     this.http.post('http://localhost:3000/api/login', {
-      email: this.getUser().email,
+      email: "test@test.com",
     }).subscribe((res: any) => {
       localStorage.setItem('JWT', res.token);
       this.token = res.token;
