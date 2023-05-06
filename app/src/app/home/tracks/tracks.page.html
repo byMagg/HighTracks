@@ -48,16 +48,17 @@
         <ion-content class="ion-padding">
           <ion-item>
             <ion-label position="stacked">Nombre</ion-label>
-            <ion-input type="text" [(ngModel)]="trackToAdd.name" placeholder="Nombre de la canción"></ion-input>
+            <ion-input type="text" aria-label="Nombre" [(ngModel)]="trackToAdd.name"
+              placeholder="Nombre de la canción"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="stacked">Artista/Grupo</ion-label>
-            <ion-input type="text" [(ngModel)]="trackToAdd.album.artists[0].name"
+            <ion-input type="text" aria-label="Artista" [(ngModel)]="trackToAdd.album.artists[0].name"
               placeholder="Artista o grupo"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="stacked">URL imagen</ion-label>
-            <ion-input type="text" [(ngModel)]="trackToAdd.album.images[0].url"
+            <ion-input type="text" aria-label="URL" [(ngModel)]="trackToAdd.album.images[0].url"
               placeholder="URL de la imagen"></ion-input>
           </ion-item>
         </ion-content>

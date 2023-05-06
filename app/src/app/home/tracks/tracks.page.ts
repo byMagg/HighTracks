@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { IonModal, IonicModule } from '@ionic/angular';
-import { Track } from 'src/app/models/track.model';
+import { Track, Album } from 'src/app/models/track.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { TracksApiService } from 'src/app/services/tracks.api.service';
 import { OverlayEventDetail } from '@ionic/core/components';
@@ -53,24 +53,7 @@ export class TracksPage implements OnInit {
     })
   }
 
-  trackToAdd: Track = {
-    _id: "",
-    name: "",
-    album: {
-      artists: [
-        {
-          name: ""
-        }
-      ],
-      images: [
-        {
-          url: ""
-        }
-      ],
-      name: '',
-      release_date: '',
-    },
-  }
+  trackToAdd: Track = new Track("", new Album("", "", ""));
 
   cancel() {
     if (this.modal) this.modal.dismiss(null, 'cancel');
@@ -84,7 +67,10 @@ export class TracksPage implements OnInit {
     const ev = event as CustomEvent<OverlayEventDetail<Track>>;
     console.log('Will dismiss with: ', ev.detail);
     if (ev.detail.role === 'confirm') {
-      if (ev.detail.data) this.insertTrack(ev.detail.data);
+      if (ev.detail.data) {
+        ev.detail.data._id = ev.detail.data?.name;
+        this.insertTrack(ev.detail.data);
+      }
     }
   }
 
