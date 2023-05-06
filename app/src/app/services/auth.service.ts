@@ -33,6 +33,8 @@ export class AuthService {
         AuthService.logged = false;
       }
     });
+    console.log('Logged: ' + AuthService.logged)
+    console.log('JWT: ' + this.getJWT())
   }
 
   checkLogged() {
