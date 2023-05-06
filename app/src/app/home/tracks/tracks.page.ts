@@ -31,15 +31,17 @@ export class TracksPage implements OnInit {
   track: string | undefined;
 
   toggleInsert: boolean = false;
-  displayInsert: boolean = AuthService.logged;
+  displayInsert: boolean = false;
   filter: SearchFilter = SearchFilter.name;
 
   searchFilters = Object.values(SearchFilter);
 
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router) {
     this.route.queryParams.subscribe(params => {
-      console.log(this.displayInsert)
-      console.log(AuthService.logged)
+      this.displayInsert = this.authService.checkLogged();
+      console.log("DisplayInsert: " + this.displayInsert)
+      console.log("ToggleInsert: " + this.toggleInsert)
+      console.log("Logged: " + AuthService.logged)
       this.query = params['s'];
       if (Object.values(SearchFilter).includes(params['f'])) {
         this.filter = params['f']
