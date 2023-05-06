@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonModal, IonicModule } from '@ionic/angular';
 import { Track } from 'src/app/models/track.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { TracksApiService } from 'src/app/services/tracks.api.service';
+import { OverlayEventDetail } from '@ionic/core/components';
 
 export enum SearchFilter {
   name = "name",
@@ -36,6 +37,8 @@ export class TracksPage implements OnInit {
 
   searchFilters = Object.values(SearchFilter);
 
+  @ViewChild(IonModal) modal: IonModal | undefined;
+
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router) {
     this.route.queryParams.subscribe(params => {
       this.displayInsert = this.authService.checkLogged();
@@ -48,6 +51,41 @@ export class TracksPage implements OnInit {
       }
       this.search();
     })
+  }
+
+  trackToAdd: Track = {
+    _id: "",
+    name: "",
+    album: {
+      artists: [
+        {
+          name: ""
+        }
+      ],
+      images: [
+        {
+          url: ""
+        }
+      ],
+      name: '',
+      release_date: '',
+    },
+  }
+
+  cancel() {
+    if (this.modal) this.modal.dismiss(null, 'cancel');
+  }
+
+  confirm(track: Track) {
+    if (this.modal) this.modal.dismiss(track, 'confirm');
+  }
+
+  onWillDismiss(event: Event) {
+    const ev = event as CustomEvent<OverlayEventDetail<Track>>;
+    console.log('Will dismiss with: ', ev.detail);
+    if (ev.detail.role === 'confirm') {
+      if (ev.detail.data) this.insertTrack(ev.detail.data);
+    }
   }
 
   changeParams() {

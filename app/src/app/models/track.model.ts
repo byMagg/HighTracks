@@ -1,30 +1,30 @@
 export interface Track {
   _id: string
   name: string
-  duration_ms: number
+  duration_ms?: number
   album: Album
-  comments: Comment[]
+  comments?: Comment[]
 }
 
 export interface Album {
   artists: Artist[]
-  id: string
+  id?: string
   images: Image[]
   name: string
-  release_date: string
-  release_date_precision: string
-  total_tracks: number
+  release_date?: string
+  release_date_precision?: string
+  total_tracks?: number
 }
 
 export interface Artist {
-  id: string
+  id?: string
   name: string
 }
 
 export interface Image {
-  height: number
+  height?: number
   url: string
-  width: number
+  width?: number
 }
 
 export interface Comment {
