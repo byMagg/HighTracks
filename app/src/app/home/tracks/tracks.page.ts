@@ -37,6 +37,8 @@ export class TracksPage implements OnInit {
 
   searchFilters = Object.values(SearchFilter);
 
+  trackToAdd: Track = new Track("", new Album("", "", ""));
+
   @ViewChild(IonModal) modal: IonModal | undefined;
 
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router) {
@@ -53,7 +55,6 @@ export class TracksPage implements OnInit {
     })
   }
 
-  trackToAdd: Track = new Track("", new Album("", "", ""));
 
   cancel() {
     if (this.modal) this.modal.dismiss(null, 'cancel');

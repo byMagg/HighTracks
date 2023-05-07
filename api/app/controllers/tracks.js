@@ -41,8 +41,8 @@ const trackSearchByField = async (req, res) => {
             track = await Track.find({ name: regex });
         }
         if (date) {
-            const regex = date;
-            track = await Track.find({ "album.artists.date": regex });
+            const regex = new RegExp(date, "i");
+            track = await Track.find({ "album.release_date": regex });
 
         }
         if (!track) {
