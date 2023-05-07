@@ -5,6 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Track, Comment } from '../models/track.model';
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
+import { SearchFilter } from '../home/tracks/tracks.page';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +15,7 @@ export class TracksApiService {
   url = environment.url;
   token = this.authService.getJWT();
 
-  constructor(private http: HttpClient, private authService: AuthService) {
-
-  }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   searchTracksSpotify(title: string): Observable<Track[]> {
     return this.http.get<Track[]>(`${this.url}search/${encodeURI(title)}`).pipe(
@@ -33,8 +32,8 @@ export class TracksApiService {
     );
   }
 
-  searchTracks(title: string): Observable<Track[]> {
-    return this.http.get<Track[]>(`${this.url}tracks/search/${encodeURI(title)}`, {
+  searchTracks(title: string, _field: SearchFilter = SearchFilter.name): Observable<Track[]> {
+    return this.http.get<Track[]>(`${this.url}tracks/search?${_field}=${encodeURI(title)}`, {
       headers: {
         Authorization: `Bearer ${this.token}`
       }
@@ -54,6 +53,16 @@ export class TracksApiService {
 
   }
 
+  getTracks(): Observable<Track[]> {
+    return this.http.get<Track[]>(`${this.url}tracks/`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    }).pipe(
+      map((results: Track[]) => results)
+    );
+  }
+
   insertTrack(track: Track) {
     this.http.post<Track>(`${this.url}tracks/`, track, {
       headers: {
@@ -68,7 +77,7 @@ export class TracksApiService {
     });
   }
 
-  insertComment(trackId: string, comment: Comment) {
+  insertComment(trackId: string, comment: Comment): Observable<Comment> {
     this.http.post<Comment>(`${this.url}tracks/${trackId}/comments`, comment, {
       headers: {
         Authorization: `Bearer ${this.token}`
@@ -78,8 +87,9 @@ export class TracksApiService {
         return of(error.error);
       })
     ).subscribe(res => {
-      console.log(res);
+      return res;
     });
+    return of(comment);
   }
 
   getComments(trackId: string): Observable<Comment[]> {
@@ -92,3 +102,4 @@ export class TracksApiService {
     );
   }
 }
+

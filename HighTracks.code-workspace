@@ -25,7 +25,10 @@
 			"**/ionic.config.json": true,
 			"**/ionic.starter.json": true,
 			"**/angular.json": true,
-			"**/.eslintrc.json": true
+			"**/.eslintrc.json": true,
+			"**/.angular": true,
+			"**/tsconfig.spec.json": true,
+			"**/tsconfig.app.json": true
 		},
 		"explorerExclude.backup": {}
 	}

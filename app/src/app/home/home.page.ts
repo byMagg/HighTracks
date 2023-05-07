@@ -19,11 +19,9 @@ export class HomePage implements OnInit {
 
   query: string | undefined;
 
-  constructor(private navCtrl: NavController, private authService: AuthService) { }
+  constructor(private navCtrl: NavController) { }
 
-  ngOnInit() {
-    this.authService.fetchJWT();
-  }
+  ngOnInit() { }
 
   search() {
     let navigationExtras: NavigationExtras = {

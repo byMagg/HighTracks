@@ -26,11 +26,25 @@ const tracksSearchSpotify = async (req, res) => {
     }
 };
 
-const trackSearchByName = async (req, res) => {
+const trackSearchByField = async (req, res) => {
     try {
-        const search = req.params.search;
-        const regex = new RegExp(search, "i");
-        const track = await Track.find({ name: regex });
+        const artist = req.query.artist;
+        const name = req.query.name;
+        const date = req.query.date;
+        let track = {};
+        if (artist) {
+            const regex = new RegExp(artist, "i");
+            track = await Track.find({ "album.artists.name": regex });
+        }
+        if (name) {
+            const regex = new RegExp(name, "i");
+            track = await Track.find({ name: regex });
+        }
+        if (date) {
+            const regex = new RegExp(date, "i");
+            track = await Track.find({ "album.release_date": regex });
+
+        }
         if (!track) {
             return sendJSONresponse(res, 404, 'No se encontró la pista con el id especificado.');
         }
@@ -129,7 +143,7 @@ const trackInsertComment = async (req, res) => {
         track.comments.push(comment);
 
         const updatedTrack = await track.save();
-        sendJSONresponse(res, 201, updatedTrack);
+        sendJSONresponse(res, 201, comment);
     } catch (error) {
         sendJSONresponse(res, 500, error)
     }
@@ -151,7 +165,7 @@ const commentGetAll = async (req, res) => {
 
 module.exports = {
     tracksSearchSpotify,
-    trackSearchByName,
+    trackSearchByField,
     trackInsertComment,
     commentGetAll,
     trackInsert,
