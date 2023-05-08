@@ -31,7 +31,7 @@ export class CommentsComponent implements OnInit {
     this.getComments();
   }
 
-  sendComment() {
+  async sendComment() {
     if (this.trackId && this.author && this.text && this.score) {
 
       let comment: Comment = {
@@ -39,20 +39,18 @@ export class CommentsComponent implements OnInit {
         text: this.text,
         score: this.score
       }
-      this.apiService.insertComment(this.trackId, comment).subscribe(() => {
+      const response = await this.apiService.insertComment(this.trackId, comment);
+      if (response) {
         this.getComments();
-      });
-      this.author = undefined;
-      this.text = undefined;
-      this.score = 0;
+        this.author = undefined;
+        this.text = undefined;
+        this.score = 0;
+      }
     }
   }
 
-  getComments() {
-    if (this.trackId) {
-      this.apiService.getComments(this.trackId).subscribe(comments => {
-        this.comments = comments;
-      });
-    }
+  async getComments() {
+    if (!this.trackId) return;
+    this.comments = await this.apiService.getComments(this.trackId);
   }
 }

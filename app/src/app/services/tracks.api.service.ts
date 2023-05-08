@@ -65,69 +65,93 @@ export class TracksApiService {
     );
   }
 
-  async insertTrack(track: Track) {
+  async insertTrack(track: Track): Promise<boolean> {
     const coords: Coords = await this.geoService.getLocation();
     track.location = coords;
-    this.http.post<Track>(`${this.url}tracks/`, track, {
-      headers: {
-        Authorization: `Bearer ${this.token}`
+    try {
+      await lastValueFrom(this.http.post<Track>(`${this.url}tracks/`, track, {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      }));
+      return true;
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 400) {
+          console.log("Track already exists");
+        }
       }
-    }).pipe(
-      catchError((error: HttpErrorResponse) => {
-        return of(error.error);
-      })
-    ).subscribe(res => {
-      return res;
-    });
+      return false;
+    }
   }
 
-  insertComment(trackId: string, comment: Comment): Observable<Comment> {
-    this.http.post<Comment>(`${this.url}tracks/${trackId}/comments`, comment, {
-      headers: {
-        Authorization: `Bearer ${this.token}`
+  async insertComment(trackId: string, comment: Comment): Promise<boolean> {
+    try {
+      await lastValueFrom(this.http.post<Comment>(`${this.url}tracks/${trackId}/comments`, comment, {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      }));
+      return true;
+    } catch (error: unknown) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 404) {
+          console.log("Track not found");
+        }
       }
-    }).pipe(
-      catchError((error: HttpErrorResponse) => {
-        return of(error.error);
-      })
-    ).subscribe(res => {
-      return res;
-    });
-    return of(comment);
+      return false;
+    }
   }
 
   async updateTrack(track: Track): Promise<boolean> {
-    const response = await lastValueFrom(this.http.put<Track>(`${this.url}tracks/${track._id}`, track, {
-      headers: {
-        Authorization: `Bearer ${this.token}`
-      }
-    }));
-    if (response) {
+    try {
+      await lastValueFrom(this.http.put<Track>(`${this.url}tracks/${track._id}`, track, {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      }));
       return true;
+    } catch (error: unknown) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 404) console.log("Track not found");
+        if (error.status === 500) console.log("Error updating track")
+      }
+      return false;
     }
-    return false;
   }
 
   async deleteTrack(trackId: string): Promise<boolean> {
-    const response = await lastValueFrom(this.http.delete<Track>(`${this.url}tracks/${trackId}`, {
-      headers: {
-        Authorization: `Bearer ${this.token}`
-      }
-    }));
-    if (response) {
+    try {
+      await lastValueFrom(this.http.delete<Track>(`${this.url}tracks/${trackId}`, {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      }));
       return true;
+    } catch (error: unknown) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 404) console.log("Track not found");
+        if (error.status === 500) console.log("Error deleting track")
+      }
+      return false;
     }
-    return false;
   }
 
-  getComments(trackId: string): Observable<Comment[]> {
-    return this.http.get<Comment[]>(`${this.url}tracks/${trackId}/comments`, {
-      headers: {
-        Authorization: `Bearer ${this.token}`
+  async getComments(trackId: string): Promise<Comment[]> {
+    let comments: Comment[] = [];
+    try {
+      comments = await lastValueFrom(this.http.get<Comment[]>(`${this.url}tracks/${trackId}/comments`, {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      }));
+    } catch (error: unknown) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 404) console.log("Track not found");
+        if (error.status === 500) console.log("Error getting comments")
       }
-    }).pipe(
-      map((results: Comment[]) => results)
-    );
+    }
+    return comments
   }
 }
 
