@@ -76,7 +76,7 @@
             </ion-fab-button>
             <ion-fab-list *ngIf="!toggleInsert && displayInsert">
               <ion-fab-button>
-                <ion-icon name="pencil"></ion-icon>
+                <ion-icon name="pencil" (click)="navigateToTrackEdit(track._id)"></ion-icon>
               </ion-fab-button>
               <ion-fab-button id="delete-alert" (click)="handleDeleteAlert(track._id)">
                 <ion-icon name="trash" color="danger"></ion-icon>

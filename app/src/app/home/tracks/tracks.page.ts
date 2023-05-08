@@ -115,6 +115,10 @@ export class TracksPage implements OnInit {
     this.router.navigate([`/tracks/${trackId}`]);
   }
 
+  navigateToTrackEdit(trackId: string) {
+    this.router.navigate([`/tracks/${trackId}/edit`]);
+  }
+
   toggleInsertTrack() {
     this.toggleInsert = !this.toggleInsert;
     this.search()

@@ -96,6 +96,18 @@ export class TracksApiService {
     return of(comment);
   }
 
+  async updateTrack(track: Track): Promise<boolean> {
+    const response = await lastValueFrom(this.http.put<Track>(`${this.url}tracks/${track._id}`, track, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    }));
+    if (response) {
+      return true;
+    }
+    return false;
+  }
+
   async deleteTrack(trackId: string): Promise<boolean> {
     const response = await lastValueFrom(this.http.delete<Track>(`${this.url}tracks/${trackId}`, {
       headers: {
