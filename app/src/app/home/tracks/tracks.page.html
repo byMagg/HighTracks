@@ -68,8 +68,11 @@
       <ion-row class="ion-justify-content-center">
         <ion-card button *ngFor="let track of tracks">
           <ion-fab>
-            <ion-fab-button size="small" *ngIf="toggleInsert" (click)="insertTrack(track)">
+            <ion-fab-button size="small" *ngIf="toggleInsert && !track.inserted" (click)="insertTrack(track)">
               <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button size="small" color="danger" *ngIf="toggleInsert && track.inserted">
+              <ion-icon name="trash"></ion-icon>
             </ion-fab-button>
           </ion-fab>
           <div (click)="navigateToTrack(track._id)">

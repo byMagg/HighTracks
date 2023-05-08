@@ -49,13 +49,12 @@ export class TracksPage implements OnInit {
       console.log("ToggleInsert: " + this.toggleInsert)
       console.log("Logged: " + AuthService.logged)
       this.query = params['s'];
-      if (Object.values(SearchFilter).includes(params['f'])) {
+      if (this.searchFilters.includes(params['f'])) {
         this.filter = params['f']
       }
       this.search();
     })
   }
-
 
   cancel() {
     if (this.modal) this.modal.dismiss(null, 'cancel');
@@ -115,7 +114,7 @@ export class TracksPage implements OnInit {
 
   searchSpotify(query: string) {
     this.apiService.searchTracksSpotify(query).subscribe(tracks => {
-      this.tracks = tracks;
+      this.tracks = this.checkInserted(tracks);
       console.log(this.tracks[0])
     });
   }
@@ -126,6 +125,16 @@ export class TracksPage implements OnInit {
       this.tracks = tracks;
       console.log(this.tracks[0])
     });
+  }
+
+  checkInserted(query: Track[]): Track[] {
+    this.apiService.getTracks().subscribe(tracks => {
+      for (let track of query) {
+        tracks.find(t => t._id == track._id) ? track.inserted = true : track.inserted = false;
+      }
+      return query;
+    });
+    return query;
   }
 
   getAllTracks() {
