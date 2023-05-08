@@ -170,9 +170,20 @@ export class TracksPage implements OnInit {
 
   }
 
-  deleteTrack(trackId: string) {
+  async deleteTrack(trackId: string) {
     console.log("deleteTrack: " + trackId)
-    this.apiService.deleteTrack(trackId);
+    const response = await this.apiService.deleteTrack(trackId);
+    if (response) {
+      this.toastCtrl.create({
+        message: 'Canción eliminada correctamente',
+        duration: 2000
+      }).then(toast => toast.present());
+    } else {
+      this.toastCtrl.create({
+        message: 'No se ha podido eliminar la canción',
+        duration: 2000
+      }).then(toast => toast.present());
+    }
   }
 
   ngOnInit() {

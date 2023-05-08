@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, lastValueFrom, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Track } from '../models/track.model';
 import { AuthService } from './auth.service';
@@ -96,18 +96,16 @@ export class TracksApiService {
     return of(comment);
   }
 
-  deleteTrack(trackId: string) {
-    this.http.delete<Track>(`${this.url}tracks/${trackId}`, {
+  async deleteTrack(trackId: string): Promise<boolean> {
+    const response = await lastValueFrom(this.http.delete<Track>(`${this.url}tracks/${trackId}`, {
       headers: {
         Authorization: `Bearer ${this.token}`
       }
-    }).pipe(
-      catchError((error: HttpErrorResponse) => {
-        return of(error.error);
-      })
-    ).subscribe(res => {
-      console.log(res)
-    });
+    }));
+    if (response) {
+      return true;
+    }
+    return false;
   }
 
   getComments(trackId: string): Observable<Comment[]> {
