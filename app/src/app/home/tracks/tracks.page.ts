@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { AlertController, IonAlert, IonModal, IonicModule } from '@ionic/angular';
+import { AlertController, ToastController, IonModal, IonicModule } from '@ionic/angular';
 import { Track } from 'src/app/models/track.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { TracksApiService } from 'src/app/services/tracks.api.service';
@@ -43,7 +43,7 @@ export class TracksPage implements OnInit {
   @ViewChild(IonModal) modal: IonModal | undefined;
 
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router,
-    public alertCtrl: AlertController) {
+    public alertCtrl: AlertController, public toastCtrl: ToastController) {
     this.route.queryParams.subscribe(params => {
       this.displayInsert = this.authService.checkLogged();
       console.log("DisplayInsert: " + this.displayInsert)
@@ -136,8 +136,12 @@ export class TracksPage implements OnInit {
 
   searchSpotify(query: string) {
     this.apiService.searchTracksSpotify(query).subscribe(tracks => {
-      this.tracks = this.checkInserted(tracks);
-      console.log(this.tracks[0])
+      this.apiService.getTracks().subscribe(allTracks => {
+        for (let track of tracks) {
+          allTracks.find(t => t._id == track._id) ? track.inserted = true : track.inserted = false;
+        }
+        this.tracks = tracks.filter(t => t.inserted == false);
+      });
     });
   }
 
@@ -149,16 +153,6 @@ export class TracksPage implements OnInit {
     });
   }
 
-  checkInserted(query: Track[]): Track[] {
-    this.apiService.getTracks().subscribe(tracks => {
-      for (let track of query) {
-        tracks.find(t => t._id == track._id) ? track.inserted = true : track.inserted = false;
-      }
-      return query;
-    });
-    return query;
-  }
-
   getAllTracks() {
     this.apiService.getTracks().subscribe(tracks => {
       this.tracks = tracks;
@@ -166,8 +160,14 @@ export class TracksPage implements OnInit {
     });
   }
 
-  insertTrack(track: Track) {
-    this.apiService.insertTrack(track);
+  async insertTrack(track: Track) {
+    await this.apiService.insertTrack(track);
+    this.tracks = this.tracks?.filter(t => t._id != track._id);
+    this.toastCtrl.create({
+      message: 'Canción insertada correctamente',
+      duration: 2000
+    }).then(toast => toast.present());
+
   }
 
   deleteTrack(trackId: string) {

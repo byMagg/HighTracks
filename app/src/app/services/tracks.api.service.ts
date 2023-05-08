@@ -68,7 +68,6 @@ export class TracksApiService {
   async insertTrack(track: Track) {
     const coords: Coords = await this.geoService.getLocation();
     track.location = coords;
-    console.log(track);
     this.http.post<Track>(`${this.url}tracks/`, track, {
       headers: {
         Authorization: `Bearer ${this.token}`
@@ -78,7 +77,7 @@ export class TracksApiService {
         return of(error.error);
       })
     ).subscribe(res => {
-      console.log(res);
+      return res;
     });
   }
 
