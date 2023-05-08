@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Route, Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { TracksApiService } from 'src/app/services/tracks.api.service';
-import { Comment } from 'src/app/models/track.model';
+import { Comment } from 'src/app/models/comment.model';
 
 @Component({
   selector: 'comments',
@@ -31,7 +31,7 @@ export class CommentsComponent implements OnInit {
     this.getComments();
   }
 
-  sendComment() {
+  async sendComment() {
     if (this.trackId && this.author && this.text && this.score) {
 
       let comment: Comment = {
@@ -39,20 +39,18 @@ export class CommentsComponent implements OnInit {
         text: this.text,
         score: this.score
       }
-      this.apiService.insertComment(this.trackId, comment).subscribe(() => {
+      const response = await this.apiService.insertComment(this.trackId, comment);
+      if (response) {
         this.getComments();
-      });
-      this.author = undefined;
-      this.text = undefined;
-      this.score = 0;
+        this.author = undefined;
+        this.text = undefined;
+        this.score = 0;
+      }
     }
   }
 
-  getComments() {
-    if (this.trackId) {
-      this.apiService.getComments(this.trackId).subscribe(comments => {
-        this.comments = comments;
-      });
-    }
+  async getComments() {
+    if (!this.trackId) return;
+    this.comments = await this.apiService.getComments(this.trackId);
   }
 }

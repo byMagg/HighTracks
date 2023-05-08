@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { IonModal, IonicModule } from '@ionic/angular';
-import { Track, Album } from 'src/app/models/track.model';
+import { AlertController, ToastController, IonModal, IonicModule } from '@ionic/angular';
+import { Track } from 'src/app/models/track.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { TracksApiService } from 'src/app/services/tracks.api.service';
 import { OverlayEventDetail } from '@ionic/core/components';
+import { Album } from 'src/app/models/album.model';
 
 export enum SearchFilter {
   name = "name",
@@ -41,20 +42,41 @@ export class TracksPage implements OnInit {
 
   @ViewChild(IonModal) modal: IonModal | undefined;
 
-  constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router) {
+  constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router,
+    public alertCtrl: AlertController, public toastCtrl: ToastController) {
     this.route.queryParams.subscribe(params => {
       this.displayInsert = this.authService.checkLogged();
       console.log("DisplayInsert: " + this.displayInsert)
       console.log("ToggleInsert: " + this.toggleInsert)
       console.log("Logged: " + AuthService.logged)
       this.query = params['s'];
-      if (Object.values(SearchFilter).includes(params['f'])) {
+      if (this.searchFilters.includes(params['f'])) {
         this.filter = params['f']
       }
       this.search();
     })
   }
 
+  handleDeleteAlert(trackId: string) {
+    this.alertCtrl.create({
+      header: 'Confirmar eliminación',
+      message: '¿Estás seguro de que quieres eliminar esta canción?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          role: 'confirm',
+          handler: () => {
+            this.deleteTrack(trackId);
+            this.tracks = this.tracks?.filter(t => t._id != trackId);
+          }
+        },
+      ]
+    }).then(alert => alert.present());
+  }
 
   cancel() {
     if (this.modal) this.modal.dismiss(null, 'cancel');
@@ -93,6 +115,10 @@ export class TracksPage implements OnInit {
     this.router.navigate([`/tracks/${trackId}`]);
   }
 
+  navigateToTrackEdit(trackId: string) {
+    this.router.navigate([`/tracks/${trackId}/edit`]);
+  }
+
   toggleInsertTrack() {
     this.toggleInsert = !this.toggleInsert;
     this.search()
@@ -112,11 +138,13 @@ export class TracksPage implements OnInit {
     }
   }
 
-  searchSpotify(query: string) {
-    this.apiService.searchTracksSpotify(query).subscribe(tracks => {
-      this.tracks = tracks;
-      console.log(this.tracks[0])
-    });
+  async searchSpotify(query: string) {
+    const searchTracks = await this.apiService.searchTracksSpotify(query);
+    const allTracks = await this.apiService.getTracks();
+    for (let track of searchTracks) {
+      allTracks.find(t => t._id == track._id) ? track.inserted = true : track.inserted = false;
+    }
+    this.tracks = searchTracks.filter(t => t.inserted == false);
   }
 
   searchDB(query: string) {
@@ -127,15 +155,34 @@ export class TracksPage implements OnInit {
     });
   }
 
-  getAllTracks() {
-    this.apiService.getTracks().subscribe(tracks => {
-      this.tracks = tracks;
-      console.log(this.tracks[0])
-    });
+  async getAllTracks() {
+    this.tracks = await this.apiService.getTracks();
   }
 
-  insertTrack(track: Track) {
-    this.apiService.insertTrack(track);
+  async insertTrack(track: Track) {
+    await this.apiService.insertTrack(track);
+    this.tracks = this.tracks?.filter(t => t._id != track._id);
+    this.toastCtrl.create({
+      message: 'Canción insertada correctamente',
+      duration: 2000
+    }).then(toast => toast.present());
+
+  }
+
+  async deleteTrack(trackId: string) {
+    console.log("deleteTrack: " + trackId)
+    const response = await this.apiService.deleteTrack(trackId);
+    if (response) {
+      this.toastCtrl.create({
+        message: 'Canción eliminada correctamente',
+        duration: 2000
+      }).then(toast => toast.present());
+    } else {
+      this.toastCtrl.create({
+        message: 'No se ha podido eliminar la canción',
+        duration: 2000
+      }).then(toast => toast.present());
+    }
   }
 
   ngOnInit() {

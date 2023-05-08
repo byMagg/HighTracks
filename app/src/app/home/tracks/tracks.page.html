@@ -68,10 +68,22 @@
       <ion-row class="ion-justify-content-center">
         <ion-card button *ngFor="let track of tracks">
           <ion-fab>
-            <ion-fab-button size="small" *ngIf="toggleInsert" (click)="insertTrack(track)">
+            <ion-fab-button size="small" *ngIf="toggleInsert && !track.inserted" (click)="insertTrack(track)">
               <ion-icon name="add"></ion-icon>
             </ion-fab-button>
+            <ion-fab-button size="small" color="light" *ngIf="!toggleInsert && displayInsert">
+              <ion-icon name="ellipsis-vertical"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-list *ngIf="!toggleInsert && displayInsert">
+              <ion-fab-button>
+                <ion-icon name="pencil" (click)="navigateToTrackEdit(track._id)"></ion-icon>
+              </ion-fab-button>
+              <ion-fab-button id="delete-alert" (click)="handleDeleteAlert(track._id)">
+                <ion-icon name="trash" color="danger"></ion-icon>
+              </ion-fab-button>
+            </ion-fab-list>
           </ion-fab>
+
           <div (click)="navigateToTrack(track._id)">
             <div id="img-container">
               <ion-img src="{{track.album.images[0].url}}"></ion-img>
