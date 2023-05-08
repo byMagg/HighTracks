@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { IonModal, IonicModule } from '@ionic/angular';
+import { IonAlert, IonModal, IonicModule } from '@ionic/angular';
 import { Track } from 'src/app/models/track.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { TracksApiService } from 'src/app/services/tracks.api.service';
@@ -41,6 +41,20 @@ export class TracksPage implements OnInit {
   trackToAdd: Track = new Track("", new Album("", "", ""));
 
   @ViewChild(IonModal) modal: IonModal | undefined;
+  @ViewChild(IonAlert) alert: IonAlert | undefined;
+
+  public alertButtons = [
+    {
+      text: 'Cancel',
+      role: 'cancel',
+    },
+    {
+      text: 'OK',
+      role: 'confirm',
+    },
+  ];
+
+  toBeDeletedTrackId: string | undefined;
 
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router) {
     this.route.queryParams.subscribe(params => {
@@ -54,6 +68,22 @@ export class TracksPage implements OnInit {
       }
       this.search();
     })
+  }
+
+  setResult(ev: any) {
+    console.log(ev.detail.role);
+    if (ev.detail.role == "confirm") {
+      console.log(this.toBeDeletedTrackId);
+      if (this.toBeDeletedTrackId) this.deleteTrack(this.toBeDeletedTrackId);
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          s: this.query,
+          f: this.filter
+        },
+        queryParamsHandling: 'merge'
+      });
+    }
   }
 
   cancel() {
@@ -146,6 +176,11 @@ export class TracksPage implements OnInit {
 
   insertTrack(track: Track) {
     this.apiService.insertTrack(track);
+  }
+
+  deleteTrack(trackId: string) {
+    console.log("deleteTrack: " + trackId)
+    this.apiService.deleteTrack(trackId);
   }
 
   ngOnInit() {

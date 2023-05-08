@@ -97,6 +97,20 @@ export class TracksApiService {
     return of(comment);
   }
 
+  deleteTrack(trackId: string) {
+    this.http.delete<Track>(`${this.url}tracks/${trackId}`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return of(error.error);
+      })
+    ).subscribe(res => {
+      console.log(res)
+    });
+  }
+
   getComments(trackId: string): Observable<Comment[]> {
     return this.http.get<Comment[]>(`${this.url}tracks/${trackId}/comments`, {
       headers: {
