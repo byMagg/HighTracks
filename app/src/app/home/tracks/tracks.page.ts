@@ -3,10 +3,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { IonModal, IonicModule } from '@ionic/angular';
-import { Track, Album } from 'src/app/models/track.model';
+import { Track } from 'src/app/models/track.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { TracksApiService } from 'src/app/services/tracks.api.service';
 import { OverlayEventDetail } from '@ionic/core/components';
+import { Album } from 'src/app/models/album.model';
 
 export enum SearchFilter {
   name = "name",

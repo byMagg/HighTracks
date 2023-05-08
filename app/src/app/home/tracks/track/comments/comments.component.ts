@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Route, Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { TracksApiService } from 'src/app/services/tracks.api.service';
-import { Comment } from 'src/app/models/track.model';
+import { Comment } from 'src/app/models/comment.model';
 
 @Component({
   selector: 'comments',

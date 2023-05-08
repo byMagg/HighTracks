@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Track, Comment } from '../models/track.model';
+import { Track } from '../models/track.model';
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
 import { SearchFilter } from '../home/tracks/tracks.page';
 import { GeolocationService } from './geolocation.service';
 import { Coords } from '../models/coords.model';
+import { Comment } from '../models/comment.model';
 
 @Injectable({
   providedIn: 'root'
