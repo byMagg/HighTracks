@@ -20,19 +20,21 @@ export class TracksApiService {
 
   constructor(private http: HttpClient, private authService: AuthService, private geoService: GeolocationService) { }
 
-  searchTracksSpotify(title: string): Observable<Track[]> {
-    return this.http.get<Track[]>(`${this.url}search/${encodeURI(title)}`).pipe(
-      map((results: any) => {
-        const tracks = results['tracks']['items'];
-        return tracks.map((track: any) => {
-          return {
-            _id: track.id,
-            ...track,
-            id: undefined
-          };
-        });
-      })
-    );
+  async searchTracksSpotify(title: string): Promise<Track[]> {
+    try {
+      const tracks: Track[] = (await lastValueFrom(this.http.get<any>(`${this.url}search/${encodeURI(title)}`)))['tracks']['items']
+      console.log(tracks)
+      return tracks.map((track: any) => {
+        return {
+          _id: track.id,
+          ...track,
+          id: undefined
+        };
+      });
+    } catch (error: unknown) {
+      console.log(error);
+      return [];
+    }
   }
 
   searchTracks(title: string, _field: SearchFilter = SearchFilter.name): Observable<Track[]> {
@@ -55,14 +57,19 @@ export class TracksApiService {
     );
   }
 
-  getTracks(): Observable<Track[]> {
-    return this.http.get<Track[]>(`${this.url}tracks/`, {
-      headers: {
-        Authorization: `Bearer ${this.token}`
+  async getTracks(): Promise<Track[]> {
+    try {
+      return await lastValueFrom(this.http.get<Track[]>(`${this.url}tracks/`, {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      }));
+    } catch (error: unknown) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 500) console.log("Error getting tracks");
       }
-    }).pipe(
-      map((results: Track[]) => results)
-    );
+    }
+    return [];
   }
 
   async insertTrack(track: Track): Promise<boolean> {

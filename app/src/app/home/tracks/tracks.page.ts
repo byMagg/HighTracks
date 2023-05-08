@@ -138,15 +138,13 @@ export class TracksPage implements OnInit {
     }
   }
 
-  searchSpotify(query: string) {
-    this.apiService.searchTracksSpotify(query).subscribe(tracks => {
-      this.apiService.getTracks().subscribe(allTracks => {
-        for (let track of tracks) {
-          allTracks.find(t => t._id == track._id) ? track.inserted = true : track.inserted = false;
-        }
-        this.tracks = tracks.filter(t => t.inserted == false);
-      });
-    });
+  async searchSpotify(query: string) {
+    const searchTracks = await this.apiService.searchTracksSpotify(query);
+    const allTracks = await this.apiService.getTracks();
+    for (let track of searchTracks) {
+      allTracks.find(t => t._id == track._id) ? track.inserted = true : track.inserted = false;
+    }
+    this.tracks = searchTracks.filter(t => t.inserted == false);
   }
 
   searchDB(query: string) {
@@ -157,11 +155,8 @@ export class TracksPage implements OnInit {
     });
   }
 
-  getAllTracks() {
-    this.apiService.getTracks().subscribe(tracks => {
-      this.tracks = tracks;
-      console.log(this.tracks[0])
-    });
+  async getAllTracks() {
+    this.tracks = await this.apiService.getTracks();
   }
 
   async insertTrack(track: Track) {
