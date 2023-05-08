@@ -10,8 +10,9 @@ export class Track {
   comments?: Comment[]
   location?: Coords
 
-  constructor(name: string, album: Album) {
-    this._id = ""
+  constructor(name: string, album: Album, _id?: string) {
+    this._id = name
+    if (_id) this._id = _id
     this.name = name
     this.album = album
   }
