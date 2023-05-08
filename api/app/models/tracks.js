@@ -30,6 +30,11 @@ const trackSchema = new mongoose.Schema({
     },
     name: String,
     duration_ms: Number,
+    location: {
+        latitude: Number,
+        longitude: Number,
+        accuracy: Number,
+    },
     comments: [commentSchema]
 });
 

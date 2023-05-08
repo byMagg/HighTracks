@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Track, Comment } from '../models/track.model';
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
 import { SearchFilter } from '../home/tracks/tracks.page';
+import { GeolocationService } from './geolocation.service';
+import { Coords } from '../models/coords.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,7 @@ export class TracksApiService {
   url = environment.url;
   token = this.authService.getJWT();
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService, private geoService: GeolocationService) { }
 
   searchTracksSpotify(title: string): Observable<Track[]> {
     return this.http.get<Track[]>(`${this.url}search/${encodeURI(title)}`).pipe(
@@ -50,7 +52,6 @@ export class TracksApiService {
     }).pipe(
       map((results: Track) => results)
     );
-
   }
 
   getTracks(): Observable<Track[]> {
@@ -63,7 +64,10 @@ export class TracksApiService {
     );
   }
 
-  insertTrack(track: Track) {
+  async insertTrack(track: Track) {
+    const coords: Coords = await this.geoService.getLocation();
+    track.location = coords;
+    console.log(track);
     this.http.post<Track>(`${this.url}tracks/`, track, {
       headers: {
         Authorization: `Bearer ${this.token}`
