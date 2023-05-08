@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { IonAlert, IonModal, IonicModule } from '@ionic/angular';
+import { AlertController, IonAlert, IonModal, IonicModule } from '@ionic/angular';
 import { Track } from 'src/app/models/track.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { TracksApiService } from 'src/app/services/tracks.api.service';
@@ -41,22 +41,9 @@ export class TracksPage implements OnInit {
   trackToAdd: Track = new Track("", new Album("", "", ""));
 
   @ViewChild(IonModal) modal: IonModal | undefined;
-  @ViewChild(IonAlert) alert: IonAlert | undefined;
 
-  public alertButtons = [
-    {
-      text: 'Cancel',
-      role: 'cancel',
-    },
-    {
-      text: 'OK',
-      role: 'confirm',
-    },
-  ];
-
-  toBeDeletedTrackId: string | undefined;
-
-  constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router) {
+  constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router,
+    public alertCtrl: AlertController) {
     this.route.queryParams.subscribe(params => {
       this.displayInsert = this.authService.checkLogged();
       console.log("DisplayInsert: " + this.displayInsert)
@@ -70,20 +57,25 @@ export class TracksPage implements OnInit {
     })
   }
 
-  setResult(ev: any) {
-    console.log(ev.detail.role);
-    if (ev.detail.role == "confirm") {
-      console.log(this.toBeDeletedTrackId);
-      if (this.toBeDeletedTrackId) this.deleteTrack(this.toBeDeletedTrackId);
-      this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: {
-          s: this.query,
-          f: this.filter
+  handleDeleteAlert(trackId: string) {
+    this.alertCtrl.create({
+      header: 'Confirmar eliminación',
+      message: '¿Estás seguro de que quieres eliminar esta canción?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
         },
-        queryParamsHandling: 'merge'
-      });
-    }
+        {
+          text: 'Eliminar',
+          role: 'confirm',
+          handler: () => {
+            this.deleteTrack(trackId);
+            this.tracks = this.tracks?.filter(t => t._id != trackId);
+          }
+        },
+      ]
+    }).then(alert => alert.present());
   }
 
   cancel() {

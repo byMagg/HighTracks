@@ -64,8 +64,6 @@
         </ion-content>
       </ng-template>
     </ion-modal>
-    <ion-alert trigger="delete-alert" header="Alert!" [buttons]="alertButtons"
-      (didDismiss)="setResult($event)"></ion-alert>
     <ion-grid [fixed]="true">
       <ion-row class="ion-justify-content-center">
         <ion-card button *ngFor="let track of tracks">
@@ -80,7 +78,7 @@
               <ion-fab-button>
                 <ion-icon name="pencil"></ion-icon>
               </ion-fab-button>
-              <ion-fab-button id="delete-alert" (click)="toBeDeletedTrackId = track._id">
+              <ion-fab-button id="delete-alert" (click)="handleDeleteAlert(track._id)">
                 <ion-icon name="trash" color="danger"></ion-icon>
               </ion-fab-button>
             </ion-fab-list>
