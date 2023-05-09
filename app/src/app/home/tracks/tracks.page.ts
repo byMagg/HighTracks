@@ -10,8 +10,6 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { Album } from 'src/app/models/album.model';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Camera, CameraResultType } from '@capacitor/camera';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 export enum SearchFilter {
   name = "name",
