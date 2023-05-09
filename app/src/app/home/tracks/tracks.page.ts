@@ -12,9 +12,9 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 export enum SearchFilter {
-  name = "name",
-  artist = "artist",
-  date = "date"
+  name = "Nombre",
+  artist = "Artista",
+  date = "Fecha"
 }
 
 @Component({
