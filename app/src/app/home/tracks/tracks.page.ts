@@ -161,6 +161,7 @@ export class TracksPage implements OnInit {
   async getAllTracks() {
     try {
       this.tracks = await this.apiService.getTracks();
+      console.log(this.tracks[this.tracks.length - 1].album.images[0].imageBase64String)
     } catch (error: unknown) {
       if (error instanceof Error) console.error(error.message);
     }
@@ -200,15 +201,11 @@ export class TracksPage implements OnInit {
     });
 
     if (image && image.base64String) {
-      console.log(image)
       this.trackToAdd.album.images[0] = {
         imageBase64String: image.base64String,
       };
-      console.log(this.trackToAdd)
     }
   }
-
-
 
   ngOnInit() {
 

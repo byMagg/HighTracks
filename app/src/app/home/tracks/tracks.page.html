@@ -93,7 +93,9 @@
 
           <div (click)="navigateToTrack(track._id)">
             <div id="img-container">
-              <ion-img src="{{track.album.images[0].url}}"></ion-img>
+              <ion-img *ngIf="track.album.images[0].url" src="{{track.album.images[0].url}}"></ion-img>
+              <ion-img *ngIf="track.album.images[0].imageBase64String"
+                [src]="'data:image/jpeg;base64,' + track.album.images[0].imageBase64String"></ion-img>
             </div>
             <div id="card-info">
               <div>
