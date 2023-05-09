@@ -178,5 +178,22 @@ export class TracksApiService {
     return comments
   }
 
+  async deleteComment(trackId: string, commentId: string): Promise<boolean> {
+    try {
+      await lastValueFrom(this.http.delete<Comment>(`${this.url}tracks/${trackId}/comments/${commentId}`, {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      }));
+      return true;
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 404) console.log("Track not found");
+        if (error.status === 500) console.log("Error deleting comment")
+      }
+      return false;
+    }
+  }
+
 }
 

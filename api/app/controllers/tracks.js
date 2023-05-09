@@ -149,6 +149,23 @@ const trackInsertComment = async (req, res) => {
     }
 }
 
+const commentDeleteOne = async (req, res) => {
+    try {
+        const trackId = req.params.id;
+        const commentId = req.params.commentId;
+
+        const track = await Track.findById(trackId);
+        if (!track) {
+            return sendJSONresponse(res, 404, 'No se encontró la pista con el ID especificado.');
+        }
+        track.comments.id(commentId).remove();
+        await track.save();
+        sendJSONresponse(res, 200, track.comments);
+    } catch (error) {
+        sendJSONresponse(res, 500, error)
+    }
+}
+
 const commentGetAll = async (req, res) => {
     try {
         const trackId = req.params.id;
@@ -168,6 +185,7 @@ module.exports = {
     trackSearchByField,
     trackInsertComment,
     commentGetAll,
+    commentDeleteOne,
     trackInsert,
     trackGetOneById,
     trackGetAll,

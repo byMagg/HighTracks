@@ -422,6 +422,8 @@ router.post('/tracks/:id/comments', ctrlAuth.verifyToken, ctrlTracks.trackInsert
 
 router.get('/tracks/:id/comments', ctrlAuth.verifyToken, ctrlTracks.commentGetAll);
 
+router.delete('/tracks/:id/comments/:commentId', ctrlAuth.verifyToken, ctrlTracks.commentDeleteOne);
+
 
 // Auth
 /**
