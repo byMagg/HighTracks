@@ -61,6 +61,13 @@
             <ion-input type="text" aria-label="URL" [(ngModel)]="trackToAdd.album.images[0].url"
               placeholder="URL de la imagen"></ion-input>
           </ion-item>
+          <img alt="Photo" [src]="photo">
+
+          <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+            <ion-fab-button (click)="takePicture()">
+              <ion-icon name="camera"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
         </ion-content>
       </ng-template>
     </ion-modal>

@@ -28,5 +28,6 @@ export interface Artist {
 }
 
 export interface Image {
-    url: string
+    url?: string
+    imageBase64String?: string
 }
