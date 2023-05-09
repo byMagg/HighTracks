@@ -11,8 +11,9 @@
   <div *ngIf="track" id="container">
     <div>
       <ion-card>
-        <ion-img src="{{track.album.images[0].url}}" alt=""></ion-img>
-      </ion-card>
+        <ion-img *ngIf="track.album.images[0].url" src="{{track.album.images[0].url}}"></ion-img>
+        <ion-img *ngIf="track.album.images[0].imageBase64String"
+          [src]="'data:image/jpeg;base64,' + track.album.images[0].imageBase64String"></ion-img> </ion-card>
     </div>
     <div id="info">
       <div *ngFor="let artist of track.album.artists">
