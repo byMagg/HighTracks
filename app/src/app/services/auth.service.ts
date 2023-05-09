@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 
 
 @Injectable({
@@ -47,16 +48,13 @@ export class AuthService {
     return true;
   }
 
-  doSignup(value: { email: string; password: string; }) {
-    return new Promise<any>((resolve, reject) => {
-      this.afAuth.createUserWithEmailAndPassword(value.email, value.password)
-        .then(
-          res => {
-            resolve(res)
-            this.updateLogin();
-          },
-          err => reject(err))
-    })
+  async doSignup(value: { email: string; password: string; }) {
+    try {
+      await this.afAuth.createUserWithEmailAndPassword(value.email, value.password);
+      this.updateLogin();
+    } catch (error: unknown) {
+      console.log(error);
+    }
   }
 
   async doLogin(value: { email: string; password: string; }) {
@@ -80,13 +78,16 @@ export class AuthService {
     }
   }
 
-  fetchJWT() {
-    this.http.post('http://localhost:3000/api/login', {
+  async fetchJWT() {
+    const token = (await lastValueFrom(this.http.post<any>('http://localhost:3000/api/login', {
       email: "test@test.com",
-    }).subscribe((res: any) => {
-      localStorage.setItem('JWT', res.token);
-      this.token = res.token;
-    });
+    }))).token;
+    if (token) this.setJWT(token);
+  }
+
+  setJWT(token: string) {
+    localStorage.setItem('JWT', token);
+    this.token = token;
   }
 
   getUser() {
