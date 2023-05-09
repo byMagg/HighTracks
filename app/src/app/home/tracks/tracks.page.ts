@@ -44,6 +44,8 @@ export class TracksPage implements OnInit {
 
   photo: SafeResourceUrl | undefined;
 
+  togglePhoto: string = "url";
+
   @ViewChild(IonModal) modal: IonModal | undefined;
 
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router,
@@ -93,6 +95,8 @@ export class TracksPage implements OnInit {
     if (ev.detail.role === 'confirm') {
       if (ev.detail.data) {
         ev.detail.data._id = ev.detail.data?.name;
+        if (this.togglePhoto == "url") ev.detail.data.album.images[0].imageBase64String = undefined;
+        if (this.togglePhoto == "img") ev.detail.data.album.images[0].url = undefined;
         this.insertTrack(ev.detail.data);
       }
     }
@@ -170,7 +174,6 @@ export class TracksPage implements OnInit {
       message: 'Canción insertada correctamente',
       duration: 2000
     }).then(toast => toast.present());
-
   }
 
   async deleteTrack(trackId: string) {

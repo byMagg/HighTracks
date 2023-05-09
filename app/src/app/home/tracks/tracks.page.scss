@@ -72,3 +72,15 @@ ion-segment {
     width: fit-content;
     margin: 0 auto;
 }
+
+ion-modal ion-img {
+    width: 45%;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    ion-modal ion-img {
+        width: 90%;
+        margin: 0 auto;
+    }
+}

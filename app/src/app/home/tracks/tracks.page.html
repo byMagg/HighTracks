@@ -56,18 +56,30 @@
             <ion-input type="text" aria-label="Artista" [(ngModel)]="trackToAdd.album.artists[0].name"
               placeholder="Artista o grupo"></ion-input>
           </ion-item>
-          <ion-item>
+          <ion-segment [(ngModel)]="togglePhoto">
+            <ion-segment-button value="url">
+              <ion-label>URL</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="img">
+              <ion-label>Imagen</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+          <ion-item *ngIf="togglePhoto === 'url'">
             <ion-label position="stacked">URL imagen</ion-label>
             <ion-input type="text" aria-label="URL" [(ngModel)]="trackToAdd.album.images[0].url"
               placeholder="URL de la imagen"></ion-input>
           </ion-item>
-          <img alt="Photo" [src]="photo">
-
-          <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-            <ion-fab-button (click)="takePicture()">
-              <ion-icon name="camera"></ion-icon>
-            </ion-fab-button>
-          </ion-fab>
+          <div style="padding: 45px 0;" *ngIf="togglePhoto === 'img'">
+            <ion-img *ngIf="!trackToAdd.album.images[0].imageBase64String"
+              src="../../../assets/placeholder.png"></ion-img>
+            <ion-img *ngIf="trackToAdd.album.images[0].imageBase64String"
+              [src]="'data:image/jpeg;base64,' + trackToAdd.album.images[0].imageBase64String"></ion-img>
+            <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+              <ion-fab-button (click)="takePicture()">
+                <ion-icon name="camera"></ion-icon>
+              </ion-fab-button>
+            </ion-fab>
+          </div>
         </ion-content>
       </ng-template>
     </ion-modal>
