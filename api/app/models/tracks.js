@@ -23,6 +23,7 @@ const trackSchema = new mongoose.Schema({
             height: Number,
             url: String,
             width: Number,
+            imageBase64String: Buffer,
         }],
         release_date: String,
         release_date_precision: String,

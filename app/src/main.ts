@@ -9,6 +9,8 @@ import { environment } from './environments/environment';
 import { provideHttpClient } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire/compat';
 
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
 if (environment.production) {
   enableProdMode();
 }
@@ -21,3 +23,5 @@ bootstrapApplication(AppComponent, {
   importProvidersFrom(AngularFireModule.initializeApp(environment.firebase)),
   ],
 });
+
+defineCustomElements(window); 

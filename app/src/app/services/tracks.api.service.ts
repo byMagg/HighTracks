@@ -46,10 +46,11 @@ export class TracksApiService {
       }));
     } catch (error: unknown) {
       if (error instanceof HttpErrorResponse) {
-        if (error.status === 404) console.log("Track not found");
-        if (error.status === 500) console.log("Error searching tracks")
+        if (error.status === 404) throw new Error("Track not found");
+        if (error.status === 500) throw new Error("Error getting track")
+        if (error.status === 0) throw new Error("Error connecting to server")
       }
-      return [];
+      throw error;
     }
   }
 
@@ -64,6 +65,7 @@ export class TracksApiService {
       if (error instanceof HttpErrorResponse) {
         if (error.status === 404) throw new Error("Track not found");
         if (error.status === 500) throw new Error("Error getting track")
+        if (error.status === 0) throw new Error("Error connecting to server")
       }
       throw error;
     }
@@ -78,7 +80,8 @@ export class TracksApiService {
       }));
     } catch (error: unknown) {
       if (error instanceof HttpErrorResponse) {
-        if (error.status === 500) console.log("Error getting tracks");
+        if (error.status === 500) throw new Error("Error getting track")
+        if (error.status === 0) throw new Error("Error connecting to server")
       }
     }
     return [];
@@ -96,9 +99,7 @@ export class TracksApiService {
       return true;
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
-        if (error.status === 400) {
-          console.log("Track already exists");
-        }
+        if (error.status === 400) throw Error("Track already exists");
       }
       return false;
     }
@@ -172,5 +173,6 @@ export class TracksApiService {
     }
     return comments
   }
+
 }
 

@@ -8,6 +8,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { TracksApiService } from 'src/app/services/tracks.api.service';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { Album } from 'src/app/models/album.model';
+import { Camera, CameraResultType } from '@capacitor/camera';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 export enum SearchFilter {
   name = "name",
@@ -40,10 +42,12 @@ export class TracksPage implements OnInit {
 
   trackToAdd: Track = new Track("", new Album("", "", ""));
 
+  photo: SafeResourceUrl | undefined;
+
   @ViewChild(IonModal) modal: IonModal | undefined;
 
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router,
-    public alertCtrl: AlertController, public toastCtrl: ToastController) {
+    public alertCtrl: AlertController, public toastCtrl: ToastController, private sanitizer: DomSanitizer) {
     this.route.queryParams.subscribe(params => {
       this.displayInsert = this.authService.checkLogged();
       console.log("DisplayInsert: " + this.displayInsert)
@@ -147,11 +151,19 @@ export class TracksPage implements OnInit {
   }
 
   async searchDB(query: string) {
-    this.tracks = await this.apiService.searchTracks(query, this.filter);
+    try {
+      this.tracks = await this.apiService.searchTracks(query, this.filter);
+    } catch (error: unknown) {
+      if (error instanceof Error) console.error(error.message);
+    }
   }
 
   async getAllTracks() {
-    this.tracks = await this.apiService.getTracks();
+    try {
+      this.tracks = await this.apiService.getTracks();
+    } catch (error: unknown) {
+      if (error instanceof Error) console.error(error.message);
+    }
   }
 
   async insertTrack(track: Track) {
@@ -179,6 +191,24 @@ export class TracksPage implements OnInit {
       }).then(toast => toast.present());
     }
   }
+
+  async takePicture() {
+    const image = await Camera.getPhoto({
+      quality: 100,
+      allowEditing: false,
+      resultType: CameraResultType.Base64
+    });
+
+    if (image && image.base64String) {
+      console.log(image)
+      this.trackToAdd.album.images[0] = {
+        imageBase64String: image.base64String,
+      };
+      console.log(this.trackToAdd)
+    }
+  }
+
+
 
   ngOnInit() {
 
