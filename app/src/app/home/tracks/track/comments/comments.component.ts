@@ -32,13 +32,13 @@ export class CommentsComponent implements OnInit {
   }
 
   async sendComment() {
-    if (this.trackId && this.author && this.text && this.score) {
-
+    if (this.trackId && this.author && this.text) {
       let comment: Comment = {
         author: this.author,
         text: this.text,
         score: this.score
       }
+      console.log(comment);
       const response = await this.apiService.insertComment(this.trackId, comment);
       if (response) {
         this.getComments();
