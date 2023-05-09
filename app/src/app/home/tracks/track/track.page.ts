@@ -22,15 +22,10 @@ export class TrackPage implements OnInit {
   track: Track | undefined;
 
   constructor(public apiService: TracksApiService, private route: ActivatedRoute) {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
       this.trackId = params['id'];
-      console.log(this.trackId)
-      if (this.trackId) {
-        this.apiService.getTrack(this.trackId).subscribe(track => {
-          this.track = track;
-          console.log(this.track)
-        });
-      }
+      if (this.trackId == undefined) return;
+      this.track = await this.apiService.getTrack(this.trackId)
     })
   }
 

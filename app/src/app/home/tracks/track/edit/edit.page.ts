@@ -21,18 +21,12 @@ export class EditPage implements OnInit {
   image: string = "";
 
   constructor(public apiService: TracksApiService, private route: ActivatedRoute, private toastController: ToastController) {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
       this.trackId = params['id'];
-      console.log(this.trackId)
-      if (this.trackId) {
-        this.apiService.getTrack(this.trackId).subscribe(track => {
-          this.track = track;
-          console.log(this.track)
-        });
-      }
+      if (this.trackId == undefined) return;
+      this.track = await this.apiService.getTrack(this.trackId)
     })
   }
-
 
   handleArtist(artist: string) {
     if (artist.trim() == "") return;
@@ -68,7 +62,6 @@ export class EditPage implements OnInit {
       }).then(toast => toast.present())
     }
   }
-
 
   ngOnInit() {
   }

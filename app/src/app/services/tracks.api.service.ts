@@ -37,24 +37,36 @@ export class TracksApiService {
     }
   }
 
-  searchTracks(title: string, _field: SearchFilter = SearchFilter.name): Observable<Track[]> {
-    return this.http.get<Track[]>(`${this.url}tracks/search?${_field}=${encodeURI(title)}`, {
-      headers: {
-        Authorization: `Bearer ${this.token}`
+  async searchTracks(title: string, _field: SearchFilter = SearchFilter.name): Promise<Track[]> {
+    try {
+      return await lastValueFrom(this.http.get<Track[]>(`${this.url}tracks/search?${_field}=${encodeURI(title)}`, {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      }));
+    } catch (error: unknown) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 404) console.log("Track not found");
+        if (error.status === 500) console.log("Error searching tracks")
       }
-    }).pipe(
-      map((results: Track[]) => results)
-    );
+      return [];
+    }
   }
 
-  getTrack(trackId: string): Observable<Track> {
-    return this.http.get<Track>(`${this.url}tracks/${trackId}`, {
-      headers: {
-        Authorization: `Bearer ${this.token}`
+  async getTrack(trackId: string): Promise<Track> {
+    try {
+      return await lastValueFrom(this.http.get<Track>(`${this.url}tracks/${trackId}`, {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      }));
+    } catch (error: unknown) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 404) throw new Error("Track not found");
+        if (error.status === 500) throw new Error("Error getting track")
       }
-    }).pipe(
-      map((results: Track) => results)
-    );
+      throw error;
+    }
   }
 
   async getTracks(): Promise<Track[]> {
