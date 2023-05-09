@@ -125,7 +125,6 @@ export class TracksPage implements OnInit {
   }
 
   search() {
-    console.log(this.query)
     this.changeParams();
     if (this.query) {
       if (this.toggleInsert) {
@@ -147,12 +146,8 @@ export class TracksPage implements OnInit {
     this.tracks = searchTracks.filter(t => t.inserted == false);
   }
 
-  searchDB(query: string) {
-    console.log("searchDB: " + query + " " + this.filter)
-    this.apiService.searchTracks(query, this.filter).subscribe(tracks => {
-      this.tracks = tracks;
-      console.log(this.tracks[0])
-    });
+  async searchDB(query: string) {
+    this.tracks = await this.apiService.searchTracks(query, this.filter);
   }
 
   async getAllTracks() {
