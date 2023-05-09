@@ -138,11 +138,11 @@ const trackInsertComment = async (req, res) => {
             return sendJSONresponse(res, 404, 'No se encontró la pista con el ID especificado.');
         }
 
-        const { author, text, score } = req.body;
-        const comment = { author, text, score };
+        const { author, text, score, location } = req.body;
+        const comment = { author, text, score, location };
         track.comments.push(comment);
 
-        const updatedTrack = await track.save();
+        await track.save();
         sendJSONresponse(res, 201, comment);
     } catch (error) {
         sendJSONresponse(res, 500, error)

@@ -6,6 +6,11 @@ const commentSchema = new mongoose.Schema({
     author: { type: String, required: true },
     text: { type: String, required: true },
     score: Number,
+    location: {
+        latitude: Number,
+        longitude: Number,
+        accuracy: Number,
+    },
 });
 
 const trackSchema = new mongoose.Schema({
