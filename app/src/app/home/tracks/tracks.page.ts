@@ -50,9 +50,6 @@ export class TracksPage implements OnInit {
     public alertCtrl: AlertController, public toastCtrl: ToastController, private sanitizer: DomSanitizer) {
     this.route.queryParams.subscribe(params => {
       this.displayInsert = this.authService.checkLogged();
-      console.log("DisplayInsert: " + this.displayInsert)
-      console.log("ToggleInsert: " + this.toggleInsert)
-      console.log("Logged: " + AuthService.logged)
       this.query = params['s'];
       if (this.searchFilters.includes(params['f'])) {
         this.filter = params['f']
