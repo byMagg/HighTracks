@@ -26,6 +26,7 @@
           <p>{{comment.score}}</p>
           <p>{{comment.location?.latitude}}</p>
         </ion-label>
+        <ion-button (click)="deleteComment(comment._id)">Borrar</ion-button>
       </ion-item>
     </ion-list>
   </article>

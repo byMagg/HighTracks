@@ -34,6 +34,7 @@ export class CommentsComponent implements OnInit {
   async sendComment() {
     if (this.trackId && this.author && this.text) {
       let comment: Comment = {
+        _id: '',
         author: this.author,
         text: this.text,
         score: this.score
@@ -52,5 +53,11 @@ export class CommentsComponent implements OnInit {
   async getComments() {
     if (!this.trackId) return;
     this.comments = await this.apiService.getComments(this.trackId);
+  }
+
+  async deleteComment(commentId: string) {
+    if (!this.trackId) return;
+    const response = await this.apiService.deleteComment(this.trackId, commentId);
+    if (response) this.getComments();
   }
 }
