@@ -10,8 +10,8 @@
         </ion-segment-button>
       </ion-segment>
     </ion-title>
-    <ion-buttons slot="end">
-      <ion-button *ngIf="displayInsert" (click)="toggleInsertTrack()">
+    <ion-buttons *ngIf="displayInsert" slot="end">
+      <ion-button (click)="toggleInsertTrack()">
         {{toggleInsert ? 'Mostrar listado' : 'Buscar spotify'}}
       </ion-button>
       <ion-fab-button id="open-modal" size="small">
