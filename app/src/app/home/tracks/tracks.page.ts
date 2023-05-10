@@ -49,11 +49,11 @@ export class TracksPage implements OnInit {
   @ViewChild(IonModal) modal: IonModal | undefined;
 
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router,
-    public alertCtrl: AlertController, public toastCtrl: ToastController, private sanitizer: DomSanitizer) {
+    public alertCtrl: AlertController, public toastCtrl: ToastController) {
     this.route.queryParams.subscribe(params => {
       this.displayInsert = this.authService.checkLogged();
       this.query = params['s'];
-      if (this.searchFilters.includes(params['f'])) {
+      if (Object.keys(SearchFilter).includes(params['f'])) {
         this.filter = params['f']
       }
       this.search();

@@ -106,6 +106,9 @@ export class TracksApiService {
   }
 
   async insertComment(trackId: string, comment: Comment): Promise<boolean> {
+    const coords: Coords = await this.geoService.getLocation();
+    comment.location = coords;
+    console.log(comment);
     try {
       await lastValueFrom(this.http.post<Comment>(`${this.url}tracks/${trackId}/comments`, comment, {
         headers: {
@@ -165,6 +168,7 @@ export class TracksApiService {
           Authorization: `Bearer ${this.token}`
         }
       }));
+      console.log(comments)
     } catch (error: unknown) {
       if (error instanceof HttpErrorResponse) {
         if (error.status === 404) console.log("Track not found");
@@ -172,6 +176,23 @@ export class TracksApiService {
       }
     }
     return comments
+  }
+
+  async deleteComment(trackId: string, commentId: string): Promise<boolean> {
+    try {
+      await lastValueFrom(this.http.delete<Comment>(`${this.url}tracks/${trackId}/comments/${commentId}`, {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      }));
+      return true;
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 404) console.log("Track not found");
+        if (error.status === 500) console.log("Error deleting comment")
+      }
+      return false;
+    }
   }
 
 }

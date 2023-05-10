@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const axios = require('axios')
 const Track = mongoose.model('Track');
-const config = require('../config');
-const { sendJSONresponse } = require('../request.js')
+const config = require('../common/config');
+const { sendJSONresponse } = require('../common/request')
 const { ObjectId } = mongoose.Types;
 
 /* GET api/search/:name */
@@ -138,12 +138,29 @@ const trackInsertComment = async (req, res) => {
             return sendJSONresponse(res, 404, 'No se encontró la pista con el ID especificado.');
         }
 
-        const { author, text, score } = req.body;
-        const comment = { author, text, score };
+        const { author, text, score, location } = req.body;
+        const comment = { author, text, score, location };
         track.comments.push(comment);
 
-        const updatedTrack = await track.save();
+        await track.save();
         sendJSONresponse(res, 201, comment);
+    } catch (error) {
+        sendJSONresponse(res, 500, error)
+    }
+}
+
+const commentDeleteOne = async (req, res) => {
+    try {
+        const trackId = req.params.id;
+        const commentId = req.params.commentId;
+
+        const track = await Track.findById(trackId);
+        if (!track) {
+            return sendJSONresponse(res, 404, 'No se encontró la pista con el ID especificado.');
+        }
+        track.comments.id(commentId).remove();
+        await track.save();
+        sendJSONresponse(res, 200, track.comments);
     } catch (error) {
         sendJSONresponse(res, 500, error)
     }
@@ -168,6 +185,7 @@ module.exports = {
     trackSearchByField,
     trackInsertComment,
     commentGetAll,
+    commentDeleteOne,
     trackInsert,
     trackGetOneById,
     trackGetAll,

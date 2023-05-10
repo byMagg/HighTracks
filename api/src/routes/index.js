@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ctrlTracks = require('../controllers/tracks');
-const ctrlAuth = require('../controllers/auth')
-
+const ctrlAuth = require('../controllers/auth');
 
 /**
  * @swagger
@@ -421,6 +420,8 @@ router.delete('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackDelete);
 router.post('/tracks/:id/comments', ctrlAuth.verifyToken, ctrlTracks.trackInsertComment);
 
 router.get('/tracks/:id/comments', ctrlAuth.verifyToken, ctrlTracks.commentGetAll);
+
+router.delete('/tracks/:id/comments/:commentId', ctrlAuth.verifyToken, ctrlTracks.commentDeleteOne);
 
 
 // Auth

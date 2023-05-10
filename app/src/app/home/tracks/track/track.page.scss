@@ -39,9 +39,25 @@ ion-img {
     padding: 5px;
 }
 
+#main-info {
+    display: flex;
+    margin: 20px 0;
+    gap: 10px;
+}
+
+#artist {
+    display: flex;
+}
+
 comments {
     display: flex;
     width: 80%;
     margin: 0 auto;
     max-width: 500px;
+}
+
+#artist {
+    display: flex;
+    align-items: center;
+    gap: 30px;
 }

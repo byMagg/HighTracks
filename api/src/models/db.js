@@ -14,6 +14,12 @@ mongoose.connection.on('disconnected', () => {
     console.log('Mongoose disconnected');
 });
 
+if (process.env.NODE_ENV === 'test') {
+    mongoose.connection.close(function () {
+        console.log('Mongoose connection disconnected');
+    });
+}
+
 // CAPTURE APP TERMINATION / RESTART EVENTS
 // To be called when process is restarted or terminated
 const gracefulShutdown = (msg, callback) => {
