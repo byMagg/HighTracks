@@ -49,6 +49,9 @@ jobs:
     defaults:
         run:
           working-directory: api
+    env:
+      CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET}}
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
