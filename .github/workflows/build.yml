@@ -50,7 +50,7 @@ jobs:
         run:
           working-directory: api
     steps:
-      env: # Or as an environment variable
+      env:
         CLIENT_ID: ${{ secrets.CLIENT_ID }}
         CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       - uses: actions/checkout@v2
