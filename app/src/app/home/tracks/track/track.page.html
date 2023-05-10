@@ -27,6 +27,9 @@
           <span>{{ track.album.release_date }}</span>
         </div>
       </div>
+      <audio controls>
+        <source src="{{track.preview_url}}" type="audio/mpeg">
+      </audio>
     </div>
   </div>
   <comments [trackId]="trackId"></comments>

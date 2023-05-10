@@ -9,6 +9,7 @@ export class Track {
   comments?: Comment[]
   location?: Coords
   inserted?: boolean
+  preview_url?: string
 
   constructor(name: string, album: Album, _id?: string) {
     this._id = name
