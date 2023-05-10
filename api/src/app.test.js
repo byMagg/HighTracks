@@ -3,9 +3,17 @@ const request = require("supertest");
 const app = require("./app");
 
 describe("GET /", () => {
-    //navigate to root and check the the response is "Hello World!"
-    it('responds with "Hello World!"', (done) => {
-        console.log(request(app).get('/'));
-        request(app).get('/').expect('Hello World!', done);
+    it('obtains token from spotify', (done) => {
+        request(app)
+            .get('/api/generate_token')
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err);
+                expect(res.body).toHaveProperty('access_token');
+                expect(res.body).toHaveProperty('token_type');
+                expect(res.body).toHaveProperty('expires_in');
+                done();
+            });
     });
 });

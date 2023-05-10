@@ -51,9 +51,7 @@ jobs:
         working-directory: api
      steps:
        - uses: actions/checkout@v2
-
        - name: Install dependencies
          run: npm install
-
        - name: Test
          run: npm run test-jenkins 

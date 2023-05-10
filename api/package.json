@@ -5,8 +5,8 @@
   "main": "src/main.js",
   "scripts": {
     "start": "node src/main",
-    "test": "jest --detectOpenHandles",
-    "test-jenkins": "jest --reporters=default --reporters=jest-junit --detectOpenHandles",
+    "test": "jest --forceExit",
+    "test-jenkins": "jest --reporters=default --reporters=jest-junit --forceExit",
     "coverage-jenkins": "jest --reporters=default --reporters=jest-junit --coverage --coverageReporters=text --coverageReporters=html --coverageDirectory=./coverage/",
     "lint": "eslint src/**/*.js -f checkstyle -o coverage/eslint-result.xml"
   },
