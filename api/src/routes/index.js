@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ctrlTracks = require('../controllers/tracks');
-const ctrlAuth = require('../controllers/auth')
-
+const ctrlAuth = require('../controllers/auth');
 
 /**
  * @swagger

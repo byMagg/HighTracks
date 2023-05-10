@@ -1,7 +1,7 @@
 const axios = require('axios')
-var config = require('../config');
+var config = require('../common/config');
 const jwt = require('jsonwebtoken');
-const { sendJSONresponse } = require('../request.js')
+const { sendJSONresponse } = require('../common/request')
 
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const axios = require('axios')
 const Track = mongoose.model('Track');
-const config = require('../config');
-const { sendJSONresponse } = require('../request.js')
+const config = require('../common/config');
+const { sendJSONresponse } = require('../common/request')
 const { ObjectId } = mongoose.Types;
 
 /* GET api/search/:name */
