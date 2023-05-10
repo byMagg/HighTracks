@@ -16,8 +16,8 @@
           [src]="'data:image/jpeg;base64,' + track.album.images[0].imageBase64String"></ion-img> </ion-card>
     </div>
     <div id="info">
-      <div *ngFor="let artist of track.album.artists">
-        <span>{{ artist.name }}</span>
+      <div id="artist">
+        <h1 *ngFor="let artist of track.album.artists">{{ artist.name }}</h1>
       </div>
       <div id="main-info">
         <div>
@@ -26,7 +26,6 @@
         <div>
           <span>{{ track.album.release_date }}</span>
         </div>
-
       </div>
     </div>
   </div>
