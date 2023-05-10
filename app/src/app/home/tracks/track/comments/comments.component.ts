@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { AlertController, IonicModule } from '@ionic/angular';
 import { TracksApiService } from 'src/app/services/tracks.api.service';
 import { Comment } from 'src/app/models/comment.model';
 
@@ -25,7 +25,7 @@ export class CommentsComponent implements OnInit {
   comments: Comment[] | undefined;
 
 
-  constructor(private apiService: TracksApiService, private router: Router) { }
+  constructor(private apiService: TracksApiService, private alertController: AlertController) { }
 
   ngOnInit() {
     this.getComments();
@@ -59,5 +59,25 @@ export class CommentsComponent implements OnInit {
     if (!this.trackId) return;
     const response = await this.apiService.deleteComment(this.trackId, commentId);
     if (response) this.getComments();
+  }
+
+  handleDeleteAlert(commentId: string) {
+    this.alertController.create({
+      header: 'Confirmar eliminación',
+      message: '¿Estás seguro de que quieres eliminar este comentario?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          role: 'confirm',
+          handler: () => {
+            this.deleteComment(commentId);
+          }
+        },
+      ]
+    }).then(alert => alert.present());
   }
 }
