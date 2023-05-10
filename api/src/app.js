@@ -22,7 +22,6 @@ ctrlAuth.generateTokenSpotify();
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
-// Define la información básica del API para Swagger
 const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
@@ -46,17 +45,13 @@ const swaggerDefinition = {
   ],
 };
 
-// Configura opciones para Swagger
 const options = {
   swaggerDefinition,
-  // Array de archivos que contienen las rutas de la aplicación
-  apis: ['./app/routes/*.js',],
+  apis: ['./src/routes/*.js',],
 };
 
-// Crea un objeto Swagger-jsdoc
 const swaggerSpec = swaggerJSDoc(options);
 
-// Sirve la documentación en la ruta /api-docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use((req, res) => {
