@@ -25,5 +25,5 @@ jobs:
              fi"
            ssh ubuntu@${{ secrets.SSH_HOST }} "if pgrep node; then forever stopall; fi"
            ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && npm install"
-           ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && echo 'CLIENT_ID: ${{ secrets.CLIENT_ID }}\nCLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}' > .env"
+           ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && echo -e 'CLIENT_ID=${{ secrets.CLIENT_ID }}\nCLIENT_SECRET=${{ secrets.CLIENT_SECRET }}' > .env"
            ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && forever start src/main.js"
