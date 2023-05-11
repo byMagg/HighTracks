@@ -50,6 +50,8 @@ export class TracksPage implements OnInit {
 
   @ViewChild(IonModal) modal: IonModal | undefined;
 
+  previewToPlay: string | undefined;
+
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router,
     public alertCtrl: AlertController, public toastCtrl: ToastController) {
     this.route.queryParams.subscribe(params => {
@@ -60,6 +62,11 @@ export class TracksPage implements OnInit {
       }
       this.search();
     })
+  }
+
+  changePreview(previewURL: string, ref: HTMLAudioElement) {
+    ref.src = previewURL;
+    ref.play();
   }
 
   handleDeleteAlert(trackId: string) {
@@ -144,7 +151,11 @@ export class TracksPage implements OnInit {
         this.searchDB(this.query);
       }
     } else {
-      this.getAllTracks();
+      if (this.toggleInsert) {
+        this.tracks = [];
+      } else {
+        this.getAllTracks();
+      }
     }
   }
 

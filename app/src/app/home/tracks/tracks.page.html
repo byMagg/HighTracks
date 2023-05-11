@@ -29,7 +29,8 @@
       </ion-button>
     </div>
   </ion-toolbar>
-  <ion-button id="addTracks" *ngIf="toggleInsert" color="success" shape="round" (click)="insertTracks()">
+  <ion-button id="addTracks" *ngIf="toggleInsert && !(tracksToBeAdded.length == 0)" color="success" shape="round"
+    (click)="insertTracks()">
     <ion-icon name="checkmark"></ion-icon>
     Añadir {{tracksToBeAdded.length}} canciones
   </ion-button>
@@ -111,7 +112,7 @@
             </ion-fab-list>
           </ion-fab>
 
-          <div (click)="navigateToTrack(track._id)">
+          <div (click)="!toggleInsert && navigateToTrack(track._id)">
             <div id="img-container">
               <ion-img *ngIf="track.album.images[0].url" src="{{track.album.images[0].url}}"></ion-img>
               <ion-img *ngIf="track.album.images[0].imageBase64String"
@@ -128,9 +129,14 @@
                 <p>{{( track.duration_ms | date:'mm:ss')}} min</p>
               </div>
             </div>
+            <ion-fab-button *ngIf="track.preview_url" class="playButton"
+              (click)="changePreview(track.preview_url, ref);">
+              <ion-icon name="play"></ion-icon>
+            </ion-fab-button>
           </div>
         </ion-card>
       </ion-row>
     </ion-grid>
   </div>
+  <audio #ref [src]="previewToPlay"></audio>
 </ion-content>
