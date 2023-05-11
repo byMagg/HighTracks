@@ -89,7 +89,12 @@
     </ion-modal>
     <ion-grid [fixed]="true">
       <ion-row class="ion-justify-content-center">
-        <ion-card button *ngFor="let track of tracks">
+        <ion-card button class="card" *ngFor="let track of tracks">
+          <ion-fab-button size="small" *ngIf="track.preview_url" class="playButton"
+            (click)="ref.src != track.preview_url ? changePreview(track.preview_url, ref) : changePreview('', ref)">
+            <ion-icon *ngIf="ref.src != track.preview_url" name="play"></ion-icon>
+            <ion-icon *ngIf="ref.src == track.preview_url" name="pause"></ion-icon>
+          </ion-fab-button>
           <ion-fab>
             <ion-fab-button size="small" *ngIf="toggleInsert && !tracksToBeAdded.includes(track)"
               (click)="tracksToBeAdded.push(track) && test()">
@@ -129,12 +134,8 @@
                 <p>{{( track.duration_ms | date:'mm:ss')}} min</p>
               </div>
             </div>
-            <ion-fab-button *ngIf="track.preview_url" class="playButton"
-              (click)="ref.src != track.preview_url ? changePreview(track.preview_url, ref) : changePreview('', ref)">
-              <ion-icon *ngIf="ref.src != track.preview_url" name="play"></ion-icon>
-              <ion-icon *ngIf="ref.src == track.preview_url" name="pause"></ion-icon>
-            </ion-fab-button>
           </div>
+
         </ion-card>
       </ion-row>
     </ion-grid>

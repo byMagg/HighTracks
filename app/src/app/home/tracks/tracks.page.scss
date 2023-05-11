@@ -86,6 +86,8 @@ ion-modal ion-img {
 }
 
 .playButton {
+    position: absolute;
+    z-index: 100;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
 }
@@ -93,6 +95,7 @@ ion-modal ion-img {
 .card:hover .playButton {
     opacity: 1;
 }
+
 
 @media (max-width: 1075px) {
     #addTracks {
