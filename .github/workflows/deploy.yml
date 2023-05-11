@@ -7,6 +7,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      CLIENT_ID: {{ secrets.CLIENT_ID }}
+      CLIENT_SECRET: {{ secrets.CLIENT_SECRET }}
     steps:
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
