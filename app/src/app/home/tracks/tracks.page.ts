@@ -190,6 +190,7 @@ export class TracksPage implements OnInit {
       message: 'Canciones insertadas correctamente',
       duration: 2000
     }).then(toast => toast.present());
+    this.query = "";
     this.toggleInsertTrack();
   }
 
