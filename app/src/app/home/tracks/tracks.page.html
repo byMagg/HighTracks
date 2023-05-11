@@ -29,10 +29,13 @@
       </ion-button>
     </div>
   </ion-toolbar>
+  <ion-button id="addTracks" *ngIf="toggleInsert" color="success" shape="round" (click)="insertTracks()">
+    <ion-icon name="checkmark"></ion-icon>
+    Añadir {{tracksToBeAdded.length}} canciones
+  </ion-button>
 </ion-header>
 
 <ion-content>
-
   <div id="container">
     <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
       <ng-template>
@@ -87,8 +90,13 @@
       <ion-row class="ion-justify-content-center">
         <ion-card button *ngFor="let track of tracks">
           <ion-fab>
-            <ion-fab-button size="small" *ngIf="toggleInsert && !track.inserted" (click)="insertTrack(track)">
+            <ion-fab-button size="small" *ngIf="toggleInsert && !tracksToBeAdded.includes(track)"
+              (click)="tracksToBeAdded.push(track) && test()">
               <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button color="danger" size="small" *ngIf="toggleInsert && tracksToBeAdded.includes(track)"
+              (click)="tracksToBeAdded.splice(tracksToBeAdded.indexOf(track), 1) && test()">
+              <ion-icon name="close"></ion-icon>
             </ion-fab-button>
             <ion-fab-button size="small" color="light" *ngIf="!toggleInsert && displayInsert">
               <ion-icon name="ellipsis-vertical"></ion-icon>

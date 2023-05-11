@@ -309,7 +309,7 @@ router.get('/tracks', ctrlAuth.verifyToken, ctrlTracks.trackGetAll);
  *       500:
  *         $ref: '#/components/responses/InternalServer'
  */
-router.post('/tracks', ctrlAuth.verifyToken, ctrlTracks.trackInsert);
+router.post('/tracks', ctrlAuth.verifyToken, ctrlTracks.trackInsertMany);
 
 /**
  * @swagger

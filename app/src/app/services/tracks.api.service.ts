@@ -105,6 +105,24 @@ export class TracksApiService {
     }
   }
 
+  async insertTracks(tracks: Track[]): Promise<boolean> {
+    const coords: Coords = await this.geoService.getLocation();
+    tracks.forEach(track => track.location = coords);
+    try {
+      await lastValueFrom(this.http.post<Track>(`${this.url}tracks/`, tracks, {
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      }));
+      return true;
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 400) throw Error("Track already exists");
+      }
+      return false;
+    }
+  }
+
   async insertComment(trackId: string, comment: Comment): Promise<boolean> {
     const coords: Coords = await this.geoService.getLocation();
     comment.location = coords;

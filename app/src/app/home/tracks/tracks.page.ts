@@ -46,6 +46,8 @@ export class TracksPage implements OnInit {
 
   togglePhoto: string = "url";
 
+  tracksToBeAdded: Track[] = [];
+
   @ViewChild(IonModal) modal: IonModal | undefined;
 
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router,
@@ -79,6 +81,10 @@ export class TracksPage implements OnInit {
         },
       ]
     }).then(alert => alert.present());
+  }
+
+  test() {
+    console.log(this.tracksToBeAdded);
   }
 
   cancel() {
@@ -174,6 +180,17 @@ export class TracksPage implements OnInit {
       message: 'Canción insertada correctamente',
       duration: 2000
     }).then(toast => toast.present());
+  }
+
+  async insertTracks() {
+    if (this.tracksToBeAdded.length == 0) return;
+    await this.apiService.insertTracks(this.tracksToBeAdded);
+    this.tracksToBeAdded = [];
+    this.toastCtrl.create({
+      message: 'Canciones insertadas correctamente',
+      duration: 2000
+    }).then(toast => toast.present());
+    this.toggleInsertTrack();
   }
 
   async deleteTrack(trackId: string) {

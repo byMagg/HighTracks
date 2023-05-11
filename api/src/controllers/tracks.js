@@ -80,15 +80,34 @@ const trackGetAll = async (req, res) => {
     }
 };
 
-/* POST api/tracks/ */
-const trackInsert = async (req, res) => {
+// /* POST api/tracks/ */
+// const trackInsert = async (req, res) => {
+//     try {
+//         const track = new Track({
+//             _id: req.body.id,
+//             ...req.body
+//         });
+//         await track.save();
+//         sendJSONresponse(res, 201, track)
+//     } catch (err) {
+//         if (err.code === 11000) {
+//             sendJSONresponse(res, 400, 'Ya existe una pista con el ID especificado.');
+//             return;
+//         }
+//         sendJSONresponse(res, 400, err)
+//     }
+// };
+
+const trackInsertMany = async (req, res) => {
     try {
-        const track = new Track({
-            _id: req.body.id,
-            ...req.body
+        const tracks = req.body.map(track => {
+            return {
+                _id: track.id,
+                ...track
+            }
         });
-        await track.save();
-        sendJSONresponse(res, 201, track)
+        await Track.insertMany(tracks);
+        sendJSONresponse(res, 201, tracks)
     } catch (err) {
         if (err.code === 11000) {
             sendJSONresponse(res, 400, 'Ya existe una pista con el ID especificado.');
@@ -186,7 +205,8 @@ module.exports = {
     trackInsertComment,
     commentGetAll,
     commentDeleteOne,
-    trackInsert,
+    // trackInsert,
+    trackInsertMany,
     trackGetOneById,
     trackGetAll,
     trackUpdate,

@@ -78,6 +78,21 @@ ion-modal ion-img {
     margin: 0 auto;
 }
 
+#addTracks {
+    position: fixed;
+    top: 62px;
+    right: 20px;
+    z-index: 10;
+}
+
+@media (max-width: 1075px) {
+    #addTracks {
+        bottom: 50px;
+        right: 50px;
+        top: unset;
+    }
+}
+
 @media (max-width: 768px) {
     ion-modal ion-img {
         width: 90%;
