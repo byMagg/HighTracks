@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -79,7 +80,7 @@ export class AuthService {
   }
 
   async fetchJWT() {
-    const token = (await lastValueFrom(this.http.post<any>('http://localhost:3000/api/login', {
+    const token = (await lastValueFrom(this.http.post<any>(`${environment.url}login`, {
       email: "test@test.com",
     }))).token;
     if (token) this.setJWT(token);
