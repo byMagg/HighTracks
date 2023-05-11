@@ -191,6 +191,7 @@ export class TracksPage implements OnInit {
       message: 'Canción insertada correctamente',
       duration: 2000
     }).then(toast => toast.present());
+    this.search();
   }
 
   async insertTracks() {

@@ -90,8 +90,9 @@ export class TracksApiService {
   async insertTrack(track: Track): Promise<boolean> {
     const coords: Coords = await this.geoService.getLocation();
     track.location = coords;
+    const tracks: Track[] = [track];
     try {
-      await lastValueFrom(this.http.post<Track>(`${this.url}tracks/`, track, {
+      await lastValueFrom(this.http.post<Track>(`${this.url}tracks/`, tracks, {
         headers: {
           Authorization: `Bearer ${this.token}`
         }
