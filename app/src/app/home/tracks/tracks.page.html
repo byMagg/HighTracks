@@ -130,8 +130,9 @@
               </div>
             </div>
             <ion-fab-button *ngIf="track.preview_url" class="playButton"
-              (click)="changePreview(track.preview_url, ref);">
-              <ion-icon name="play"></ion-icon>
+              (click)="ref.src != track.preview_url ? changePreview(track.preview_url, ref) : changePreview('', ref)">
+              <ion-icon *ngIf="ref.src != track.preview_url" name="play"></ion-icon>
+              <ion-icon *ngIf="ref.src == track.preview_url" name="pause"></ion-icon>
             </ion-fab-button>
           </div>
         </ion-card>
