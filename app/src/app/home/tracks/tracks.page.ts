@@ -64,8 +64,13 @@ export class TracksPage implements OnInit {
     })
   }
 
-  changePreview(previewURL: string, ref: HTMLAudioElement) {
-    ref.src = previewURL;
+  changePreview(ref: HTMLAudioElement, previewURL?: string) {
+    if (!previewURL) {
+      ref.src = "";
+      ref.removeAttribute('src');
+    } else {
+      ref.src = previewURL;
+    }
     ref.play();
   }
 
