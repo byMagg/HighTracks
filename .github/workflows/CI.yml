@@ -104,12 +104,6 @@ jobs:
     needs: [build-back]
     runs-on: ubuntu-latest
     steps:
-      - name: Authenticate to Google Cloud
-        run: |
-          docker login -u _json_key -p "$(echo ${{ secrets.GCLOUD_CONTAINER_JSON }} | base64 --decode)" https://gcr.io
-      - name: Pulling the image
-        run: |
-          docker pull gcr.io/${{ vars.GCLOUD_PROJECT_ID }}/hightracks-api:${{ github.sha }}
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
@@ -127,4 +121,5 @@ jobs:
             ssh ubuntu@${{ secrets.SSH_HOST }} "if pgrep node; then forever stopall; fi"
             ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && npm install"
             ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && echo -e 'CLIENT_ID=${{ secrets.CLIENT_ID }}\nCLIENT_SECRET=${{ secrets.CLIENT_SECRET }}' > .env"
+            ssh ubuntu@${{ secrets.SSH_HOST }} "docker pull gcr.io/${{ vars.GCLOUD_PROJECT_ID }}/hightracks-api:${{ github.sha }}"
             ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && forever start src/main.js"
