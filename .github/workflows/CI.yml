@@ -101,7 +101,7 @@ jobs:
           dockerfile: ./api/Dockerfile
           context: ./api
   deploy-back:
-    needs: [build-back]
+    needs: [build-and-push-to-gcr-back]
     runs-on: ubuntu-latest
     steps:
       - name: Install SSH Key
