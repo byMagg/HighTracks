@@ -100,13 +100,18 @@ jobs:
           image_tag: hightracks-api-${{ github.sha }}, ${{ github.sha }}
           dockerfile: ./api/Dockerfile
           context: ./api
-      - name: Pulling the image
-        run: |
-          docker pull gcr.io/${{ vars.GCLOUD_PROJECT_ID }}/hightracks-api:${{ github.sha }}
   deploy-back:
     needs: [build-back]
     runs-on: ubuntu-latest
     steps:
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: '${{ secrets.GCLOUD_CONTAINER_JSON }}'
+      - name: Pulling the image
+        run: |
+          docker pull gcr.io/${{ vars.GCLOUD_PROJECT_ID }}/hightracks-api:${{ github.sha }}
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
