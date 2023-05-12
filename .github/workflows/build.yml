@@ -31,7 +31,7 @@ jobs:
         run: npm install
       - name: Build Ionic project
         run: |
-          ionic build --prod -- --base-href https://bymagg.github.io/HighTracks/
+          ionic build --prod -- --base-href http://hightracks.me/
       - uses: actions/upload-artifact@v3
         with:
           name: www
