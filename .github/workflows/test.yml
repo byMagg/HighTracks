@@ -27,4 +27,3 @@ jobs:
               image_tag: hightracks-api-${{ github.sha }}, ${{ github.sha }}
               dockerfile: ./api/Dockerfile
               context: ./api
-              target: build
