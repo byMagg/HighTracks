@@ -99,7 +99,10 @@ jobs:
           image_name: hightracks-api
           image_tag: hightracks-api-${{ github.sha }}, ${{ github.sha }}
           dockerfile: ./api/Dockerfile
-          context: ./api       
+          context: ./api
+      - name: Pulling the image
+        run: |
+          docker pull gcr.io/${{ vars.GCLOUD_PROJECT_ID }}/hightracks-api:${{ github.sha }}
   deploy-back:
     needs: [build-back]
     runs-on: ubuntu-latest
