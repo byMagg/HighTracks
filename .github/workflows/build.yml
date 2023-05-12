@@ -32,6 +32,8 @@ jobs:
       - name: Build Ionic project
         run: |
           ionic build --prod -- --base-href http://hightracks.me/
+          cd www
+          cp index.html 404.html
       - uses: actions/upload-artifact@v3
         with:
           name: www
