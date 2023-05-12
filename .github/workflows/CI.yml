@@ -73,8 +73,7 @@ jobs:
       - name: Building and pushing the image
         working-directory: api
         run: |
-          echo ${{ secrets.B64_GCLOUD_SERVICE_ACCOUNT_JSON }} > gcloud-service-account.json
-          docker login -u _json_key --password-stdin https://gcr.io < gcloud-service-account.json
+          echo ${{ secrets.B64_GCLOUD_SERVICE_ACCOUNT_JSON }} | docker login -u _json_key --password-stdin https://gcr.io
           docker build -t gcr.io/${{ vars.GCLOUD_PROJECT_ID }}/hightracks-api:${{ github.sha }} .
           docker push gcr.io/${{ vars.GCLOUD_PROJECT_ID }}/hightracks-api:${{ github.sha }}
   deploy-back:
