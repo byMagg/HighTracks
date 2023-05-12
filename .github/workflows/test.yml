@@ -8,19 +8,25 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-push-to-gcr-service-account:
-    name: Build & push - with service account
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Authenticate to Google Cloud
-        id: auth
-        uses: google-github-actions/auth@v0
-        with:
-          credentials_json: '${{ secrets.B64_GCLOUD_SERVICE_ACCOUNT_JSON }}'
-      - name: Building and pushing the image
-        working-directory: api
-        run: |
-          echo ${{ secrets.B64_GCLOUD_SERVICE_ACCOUNT_JSON }} | docker login -u _json_key --password-stdin https://gcr.io
-          docker build -t gcr.io/${{ vars.GCLOUD_PROJECT_ID }}/hightracks-api:${{ github.sha }} .
-          docker push gcr.io/${{ vars.GCLOUD_PROJECT_ID }}/hightracks-api:${{ github.sha }}
+    build-and-push-to-gcr-service-account:
+        name: Build & push - with service account
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v3
+          - name: Authenticate to Google Cloud
+            id: auth
+            uses: google-github-actions/auth@v0
+            with:
+              credentials_json: '${{ secrets.B64_GCLOUD_SERVICE_ACCOUNT_JSON }}'
+          - name: Building and pushing the image
+            uses: ./
+            # uses: RafikFarhad/push-to-gcr-github-action@v5-beta # <- use this on your workflow
+            with:
+              # gcloud_service_key: ${{ secrets.JSON_GCLOUD_SERVICE_ACCOUNT_JSON }} # <- not needed when used with google-github-actions/auth@v0
+              registry: gcr.io
+              project_id: pro-chesta
+              image_name: hello-world-by-push-to-gcr-1
+              image_tag: test-${{ github.sha }}, ${{ github.sha }}
+              dockerfile: ./test/Dockerfile.test
+              context: ./test
+              target: build
