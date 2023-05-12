@@ -121,5 +121,7 @@ jobs:
             ssh ubuntu@${{ secrets.SSH_HOST }} "if pgrep node; then forever stopall; fi"
             ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && npm install"
             ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && echo -e 'CLIENT_ID=${{ secrets.CLIENT_ID }}\nCLIENT_SECRET=${{ secrets.CLIENT_SECRET }}' > .env"
-            ssh ubuntu@${{ secrets.SSH_HOST }} "docker pull gcr.io/${{ vars.GCLOUD_PROJECT_ID }}/hightracks-api:${{ github.sha }}"
+            ssh ubuntu@${{ secrets.SSH_HOST }} "if docker ps -q --filter name=hightracks-api | grep . ; then docker stop hightracks-api ; fi"
+            ssh ubuntu@${{ secrets.SSH_HOST }} "if docker ps -a -q --filter name=hightracks-api | grep . ; then docker rm -fv hightracks-api ; fi"
+            ssh ubuntu@${{ secrets.SSH_HOST }} "docker run -d -p 3000:3000 -t --name hightracks-api gcr.io/${{ vars.GCLOUD_PROJECT_ID }}/hightracks-api:${{ github.sha }}"
             ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && forever start src/main.js"
