@@ -105,10 +105,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Authenticate to Google Cloud
-        id: auth
-        uses: google-github-actions/auth@v0
-        with:
-          credentials_json: '${{ secrets.GCLOUD_CONTAINER_JSON }}'
+        run: |
+          docker login -u _json_key -p "$(echo ${{ secrets.GCLOUD_CONTAINER_JSON }} | base64 --decode)" https://gcr.io
       - name: Pulling the image
         run: |
           docker pull gcr.io/${{ vars.GCLOUD_PROJECT_ID }}/hightracks-api:${{ github.sha }}
