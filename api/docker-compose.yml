@@ -9,10 +9,10 @@ services:
       - mongodb-data:/data/db
     restart: unless-stopped
   hightracks-api:
-    image: hightracks-api:latest
+    image: gcr.io/cnsa2023-dbu104/hightracks-api:latest
     container_name: hightracks-api
     environment:
-      - MONGODB_URI=mongodb://mongodb:27017/HighTracks
+      - MONGODB_URI=${MONGODB_URI}
       - CLIENT_ID=${CLIENT_ID}
       - CLIENT_SECRET=${CLIENT_SECRET}
     ports:
