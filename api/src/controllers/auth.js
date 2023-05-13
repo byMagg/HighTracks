@@ -46,7 +46,7 @@ const login = async (req, res) => {
 /* POST api/generate_token */
 const generateTokenSpotify = async (req, res) => {
     try {
-        const response = await axios.post(`https://accounts.spotify.com/api/token?grant_type=client_credentials&client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,)
+        const response = await axios.post(`https://accounts.spotify.com/api/token?grant_type=client_credentials&client_id=${config.CLIENT_ID}&client_secret=${config.CLIENT_SECRET}`,)
 
         if (response.status === 200) {
             const data = response.data;

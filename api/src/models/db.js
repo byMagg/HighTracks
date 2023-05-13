@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
+const config = require('../common/config');
 
-const dbURI = 'mongodb://localhost/HighTracks';
+let dbURI = config.MONGODB_URI;
+if (!dbURI) dbURI = 'mongodb://localhost:27017/HighTracks'
+console.log(config.MONGODB_URI);
 mongoose.connect(dbURI, { useUnifiedTopology: true, useFindAndModify: false, useNewUrlParser: true });
 
 // CONNECTION EVENTS

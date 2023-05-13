@@ -8,5 +8,17 @@ services:
     volumes:
       - mongodb-data:/data/db
     restart: unless-stopped
+  hightracks-api:
+    image: hightracks-api:latest
+    container_name: hightracks-api
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/HighTracks
+      - CLIENT_ID=${CLIENT_ID}
+      - CLIENT_SECRET=${CLIENT_SECRET}
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+    restart: unless-stopped
 volumes:
   mongodb-data:
