@@ -120,4 +120,4 @@ jobs:
               fi"
             ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && npm install"
             ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && echo -e 'MONGODB_URI=${{ vars.MONGODB_URI }}\nCLIENT_ID=${{ secrets.CLIENT_ID }}\nCLIENT_SECRET=${{ secrets.CLIENT_SECRET }}' > .env"
-            ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && docker-compose up -d"
+            ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && docker-compose pull && docker-compose up -d --remove-orphans && yes | docker image prune"
