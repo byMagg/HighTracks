@@ -62,7 +62,7 @@ jobs:
           registry: gcr.io
           project_id: ${{ vars.GCLOUD_PROJECT_ID }}
           image_name: hightracks-app
-          image_tag: hightracks-app-${{ github.sha }}, ${{ github.sha }}
+          image_tag: latest, ${{ github.sha }}
           dockerfile: ./app/Dockerfile
           context: ./app 
   build-back:
@@ -97,7 +97,7 @@ jobs:
           registry: gcr.io
           project_id: ${{ vars.GCLOUD_PROJECT_ID }}
           image_name: hightracks-api
-          image_tag: latest, hightracks-api-${{ github.sha }}
+          image_tag: latest, ${{ github.sha }}
           dockerfile: ./api/Dockerfile
           context: ./api
   deploy-back:
