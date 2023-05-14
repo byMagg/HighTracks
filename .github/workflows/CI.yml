@@ -103,10 +103,6 @@ jobs:
   deploy-back:
     needs: [build-and-push-to-gcr-back]
     runs-on: ubuntu-latest
-    env:
-      CLIENT_ID: ${{ secrets.CLIENT_ID }}
-      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-      MONGODB_URI: ${{ vars.MONGODB_URI }}
     steps:
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
@@ -123,4 +119,5 @@ jobs:
                 cd HighTracks/api && git stash && git fetch --all && git reset --hard origin/master && git pull origin master; \
               fi"
             ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && npm install"
+            ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && echo -e 'MONGODB_URI=${{ vars.MONGODB_URI }}\nCLIENT_ID=${{ secrets.CLIENT_ID }}\nCLIENT_SECRET=${{ secrets.CLIENT_SECRET }}' > .env"
             ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks/api && docker-compose pull && docker-compose up -d --remove-orphans && yes | docker image prune"
