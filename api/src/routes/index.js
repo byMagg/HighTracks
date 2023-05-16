@@ -69,10 +69,12 @@ const ctrlAuth = require('../controllers/auth');
  *           items:
  *             $ref: '#/components/schemas/Comment'
  *   responses:
- *     DeleteSuccess:
+ *     DeleteSuccessTrack:
  *       description: Eliminación exitosa de la pista
+ *     DeleteSuccessComment:
+ *       description: Eliminación exitosa del comentario
  *     Unauthorized:
- *       description: Unauthorized access error
+ *       description: Acceso no autorizado
  *       content:
  *         application/json:
  *           schema:
@@ -80,14 +82,14 @@ const ctrlAuth = require('../controllers/auth');
  *             properties:
  *               message:
  *                 type: string
- *                 description: Descriptive error message
- *                 example: Unauthorized access
+ *                 description: Descripción del error
+ *                 example: Acceso no autorizado
  *               code:
  *                 type: integer
  *                 description: Código de error
  *                 example: 401
  *     BadRequest:
- *       description: Bad request error
+ *       description: Solicitud incorrecta
  *       content:
  *         application/json:
  *           schema:
@@ -95,8 +97,8 @@ const ctrlAuth = require('../controllers/auth');
  *             properties:
  *               message:
  *                 type: string
- *                 description: Descriptive error message
- *                 example: Bad request
+ *                 description: Descripción del error
+ *                 example: Solicitud incorrecta. Verifique que la información proporcionada sea válida y esté completa.
  *               code:
  *                 type: integer
  *                 description: Código de error
@@ -192,43 +194,70 @@ const ctrlAuth = require('../controllers/auth');
  */
 router.get('/generate_token', ctrlAuth.generateTokenSpotify);
 
-// Search
+// Auth
 /**
  * @swagger
- * /search/{search}:
- *   get:
- *     tags: [Tracks]
- *     summary: Buscar tracks en Spotify
- *     description: Busca tracks en Spotify que contengan el término de búsqueda especificado en el parámetro `search`
- *     parameters:
- *       - in: path
- *         name: search
- *         required: true
- *         description: Término de búsqueda
- *         schema:
- *           type: string
+ * /login:
+ *   post:
+ *     summary: Autenticación de usuario y generación de token JWT
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: Correo electrónico del usuario
+ *                 example: usuario@example.com
+ *               password:
+ *                 type: string
+ *                 description: Contraseña del usuario
+ *                 example: p@ssw0rd
  *     responses:
  *       200:
- *         description: Lista de tracks encontrados
+ *         description: Autenticación exitosa, devuelve un token JWT
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Track'
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   description: Token JWT generado
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5...
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       500:
+ *         $ref: '#/components/responses/InternalServer'
+ */
+router.post('/login', ctrlAuth.login);
+
+/**
+ * @swagger
+ * /tracks:
+ *   get:
+ *     summary: Obtiene todas las canciones.
+ *     tags: [Tracks]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Track'
  *       400:
  *         $ref: '#/components/responses/BadRequest'
  *       401:
  *         $ref: '#/components/responses/Unauthorized'
  *       404:
  *         $ref: '#/components/responses/NotFound'
- *       500:
- *         $ref: '#/components/responses/InternalServer'
  */
-router.get('/search/:search', ctrlTracks.tracksSearchSpotify);
-
-router.get('/tracks/search', ctrlAuth.verifyToken, ctrlTracks.trackSearchByField);
-
+router.get('/tracks', ctrlAuth.verifyToken, ctrlTracks.trackGetAll);
 
 // Tracks
 /**
@@ -257,29 +286,14 @@ router.get('/tracks/search', ctrlAuth.verifyToken, ctrlTracks.trackSearchByField
  *               $ref: '#/components/schemas/Track'
  *       400:
  *         $ref: '#/components/responses/BadRequest'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
  *
  */
 router.get('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackGetOneById);
 
-/**
- * @swagger
- * /tracks:
- *   get:
- *     summary: Obtiene todas las canciones.
- *     tags: [Tracks]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Track'
- *       401:
- *         $ref: '#/components/responses/Unauthorized'
- */
-router.get('/tracks', ctrlAuth.verifyToken, ctrlTracks.trackGetAll);
 
 /**
  * @swagger
@@ -372,13 +386,92 @@ router.put('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackUpdate);
  *           format: uuid
  *     responses:
  *       '200':
- *         $ref: '#/components/responses/DeleteSuccess'
+ *         $ref: '#/components/responses/DeleteSuccessTrack'
  *       '404':
  *         $ref: '#/components/responses/NotFound'
  *       '500':
  *         $ref: '#/components/responses/InternalServer'
  */
 router.delete('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackDelete);
+
+// Search
+/**
+ * @swagger
+ * /search/{search}:
+ *   get:
+ *     tags: [Tracks]
+ *     summary: Buscar tracks en Spotify
+ *     description: Busca tracks en Spotify que contengan el término de búsqueda especificado en el parámetro `search`
+ *     parameters:
+ *       - in: path
+ *         name: search
+ *         required: true
+ *         description: Término de búsqueda
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Lista de tracks encontrados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Track'
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalServer'
+ */
+router.get('/search/:search', ctrlTracks.tracksSearchSpotify);
+
+/**
+ * @swagger
+ * /tracks/search:
+ *   get:
+ *     summary: Buscar pistas por campo.
+ *     tags: [Tracks]
+ *     parameters:
+ *       - in: query
+ *         name: artist
+ *         schema:
+ *           type: string
+ *         description: Nombre del artista para realizar la búsqueda.
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         description: Nombre de la pista para realizar la búsqueda.
+ *       - in: query
+ *         name: date
+ *         schema:
+ *           type: string
+ *         description: Fecha de lanzamiento de la pista para realizar la búsqueda.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Búsqueda exitosa.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Track'
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalServer'
+ */
+router.get('/tracks/search', ctrlAuth.verifyToken, ctrlTracks.trackSearchByField);
 
 //Comments
 /**
@@ -387,6 +480,8 @@ router.delete('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackDelete);
  *   post:
  *     summary: Agrega un comentario a un track
  *     tags: [Comments]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -419,59 +514,70 @@ router.delete('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackDelete);
  */
 router.post('/tracks/:id/comments', ctrlAuth.verifyToken, ctrlTracks.trackInsertComment);
 
-router.get('/tracks/:id/comments', ctrlAuth.verifyToken, ctrlTracks.commentGetAll);
-
-router.delete('/tracks/:id/comments/:commentId', ctrlAuth.verifyToken, ctrlTracks.commentDeleteOne);
-
-
-// Auth
 /**
  * @swagger
- * /login:
- *   post:
- *     summary: Autenticación de usuario y generación de token JWT
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 description: Correo electrónico del usuario
- *                 example: usuario@example.com
- *               password:
- *                 type: string
- *                 description: Contraseña del usuario
- *                 example: p@ssw0rd
+ * /tracks/{id}/comments:
+ *   get:
+ *     summary: Obtener todos los comentarios de una pista.
+ *     tags: [Comments]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID de la pista.
  *     responses:
  *       200:
- *         description: Autenticación exitosa, devuelve un token JWT
+ *         description: Lista de comentarios de la pista.
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 token:
- *                   type: string
- *                   description: Token JWT generado
- *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+ *               $ref: '#/components/schemas/Comment'
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
  *       401:
- *         description: Autenticación fallida, credenciales inválidas
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   description: Mensaje de error
- *                   example: Credenciales inválidas, verifique su correo electrónico y contraseña
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
  *       500:
- *         $ref: '#/components/responses/InternalServerError'
+ *         $ref: '#/components/responses/ServerError'
  */
-router.post('/login', ctrlAuth.login);
+router.get('/tracks/:id/comments', ctrlAuth.verifyToken, ctrlTracks.commentGetAll);
+
+/**
+ * @swagger
+ * /tracks/{id}/comments/{commentId}:
+ *   delete:
+ *     summary: Eliminar un comentario de una pista.
+ *     tags: [Comments]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID de la pista.
+ *       - in: path
+ *         name: commentId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID del comentario.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         $ref: '#/components/responses/DeleteSuccessComment'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalServer'
+ */
+router.delete('/tracks/:id/comments/:commentId', ctrlAuth.verifyToken, ctrlTracks.commentDeleteOne);
 
 module.exports = router;

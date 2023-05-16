@@ -26,6 +26,7 @@ const tracksSearchSpotify = async (req, res) => {
     }
 };
 
+/* GET api/tracks/search */
 const trackSearchByField = async (req, res) => {
     try {
         const artist = req.query.artist;
@@ -54,6 +55,7 @@ const trackSearchByField = async (req, res) => {
     }
 };
 
+/* GET api/tracks/:id */
 const trackGetOneById = async (req, res) => {
     try {
         const id = req.params.id;
@@ -98,9 +100,17 @@ const trackGetAll = async (req, res) => {
 //     }
 // };
 
+/* POST api/tracks/ */
 const trackInsertMany = async (req, res) => {
     try {
-        const tracks = req.body.map(track => {
+
+        let tracks = req.body;
+
+        if (!Array.isArray(tracks)) {
+            tracks = [tracks];
+        }
+
+        tracks = tracks.map(track => {
             return {
                 _id: track.id,
                 ...track
@@ -113,6 +123,7 @@ const trackInsertMany = async (req, res) => {
             sendJSONresponse(res, 400, 'Ya existe una pista con el ID especificado.');
             return;
         }
+        console.log(err);
         sendJSONresponse(res, 400, err)
     }
 };
@@ -148,6 +159,7 @@ const trackDelete = async (req, res) => {
     }
 };
 
+/* POST api/tracks/:id/comments */
 const trackInsertComment = async (req, res) => {
     try {
         const trackId = req.params.id;
@@ -168,6 +180,7 @@ const trackInsertComment = async (req, res) => {
     }
 }
 
+/* PUT api/tracks/:id/comments/:commentId */
 const commentDeleteOne = async (req, res) => {
     try {
         const trackId = req.params.id;
@@ -185,6 +198,7 @@ const commentDeleteOne = async (req, res) => {
     }
 }
 
+/* GET api/tracks/:id/comments */
 const commentGetAll = async (req, res) => {
     try {
         const trackId = req.params.id;
