@@ -110,4 +110,18 @@ ion-modal ion-img {
         width: 90%;
         margin: 0 auto;
     }
+
+    @media (max-width: 425px) {
+        ion-card {
+            width: 150px;
+            height: 245px;
+        }
+
+        @media (max-width: 350px) {
+            ion-card {
+                width: 90%;
+                height: 215px;
+            }
+        }
+    }
 }
