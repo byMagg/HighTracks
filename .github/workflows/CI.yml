@@ -119,8 +119,8 @@ jobs:
           image_tag: latest, ${{ github.sha }}
           dockerfile: ./api/Dockerfile
           context: ./api
-  deploy-back:
-    needs: [build-and-push-to-gcr-back]
+  deploy:
+    needs: [build-and-push-to-gcr-back, build-and-push-to-gcr-front]
     runs-on: ubuntu-latest
     steps:
       - name: Install SSH Key
