@@ -15,55 +15,78 @@ const ctrlAuth = require('../controllers/auth');
  *     Comment:
  *       type: object
  *       properties:
+ *         _id:
+ *           type: string
  *         author:
  *           type: string
  *         text:
  *           type: string
  *         score:
- *           type: integer
+ *           type: number
+ *         location:
+ *           type: object
+ *           properties:
+ *             latitude:
+ *               type: number
+ *             longitude:
+ *               type: number
+ *             accuracy:
+ *               type: number
  *     Track:
  *       type: object
  *       properties:
- *         id:
- *           type: integer
+ *         _id:
+ *           type: string
+ *         album:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: string
+ *             name:
+ *               type: string
+ *             artists:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                   name:
+ *                     type: string
+ *             images:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   height:
+ *                     type: number
+ *                   url:
+ *                     type: string
+ *                   width:
+ *                     type: number
+ *                   imageBase64String:
+ *                     type: string
+ *             release_date:
+ *               type: string
+ *             release_date_precision:
+ *               type: string
+ *             total_tracks:
+ *               type: number
  *         name:
  *           type: string
  *         duration_ms:
- *           type: integer
- *         images:
- *           type: array
- *           items:
- *             type: object
- *             properties:
- *               height:
- *                 type: integer
- *               url:
- *                 type: string
- *               width:
- *                 type: integer
- *         artists:
- *           type: array
- *           items:
- *             type: object
- *             properties:
- *               id:
- *                 type: integer
- *               external_urls:
- *                 type: array
- *                 items:
- *                   type: object
- *                   properties:
- *                     spotify:
- *                       type: string
- *               name:
- *                 type: string
- *         external_urls:
- *           type: array
- *           items:
- *             type: object
- *             properties:
- *               spotify:
- *                 type: string
+ *           type: number
+ *         preview_url:
+ *           type: string
+ *         location:
+ *           type: object
+ *           properties:
+ *             latitude:
+ *               type: number
+ *             longitude:
+ *               type: number
+ *             accuracy:
+ *               type: number
  *         comments:
  *           type: array
  *           items:
