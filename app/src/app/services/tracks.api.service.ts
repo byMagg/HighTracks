@@ -88,7 +88,12 @@ export class TracksApiService {
   }
 
   async insertTrack(track: Track): Promise<boolean> {
-    const coords: Coords = await this.geoService.getLocation();
+    let coords: Coords | undefined;
+    try {
+      coords = await this.geoService.getLocation();
+    } catch (error) {
+      if (error instanceof GeolocationPositionError) console.log("Error getting location");
+    }
     track.location = coords;
     const tracks: Track[] = [track];
     try {
@@ -125,7 +130,12 @@ export class TracksApiService {
   }
 
   async insertComment(trackId: string, comment: Comment): Promise<boolean> {
-    const coords: Coords = await this.geoService.getLocation();
+    let coords: Coords | undefined;
+    try {
+      coords = await this.geoService.getLocation();
+    } catch (error) {
+      if (error instanceof GeolocationPositionError) console.log("Error getting location");
+    }
     comment.location = coords;
     console.log(comment);
     try {
