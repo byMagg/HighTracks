@@ -258,6 +258,86 @@ router.get('/generate_token', ctrlAuth.generateTokenSpotify);
  */
 router.post('/login', ctrlAuth.login);
 
+// Search
+/**
+ * @swagger
+ * /search/{search}:
+ *   get:
+ *     tags: [Tracks]
+ *     summary: Buscar tracks en Spotify
+ *     description: Busca tracks en Spotify que contengan el término de búsqueda especificado en el parámetro `search`
+ *     parameters:
+ *       - in: path
+ *         name: search
+ *         required: true
+ *         description: Término de búsqueda
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Lista de tracks encontrados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Track'
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalServer'
+ */
+router.get('/search/:search', ctrlTracks.tracksSearchSpotify);
+
+/**
+ * @swagger
+ * /tracks/search:
+ *   get:
+ *     summary: Buscar pistas por campo.
+ *     tags: [Tracks]
+ *     parameters:
+ *       - in: query
+ *         name: artist
+ *         schema:
+ *           type: string
+ *         description: Nombre del artista para realizar la búsqueda.
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         description: Nombre de la pista para realizar la búsqueda.
+ *       - in: query
+ *         name: date
+ *         schema:
+ *           type: string
+ *         description: Fecha de lanzamiento de la pista para realizar la búsqueda.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Búsqueda exitosa.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Track'
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalServer'
+ */
+router.get('/tracks/search', ctrlAuth.verifyToken, ctrlTracks.trackSearchByField);
+
+
 /**
  * @swagger
  * /tracks:
@@ -316,7 +396,6 @@ router.get('/tracks', ctrlAuth.verifyToken, ctrlTracks.trackGetAll);
  *
  */
 router.get('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackGetOneById);
-
 
 /**
  * @swagger
@@ -416,85 +495,6 @@ router.put('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackUpdate);
  *         $ref: '#/components/responses/InternalServer'
  */
 router.delete('/tracks/:id', ctrlAuth.verifyToken, ctrlTracks.trackDelete);
-
-// Search
-/**
- * @swagger
- * /search/{search}:
- *   get:
- *     tags: [Tracks]
- *     summary: Buscar tracks en Spotify
- *     description: Busca tracks en Spotify que contengan el término de búsqueda especificado en el parámetro `search`
- *     parameters:
- *       - in: path
- *         name: search
- *         required: true
- *         description: Término de búsqueda
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Lista de tracks encontrados
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Track'
- *       400:
- *         $ref: '#/components/responses/BadRequest'
- *       401:
- *         $ref: '#/components/responses/Unauthorized'
- *       404:
- *         $ref: '#/components/responses/NotFound'
- *       500:
- *         $ref: '#/components/responses/InternalServer'
- */
-router.get('/search/:search', ctrlTracks.tracksSearchSpotify);
-
-/**
- * @swagger
- * /tracks/search:
- *   get:
- *     summary: Buscar pistas por campo.
- *     tags: [Tracks]
- *     parameters:
- *       - in: query
- *         name: artist
- *         schema:
- *           type: string
- *         description: Nombre del artista para realizar la búsqueda.
- *       - in: query
- *         name: name
- *         schema:
- *           type: string
- *         description: Nombre de la pista para realizar la búsqueda.
- *       - in: query
- *         name: date
- *         schema:
- *           type: string
- *         description: Fecha de lanzamiento de la pista para realizar la búsqueda.
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Búsqueda exitosa.
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Track'
- *       400:
- *         $ref: '#/components/responses/BadRequest'
- *       401:
- *         $ref: '#/components/responses/Unauthorized'
- *       404:
- *         $ref: '#/components/responses/NotFound'
- *       500:
- *         $ref: '#/components/responses/InternalServer'
- */
-router.get('/tracks/search', ctrlAuth.verifyToken, ctrlTracks.trackSearchByField);
 
 //Comments
 /**

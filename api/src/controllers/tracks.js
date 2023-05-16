@@ -47,7 +47,7 @@ const trackSearchByField = async (req, res) => {
 
         }
         if (!track) {
-            return sendJSONresponse(res, 404, 'No se encontró la pista con el id especificado.');
+            return sendJSONresponse(res, 404, 'No se encontró la pista con la búsqueda especificada.');
         }
         sendJSONresponse(res, 200, track)
     } catch (err) {
@@ -73,6 +73,7 @@ const trackGetOneById = async (req, res) => {
 const trackGetAll = async (req, res) => {
     try {
         const track = await Track.find({});
+
         if (!track) {
             return sendJSONresponse(res, 404, 'No se encontró la pista con el nombre especificado.');
         }
@@ -81,24 +82,6 @@ const trackGetAll = async (req, res) => {
         sendJSONresponse(res, 500, err)
     }
 };
-
-// /* POST api/tracks/ */
-// const trackInsert = async (req, res) => {
-//     try {
-//         const track = new Track({
-//             _id: req.body.id,
-//             ...req.body
-//         });
-//         await track.save();
-//         sendJSONresponse(res, 201, track)
-//     } catch (err) {
-//         if (err.code === 11000) {
-//             sendJSONresponse(res, 400, 'Ya existe una pista con el ID especificado.');
-//             return;
-//         }
-//         sendJSONresponse(res, 400, err)
-//     }
-// };
 
 /* POST api/tracks/ */
 const trackInsertMany = async (req, res) => {
@@ -219,7 +202,6 @@ module.exports = {
     trackInsertComment,
     commentGetAll,
     commentDeleteOne,
-    // trackInsert,
     trackInsertMany,
     trackGetOneById,
     trackGetAll,
