@@ -135,7 +135,7 @@ jobs:
             ssh ubuntu@${{ secrets.SSH_HOST }} "if [ ! -d 'HighTracks' ]; then \
                 git clone https://github.com/byMagg/HighTracks.git; \
               else \
-                cd HighTracks/api && git stash && git fetch --all && git reset --hard origin/master && git pull origin master; \
+                cd HighTracks && git stash && git fetch --all && git reset --hard origin/master && git pull origin master; \
               fi"
             ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks && echo -e 'MONGODB_URI=${{ vars.MONGODB_URI }}\nCLIENT_ID=${{ secrets.CLIENT_ID }}\nCLIENT_SECRET=${{ secrets.CLIENT_SECRET }}' > .env"
             ssh ubuntu@${{ secrets.SSH_HOST }} "cd HighTracks && docker-compose pull && docker-compose up -d --remove-orphans && yes | docker image prune"
