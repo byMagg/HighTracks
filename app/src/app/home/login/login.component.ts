@@ -22,10 +22,10 @@ export class LoginComponent implements OnInit {
   @Input() modal: IonModal | undefined;
 
   formValidationLogin: FormGroup | undefined;
-  formValidationSignup: FormGroup | undefined;
   errorMessage: string = '';
   logged = this.authService.checkLogged();
   showLogin = true;
+  userData: string | undefined;
 
   formValidationMessages = {
     'email': [
@@ -45,17 +45,8 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getUserData();
     this.formValidationLogin = this.formBuilder.group({
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-      ])),
-      password: new FormControl('', Validators.compose([
-        Validators.minLength(6),
-        Validators.required
-      ])),
-    });
-    this.formValidationSignup = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
@@ -100,6 +91,11 @@ export class LoginComponent implements OnInit {
     catch (error) {
       console.log(error);
     }
+  }
+
+  async getUserData() {
+    this.userData = await this.authService.getUser()['email'];
+    console.log(this.userData);
   }
 
   toggleLogin() {

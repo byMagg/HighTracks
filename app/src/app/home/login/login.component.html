@@ -1,13 +1,19 @@
 <section *ngIf="logged">
-  <ion-button (click)="logout()">
-    <ion-icon name="log-out"></ion-icon>
-  </ion-button>
+  <article>
+    <h2 *ngIf="userData">Bienvenido {{userData}}</h2>
+    <ion-button (click)="logout()">
+      Cerrar sesión
+      <ion-icon name="log-out"></ion-icon>
+    </ion-button>
+  </article>
 </section>
 
 <section *ngIf="!logged">
-  <article *ngIf="showLogin && formValidationLogin">
-    <form class="form" [formGroup]="formValidationLogin" (ngSubmit)="tryLogin(formValidationLogin.value)">
-      <h2>Inicio de sesión</h2>
+  <article *ngIf="formValidationLogin">
+    <form class="form" [formGroup]="formValidationLogin"
+      (ngSubmit)="showLogin ? tryLogin(formValidationLogin.value) : trySignup(formValidationLogin.value)">
+      <h2 *ngIf="showLogin">Inicio de sesión</h2>
+      <h2 *ngIf="!showLogin">Registro</h2>
       <div class="form-input">
         <ion-item>
           <ion-label position="floating" color="primary">Email: </ion-label>
@@ -39,53 +45,20 @@
         </div>
       </div>
       <div class="div-button-login">
-        <ion-button type="submit" [disabled]="!formValidationLogin.valid">Iniciar sesión</ion-button>
+        <ion-button *ngIf="showLogin" type="submit" [disabled]="!formValidationLogin.valid">Iniciar sesión</ion-button>
+        <ion-button *ngIf="!showLogin" type="submit" [disabled]="!formValidationLogin.valid">Crear cuenta</ion-button>
       </div>
       <div class="div-label-error">
         <ion-label class="error-message">{{ errorMessage }}</ion-label>
       </div>
     </form>
     <footer>
-      ¿No tienes cuenta? <a href="#" (click)="toggleLogin()">Crear Cuenta</a>
-    </footer>
-  </article>
-
-  <article *ngIf="!showLogin && formValidationSignup">
-    <form class="form" [formGroup]="formValidationSignup" (ngSubmit)="trySignup(formValidationSignup.value)">
-      <h2>Registro</h2>
-      <ion-item>
-        <ion-label position="floating" color="primary">Email: </ion-label>
-        <ion-input type="text" aria-label="Email: " formControlName="email"></ion-input>
-      </ion-item>
-      <div>
-        <ng-container *ngFor="let validation of formValidationMessages.email">
-          <div class="error-message"
-            *ngIf="formValidationSignup?.get('email')?.hasError(validation.type) && (formValidationSignup.get('email')?.dirty || formValidationSignup.get('email')?.touched)">
-            {{ validation.message }}
-          </div>
-        </ng-container>
+      <div *ngIf="showLogin">
+        ¿No tienes cuenta? <a href="#" (click)="toggleLogin()">Crear Cuenta</a>
       </div>
-      <ion-item>
-        <ion-label position="floating" color="primary">Contraseña: </ion-label>
-        <ion-input type="password" aria-label="Contraseña: " formControlName="password"></ion-input>
-      </ion-item>
-      <div>
-        <ng-container *ngFor="let validation of formValidationMessages.password">
-          <div class="error-message"
-            *ngIf="formValidationSignup.get('password')?.hasError(validation.type) && (formValidationSignup.get('password')?.dirty || formValidationSignup.get('password')?.touched)">
-            {{ validation.message }}
-          </div>
-        </ng-container>
+      <div *ngIf="!showLogin">
+        ¿Ya tienes cuenta? <a href="#" (click)="toggleLogin()">Inicia sesión</a>
       </div>
-      <div class="div-button-login">
-        <ion-button type="submit" [disabled]="!formValidationSignup.valid">Crear Cuenta</ion-button>
-      </div>
-      <div class="div-label-error">
-        <ion-label class="error-message">{{ errorMessage }}</ion-label>
-      </div>
-    </form>
-    <footer>
-      ¿Ya tienes cuenta? <a href="#" (click)="toggleLogin()">Inicia sesión</a>
     </footer>
   </article>
 </section>
