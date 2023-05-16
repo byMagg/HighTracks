@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:19-alpine as build
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -8,12 +8,15 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
+RUN npm install -g ionic
 RUN npm install
 # If you are building your code for production
 # RUN npm ci --only=production
 
 # Bundle app source
 COPY . .
+RUN ionic build --prod
 
-EXPOSE 3000
-CMD [ "npm", "start" ]
+FROM nginx:alpine
+RUN rm -rf /usr/share/nginx/html/*
+COPY --from=build /usr/src/app/www /usr/share/nginx/html
