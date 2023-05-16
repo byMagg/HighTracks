@@ -141,6 +141,9 @@
 
         </ion-card>
       </ion-row>
+      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
     </ion-grid>
   </div>
   <audio #ref [src]="previewToPlay"></audio>

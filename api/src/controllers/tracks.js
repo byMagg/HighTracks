@@ -8,7 +8,8 @@ const { ObjectId } = mongoose.Types;
 /* GET api/search/:name */
 const tracksSearchSpotify = async (req, res) => {
     try {
-        const response = await axios.get(`https://api.spotify.com/v1/search?type=track&q=${req.params.search}`, {
+        const offset = req.query.offset || 0;
+        const response = await axios.get(`https://api.spotify.com/v1/search?type=track&q=${req.params.search}&limit=20&offset=${offset}`, {
             headers: {
                 Authorization: `Bearer ${config.TOKEN_SECRET_SPOTIFY}`
             }

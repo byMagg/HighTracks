@@ -52,6 +52,8 @@ export class TracksPage implements OnInit {
 
   previewToPlay: string | undefined;
 
+  offset = 0;
+
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router,
     public alertCtrl: AlertController, public toastCtrl: ToastController) {
     this.route.queryParams.subscribe(params => {
@@ -171,6 +173,27 @@ export class TracksPage implements OnInit {
       allTracks.find(t => t._id == track._id) ? track.inserted = true : track.inserted = false;
     }
     this.tracks = searchTracks.filter(t => t.inserted == false);
+  }
+
+  async paginationSpotify(query: string): Promise<Track[]> {
+    this.offset += 20;
+    const searchTracks = await this.apiService.searchTracksSpotify(query, this.offset);
+    const allTracks = await this.apiService.getTracks();
+    for (let track of searchTracks) {
+      allTracks.find(t => t._id == track._id) ? track.inserted = true : track.inserted = false;
+    }
+    return searchTracks.filter(t => t.inserted == false);
+  }
+
+  onIonInfinite($event: Event) {
+    const infiniteScroll = $event.target as HTMLIonInfiniteScrollElement;
+    setTimeout(async () => {
+      if (this.query) {
+        const newTracks = await this.paginationSpotify(this.query);
+        this.tracks = this.tracks?.concat(newTracks);
+      }
+      infiniteScroll.complete();
+    }, 500);
   }
 
   async searchDB(query: string) {

@@ -20,9 +20,9 @@ export class TracksApiService {
 
   constructor(private http: HttpClient, private authService: AuthService, private geoService: GeolocationService) { }
 
-  async searchTracksSpotify(title: string): Promise<Track[]> {
+  async searchTracksSpotify(title: string, offset: number = 0): Promise<Track[]> {
     try {
-      const tracks: Track[] = (await lastValueFrom(this.http.get<any>(`${this.url}search/${encodeURI(title)}`)))['tracks']['items']
+      const tracks: Track[] = (await lastValueFrom(this.http.get<any>(`${this.url}search/${encodeURI(title)}?offset=${offset}`)))['tracks']['items']
       console.log(tracks)
       return tracks.map((track: any) => {
         return {
