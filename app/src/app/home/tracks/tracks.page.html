@@ -100,11 +100,11 @@
           </ion-fab-button>
           <ion-fab>
             <ion-fab-button size="small" *ngIf="toggleInsert && !tracksToBeAdded.includes(track)"
-              (click)="tracksToBeAdded.push(track) && test()">
+              (click)="tracksToBeAdded.push(track)">
               <ion-icon name="add"></ion-icon>
             </ion-fab-button>
             <ion-fab-button color="danger" size="small" *ngIf="toggleInsert && tracksToBeAdded.includes(track)"
-              (click)="tracksToBeAdded.splice(tracksToBeAdded.indexOf(track), 1) && test()">
+              (click)="tracksToBeAdded.splice(tracksToBeAdded.indexOf(track), 1)">
               <ion-icon name="close"></ion-icon>
             </ion-fab-button>
             <ion-fab-button size="small" color="light" *ngIf="!toggleInsert && displayInsert">

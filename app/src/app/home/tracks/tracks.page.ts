@@ -97,10 +97,6 @@ export class TracksPage implements OnInit {
     }).then(alert => alert.present());
   }
 
-  test() {
-    console.log(this.tracksToBeAdded);
-  }
-
   cancel() {
     if (this.modal) this.modal.dismiss(null, 'cancel');
   }
@@ -169,6 +165,7 @@ export class TracksPage implements OnInit {
   async searchSpotify(query: string) {
     const searchTracks = await this.apiService.searchTracksSpotify(query);
     const allTracks = await this.apiService.getTracks();
+    this.offset = 0;
     for (let track of searchTracks) {
       allTracks.find(t => t._id == track._id) ? track.inserted = true : track.inserted = false;
     }
@@ -187,6 +184,7 @@ export class TracksPage implements OnInit {
 
   onIonInfinite($event: Event) {
     const infiniteScroll = $event.target as HTMLIonInfiniteScrollElement;
+    console.log(this.offset)
     setTimeout(async () => {
       if (this.query) {
         const newTracks = await this.paginationSpotify(this.query);
