@@ -16,7 +16,6 @@ RUN npm install
 # Bundle app source
 COPY . .
 RUN ionic build --prod
-COPY ./www/index.html ./www/404.html
 
 FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
