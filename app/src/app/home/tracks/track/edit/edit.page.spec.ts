@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('EditPage', () => {
   let component: EditPage;
@@ -11,7 +12,7 @@ describe('EditPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [IonicModule.forRoot(), EditPage, HttpClientTestingModule, AngularFireModule.initializeApp(environment.firebase)]
+      imports: [IonicModule.forRoot(), EditPage, HttpClientTestingModule, RouterTestingModule, AngularFireModule.initializeApp(environment.firebase)]
     }).compileComponents();
 
     fixture = TestBed.createComponent(EditPage);

@@ -3,6 +3,8 @@ import { IonicModule } from '@ionic/angular';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { CommentsComponent } from './comments.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from 'src/environments/environment';
 
 describe('CommentsComponent', () => {
   let component: CommentsComponent;
@@ -10,8 +12,7 @@ describe('CommentsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [HttpClientTestingModule],
-      imports: [CommentsComponent]
+      imports: [CommentsComponent, HttpClientTestingModule, AngularFireModule.initializeApp(environment.firebase)]
     }).compileComponents();
 
     fixture = TestBed.createComponent(CommentsComponent);
