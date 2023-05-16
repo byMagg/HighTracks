@@ -28,9 +28,21 @@ section {
     justify-content: space-evenly;
     align-items: center;
     height: 100%;
+    transform: translateY(-56px);
 }
 
 article {
     min-width: 300px;
     height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+footer {
+    margin: 0 auto;
+}
+
+.form-input {
+    height: 100px;
 }

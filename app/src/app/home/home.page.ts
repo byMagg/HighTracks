@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, NavigationExtras, RouterModule } from '@angular/router';
-import { IonicModule, NavController } from '@ionic/angular';
-import { AuthService } from '../services/auth.service';
+import { NavigationExtras, RouterModule } from '@angular/router';
+import { IonModal, IonicModule, NavController } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core/components';
+import { LoginComponent } from "./login/login.component";
+
 
 @Component({
   selector: 'app-home',
@@ -13,11 +15,13 @@ import { AuthService } from '../services/auth.service';
   imports: [CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule,]
+    RouterModule,
+    LoginComponent]
 })
 export class HomePage implements OnInit {
 
   query: string | undefined;
+  @ViewChild(IonModal) modal: IonModal | undefined;
 
   constructor(private navCtrl: NavController) { }
 
@@ -28,5 +32,20 @@ export class HomePage implements OnInit {
       queryParams: { s: this.query },
     };
     this.navCtrl.navigateForward(['tracks'], navigationExtras);
+  }
+
+  cancel() {
+    this.modal?.dismiss(null, 'cancel');
+  }
+
+  confirm() {
+    this.modal?.dismiss(null, 'confirm');
+  }
+
+  onWillDismiss(event: Event) {
+    const ev = event as CustomEvent<OverlayEventDetail<string>>;
+    if (ev.detail.role === 'confirm') {
+      console.log('Confirm');
+    }
   }
 }

@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonModal, IonicModule } from '@ionic/angular';
 import { FirebaseError } from 'firebase/app';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'login-form',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
   standalone: true,
   imports: [CommonModule,
     FormsModule,
@@ -17,12 +17,15 @@ import { FirebaseError } from 'firebase/app';
     ReactiveFormsModule,
   ],
 })
-export class LoginPage implements OnInit {
+export class LoginComponent implements OnInit {
+
+  @Input() modal: IonModal | undefined;
 
   formValidationLogin: FormGroup | undefined;
   formValidationSignup: FormGroup | undefined;
   errorMessage: string = '';
   logged = this.authService.checkLogged();
+  showLogin = true;
 
   formValidationMessages = {
     'email': [
@@ -80,7 +83,7 @@ export class LoginPage implements OnInit {
   async tryLogin(value: { email: string; password: string; }) {
     try {
       await this.authService.doLogin(value);
-      this.router.navigate(["/"]);
+      this.modal?.dismiss(null, 'confirm');
     } catch (error) {
       if (error instanceof FirebaseError) {
         if (error.code == "auth/wrong-password") this.errorMessage = "Contraseña incorrecta";
@@ -90,12 +93,16 @@ export class LoginPage implements OnInit {
   }
 
   async logout() {
-    this.authService.doLogout()
-      .then(res => {
-        this.router.navigate(["/"]);
-        console.log(res);
-      }, err => {
-        console.log(err);
-      })
+    try {
+      await this.authService.doLogout();
+      this.modal?.dismiss(null, 'confirm');
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
+  toggleLogin() {
+    this.showLogin = !this.showLogin;
   }
 }
