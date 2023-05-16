@@ -7,7 +7,7 @@
     "start": "node src/main",
     "test": "jest --forceExit",
     "test-jenkins": "jest --reporters=default --reporters=jest-junit --forceExit",
-    "coverage-jenkins": "jest --reporters=default --reporters=jest-junit --coverage --coverageReporters=text --coverageReporters=html --coverageDirectory=./coverage/",
+    "coverage-jenkins": "jest --forceExit --reporters=default --reporters=jest-junit --coverage --coverageReporters=text --coverageReporters=html --coverageDirectory=./coverage/",
     "lint": "eslint src/**/*.js -f checkstyle -o coverage/eslint-result.xml"
   },
   "jest-junit": {
