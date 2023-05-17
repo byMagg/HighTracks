@@ -22,6 +22,10 @@ ion-card ion-fab {
     right: 0;
 }
 
+ion-fab-button {
+    --box-shadow: none;
+}
+
 #img-container {
     position: relative;
 }
@@ -99,6 +103,8 @@ ion-modal ion-img {
 .card:hover .playButton {
     opacity: 1;
 }
+
+
 
 
 @media (max-width: 1075px) {
