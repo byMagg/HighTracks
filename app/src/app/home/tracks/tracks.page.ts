@@ -37,10 +37,10 @@ export class TracksPage implements OnInit {
 
   toggleInsert: boolean = false;
   displayInsert: boolean = false;
-  filter: SearchFilter = SearchFilter.name;
 
   searchFiltersValues = Object.values(SearchFilter);
   searchFiltersKeys = Object.keys(SearchFilter);
+  filter: SearchFilter = this.searchFiltersKeys[0] as SearchFilter;
 
   trackToAdd: Track = new Track("", new Album("", "", ""));
 
@@ -61,6 +61,7 @@ export class TracksPage implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.displayInsert = this.authService.checkLogged();
       this.query = params['s'];
+
       if (Object.keys(SearchFilter).includes(params['f'])) {
         this.filter = params['f']
       }

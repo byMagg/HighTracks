@@ -60,12 +60,16 @@ ion-card ion-fab {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 500px;
+    max-width: 500px;
     margin: 0 auto;
 }
 
 #searchBar ion-searchbar {
     padding: 0 20px;
+}
+
+#searchBar {
+    padding: 0;
 }
 
 ion-segment {
