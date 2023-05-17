@@ -13,9 +13,9 @@ import { SafeResourceUrl } from '@angular/platform-browser';
 import { CameraService } from 'src/app/services/camera.service';
 
 export enum SearchFilter {
-  name = "name",
-  artist = "artist",
-  date = "date"
+  name = "Nombre",
+  artist = "Artista",
+  date = "Fecha"
 }
 
 @Component({
@@ -39,7 +39,8 @@ export class TracksPage implements OnInit {
   displayInsert: boolean = false;
   filter: SearchFilter = SearchFilter.name;
 
-  searchFilters = Object.values(SearchFilter);
+  searchFiltersValues = Object.values(SearchFilter);
+  searchFiltersKeys = Object.keys(SearchFilter);
 
   trackToAdd: Track = new Track("", new Album("", "", ""));
 
@@ -108,7 +109,6 @@ export class TracksPage implements OnInit {
 
   onWillDismiss(event: Event) {
     const ev = event as CustomEvent<OverlayEventDetail<Track>>;
-    console.log('Will dismiss with: ', ev.detail);
     if (ev.detail.role === 'confirm') {
       if (ev.detail.data) {
         ev.detail.data._id = ev.detail.data?.name;
