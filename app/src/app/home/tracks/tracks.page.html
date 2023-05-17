@@ -1,11 +1,16 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>
-      <ion-segment [(ngModel)]="filter" *ngIf="!toggleInsert">
-        <ion-segment-button (click)="changeParams()" [value]="enum" *ngFor="let enum of searchFilters;">
+
+      <div *ngIf="toggleInsert" class="ion-text-center">
+        <ion-label>Búsqueda en Spotify</ion-label>
+      </div>
+      <ion-segment [scrollable]="true" [(ngModel)]="filter" *ngIf="!toggleInsert">
+        <ion-segment-button (click)="changeParams()" [value]="searchFiltersKeys[i]"
+          *ngFor="let enum of searchFiltersValues; let i = index;">
           {{enum}}
         </ion-segment-button>
       </ion-segment>

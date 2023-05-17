@@ -22,6 +22,10 @@ ion-card ion-fab {
     right: 0;
 }
 
+ion-fab-button {
+    --box-shadow: none;
+}
+
 #img-container {
     position: relative;
 }
@@ -60,12 +64,16 @@ ion-card ion-fab {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 500px;
+    max-width: 500px;
     margin: 0 auto;
 }
 
 #searchBar ion-searchbar {
     padding: 0 20px;
+}
+
+#searchBar {
+    padding: 0;
 }
 
 ion-segment {
@@ -95,6 +103,8 @@ ion-modal ion-img {
 .card:hover .playButton {
     opacity: 1;
 }
+
+
 
 
 @media (max-width: 1075px) {

@@ -2,6 +2,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { LoginComponent } from './login.component';
+import { AngularFireModule } from '@angular/fire/compat';
+
+import { environment } from 'src/environments/environment';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -9,8 +13,7 @@ describe('LoginComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [LoginComponent],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot(), LoginComponent, HttpClientTestingModule, AngularFireModule.initializeApp(environment.firebase)]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);

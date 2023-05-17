@@ -10,11 +10,12 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { Album } from 'src/app/models/album.model';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { SafeResourceUrl } from '@angular/platform-browser';
+import { CameraService } from 'src/app/services/camera.service';
 
 export enum SearchFilter {
-  name = "name",
-  artist = "artist",
-  date = "date"
+  name = "Nombre",
+  artist = "Artista",
+  date = "Fecha"
 }
 
 @Component({
@@ -36,9 +37,10 @@ export class TracksPage implements OnInit {
 
   toggleInsert: boolean = false;
   displayInsert: boolean = false;
-  filter: SearchFilter = SearchFilter.name;
 
-  searchFilters = Object.values(SearchFilter);
+  searchFiltersValues = Object.values(SearchFilter);
+  searchFiltersKeys = Object.keys(SearchFilter);
+  filter: SearchFilter = this.searchFiltersKeys[0] as SearchFilter;
 
   trackToAdd: Track = new Track("", new Album("", "", ""));
 
@@ -55,10 +57,11 @@ export class TracksPage implements OnInit {
   offset = 0;
 
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router,
-    public alertCtrl: AlertController, public toastCtrl: ToastController) {
+    public alertCtrl: AlertController, public toastCtrl: ToastController, private cameraService: CameraService) {
     this.route.queryParams.subscribe(params => {
       this.displayInsert = this.authService.checkLogged();
       this.query = params['s'];
+
       if (Object.keys(SearchFilter).includes(params['f'])) {
         this.filter = params['f']
       }
@@ -107,7 +110,6 @@ export class TracksPage implements OnInit {
 
   onWillDismiss(event: Event) {
     const ev = event as CustomEvent<OverlayEventDetail<Track>>;
-    console.log('Will dismiss with: ', ev.detail);
     if (ev.detail.role === 'confirm') {
       if (ev.detail.data) {
         ev.detail.data._id = ev.detail.data?.name;
@@ -249,15 +251,10 @@ export class TracksPage implements OnInit {
   }
 
   async takePicture() {
-    const image = await Camera.getPhoto({
-      quality: 100,
-      allowEditing: false,
-      resultType: CameraResultType.Base64
-    });
-
-    if (image && image.base64String) {
+    const imageBase64String = await this.cameraService.takePictureBase64();
+    if (imageBase64String) {
       this.trackToAdd.album.images[0] = {
-        imageBase64String: image.base64String,
+        imageBase64String: imageBase64String,
       };
     }
   }
