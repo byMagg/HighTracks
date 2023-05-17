@@ -10,6 +10,7 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { Album } from 'src/app/models/album.model';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { SafeResourceUrl } from '@angular/platform-browser';
+import { CameraService } from 'src/app/services/camera.service';
 
 export enum SearchFilter {
   name = "name",
@@ -55,7 +56,7 @@ export class TracksPage implements OnInit {
   offset = 0;
 
   constructor(public apiService: TracksApiService, public route: ActivatedRoute, public authService: AuthService, private router: Router,
-    public alertCtrl: AlertController, public toastCtrl: ToastController) {
+    public alertCtrl: AlertController, public toastCtrl: ToastController, private cameraService: CameraService) {
     this.route.queryParams.subscribe(params => {
       this.displayInsert = this.authService.checkLogged();
       this.query = params['s'];
@@ -249,15 +250,10 @@ export class TracksPage implements OnInit {
   }
 
   async takePicture() {
-    const image = await Camera.getPhoto({
-      quality: 100,
-      allowEditing: false,
-      resultType: CameraResultType.Base64
-    });
-
-    if (image && image.base64String) {
+    const imageBase64String = await this.cameraService.takePictureBase64();
+    if (imageBase64String) {
       this.trackToAdd.album.images[0] = {
-        imageBase64String: image.base64String,
+        imageBase64String: imageBase64String,
       };
     }
   }
