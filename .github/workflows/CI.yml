@@ -80,17 +80,17 @@ jobs:
         run: npm install
       - name: Test
         run: npm run test-jenkins
-      - name: Coverage
-        uses: mattallty/jest-github-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          test-command: "npm run coverage-jenkins"
-      - uses: actions/upload-artifact@v2
-        if: success() || failure() 
-        with:
-          name: test-results 
-          path: ./coverage/test.results.xml
+      # - name: Coverage
+      #   uses: mattallty/jest-github-action@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     test-command: "npm run coverage-jenkins"
+      # - uses: actions/upload-artifact@v2
+      #   if: success() || failure() 
+      #   with:
+      #     name: test-results 
+      #     path: ./coverage/test.results.xml
       - name: Save Code Linting Report JSON
         run: npm run lint:json
         continue-on-error: true 
