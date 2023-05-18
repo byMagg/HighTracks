@@ -12,6 +12,7 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { CameraService } from 'src/app/services/camera.service';
 
+
 export enum SearchFilter {
   name = "Nombre",
   artist = "Artista",
@@ -26,7 +27,7 @@ export enum SearchFilter {
   imports: [CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule
+    RouterModule,
   ]
 })
 export class TracksPage implements OnInit {
