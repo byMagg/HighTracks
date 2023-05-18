@@ -128,7 +128,9 @@
 
           <div class="card" (click)="!toggleInsert && navigateToTrack(track._id)">
             <section id="img-container">
-              <ion-img *ngIf="track.album.images[0].url" src="{{track.album.images[0].url}}"></ion-img>
+              <ion-img *ngIf="track.album.images[1]" src="{{track.album.images[1].url}}"></ion-img>
+              <ion-img *ngIf="!track.album.images[1] && track.album.images[0].url"
+                src="{{track.album.images[0].url}}"></ion-img>
               <ion-img *ngIf="track.album.images[0].imageBase64String"
                 [src]="'data:image/jpeg;base64,' + track.album.images[0].imageBase64String"></ion-img>
             </section>

@@ -11,9 +11,12 @@
   <div *ngIf="track" id="container">
     <div>
       <ion-card>
-        <ion-img *ngIf="track.album.images[0].url" src="{{track.album.images[0].url}}"></ion-img>
+        <ion-img *ngIf="track.album.images[1]" src="{{track.album.images[1].url}}"></ion-img>
+        <ion-img *ngIf="!track.album.images[1] && track.album.images[0].url"
+          src="{{track.album.images[0].url}}"></ion-img>
         <ion-img *ngIf="track.album.images[0].imageBase64String"
-          [src]="'data:image/jpeg;base64,' + track.album.images[0].imageBase64String"></ion-img> </ion-card>
+          [src]="'data:image/jpeg;base64,' + track.album.images[0].imageBase64String"></ion-img>
+      </ion-card>
     </div>
     <div id="info">
       <div id="artist">
