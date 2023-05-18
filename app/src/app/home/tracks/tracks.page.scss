@@ -26,6 +26,14 @@ ion-fab-button {
     --box-shadow: none;
 }
 
+ion-buttons {
+    position: absolute;
+}
+
+ion-segment-button {
+    width: 100px;
+}
+
 #img-container {
     position: relative;
 }
