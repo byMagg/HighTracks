@@ -7,9 +7,11 @@
     <div id="searchBar">
       <ion-searchbar mode="ios" (keyup.enter)="search()" [(ngModel)]="query"
         placeholder="Introduce el nombre de la canción"></ion-searchbar>
-      <ion-button (click)="search()"><ion-icon slot="end" name="search"></ion-icon>
-        Buscar
-      </ion-button>
+      <ion-buttons>
+        <ion-fab-button (click)="search()" size="small">
+          <ion-icon name="search"></ion-icon>
+        </ion-fab-button>
+      </ion-buttons>
     </div>
   </div>
   <ion-modal trigger="open-login" (willDismiss)="onWillDismiss($event)">
