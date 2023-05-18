@@ -8,9 +8,8 @@
       <div *ngIf="toggleInsert" class="ion-text-center">
         <ion-label>Búsqueda en Spotify</ion-label>
       </div>
-      <ion-segment [scrollable]="true" [(ngModel)]="filter" *ngIf="!toggleInsert">
-        <ion-segment-button (click)="changeParams()" [value]="searchFiltersKeys[i]"
-          *ngFor="let enum of searchFiltersValues; let i = index;">
+      <ion-segment [scrollable]="true" (ionChange)="changeParams()" [(ngModel)]="filter" *ngIf="!toggleInsert">
+        <ion-segment-button [value]="searchFiltersKeys[i]" *ngFor="let enum of searchFiltersValues; let i = index;">
           {{enum}}
         </ion-segment-button>
       </ion-segment>
