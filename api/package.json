@@ -7,12 +7,12 @@
     "start": "node src/main",
     "test": "jest --forceExit",
     "test-jenkins": "jest --reporters=default --reporters=jest-junit --forceExit",
-    "coverage-jenkins": "jest --forceExit --reporters=default --reporters=jest-junit --coverage --coverageReporters=text --coverageReporters=html --coverageDirectory=./coverage/",
+    "coverage-jenkins": "jest --json --coverage --outputFile=jest.results.json --coverageReporters=html --coverageDirectory=./coverage/ --forceExit",
     "lint": "eslint src/**/*.js -f checkstyle -o coverage/eslint-result.xml"
   },
   "jest-junit": {
     "outputDirectory": "./coverage/",
-    "outputName": "test.results.xml",
+    "outputName": "jest.results.json",
     "usePathForSuiteName": "true"
   },
   "jest": {
