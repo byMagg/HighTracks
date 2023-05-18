@@ -1,10 +1,9 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar id="top-toolbar">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>
-
       <div *ngIf="toggleInsert" class="ion-text-center">
         <ion-label>Búsqueda en Spotify</ion-label>
       </div>
@@ -14,9 +13,22 @@
         </ion-segment-button>
       </ion-segment>
     </ion-title>
-    <ion-buttons *ngIf="displayInsert" slot="end">
+  </ion-toolbar>
+  <ion-toolbar id="bottom-toolbar">
+    <ion-title>
+      <div id="searchBar">
+        <ion-searchbar mode="ios" (keyup.enter)="search()" [(ngModel)]="query"
+          placeholder="Introduce el nombre de la canción"></ion-searchbar>
+        <ion-buttons>
+          <ion-fab-button (click)="search()" size="small">
+            <ion-icon name="search"></ion-icon>
+          </ion-fab-button>
+        </ion-buttons>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end" id="displayInsert" *ngIf="displayInsert">
       <ion-fab-button *ngIf="!toggleInsert" size="small" (click)="toggleInsertTrack()">
-        <ion-icon name="search"></ion-icon>
+        <ion-icon name="arrow-down-circle"></ion-icon>
       </ion-fab-button>
       <ion-fab-button *ngIf="toggleInsert" size="small" (click)="toggleInsertTrack()">
         <ion-icon name="list"></ion-icon>
@@ -25,16 +37,6 @@
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
     </ion-buttons>
-
-  </ion-toolbar>
-  <ion-toolbar>
-    <div id="searchBar">
-      <ion-searchbar mode="ios" (keyup.enter)="search()" [(ngModel)]="query"
-        placeholder="Introduce el nombre de la canción"></ion-searchbar>
-      <ion-button (click)="search()"><ion-icon slot="end" name="search"></ion-icon>
-        Buscar
-      </ion-button>
-    </div>
   </ion-toolbar>
   <ion-button id="addTracks" *ngIf="toggleInsert && !(tracksToBeAdded.length == 0)" color="success" shape="round"
     (click)="insertTracks()">

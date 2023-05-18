@@ -34,7 +34,7 @@ ion-fab-button {
     --box-shadow: none;
 }
 
-ion-buttons {
+#top-toolbar ion-buttons {
     position: absolute;
 }
 
@@ -80,15 +80,15 @@ ion-segment-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 500px;
-    margin: 0 auto;
 }
 
 #searchBar ion-searchbar {
-    padding: 0 20px;
+    padding: 0;
+    max-width: 328px;
 }
 
 #searchBar {
+    // margin-right: 112px;
     padding: 0;
 }
 
@@ -120,6 +120,14 @@ ion-modal ion-img {
     opacity: 1;
 }
 
+#displayInsert {
+    right: 0;
+}
+
+#displayInsert {
+    position: absolute;
+}
+
 
 
 
@@ -128,6 +136,16 @@ ion-modal ion-img {
         bottom: 50px;
         right: 50px;
         top: unset;
+    }
+}
+
+@media (max-width: 625px) {
+    #displayInsert {
+        position: relative;
+    }
+
+    ion-title {
+        padding-right: 0;
     }
 }
 
