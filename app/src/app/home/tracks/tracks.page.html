@@ -127,22 +127,32 @@
           </ion-fab>
 
           <div class="card" (click)="!toggleInsert && navigateToTrack(track._id)">
-            <div id="img-container">
+            <section id="img-container">
               <ion-img *ngIf="track.album.images[0].url" src="{{track.album.images[0].url}}"></ion-img>
               <ion-img *ngIf="track.album.images[0].imageBase64String"
                 [src]="'data:image/jpeg;base64,' + track.album.images[0].imageBase64String"></ion-img>
-            </div>
-            <div id="card-info">
-              <div>
-                <p>{{track.name}}</p>
-              </div>
-              <div>
-                <p *ngFor="let artist of track.album.artists">{{artist.name}}</p>
-              </div>
-              <div>
-                <p>{{( track.duration_ms | date:'mm:ss')}} min</p>
-              </div>
-            </div>
+            </section>
+            <section id="card-info">
+              <article>
+                <div>
+                  <p>{{track.name}}</p>
+                </div>
+              </article>
+              <article>
+                <ion-grid>
+                  <ion-row class="ion-justify-content-center">
+                    <div *ngFor="let artist of track.album.artists">
+                      <ion-label>{{artist.name}}</ion-label>
+                    </div>
+                  </ion-row>
+                </ion-grid>
+              </article>
+              <article>
+                <div id="shadow">
+                  <p>{{( track.duration_ms | date:'mm:ss')}} min</p>
+                </div>
+              </article>
+            </section>
           </div>
 
         </ion-card>
