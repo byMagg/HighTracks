@@ -112,8 +112,13 @@ export class TracksApiService {
   }
 
   async insertTracks(tracks: Track[]): Promise<boolean> {
-    const coords: Coords = await this.geoService.getLocation();
-    tracks.forEach(track => track.location = coords);
+    let coords: Coords | undefined;
+    try {
+      coords = await this.geoService.getLocation();
+    } catch (error) {
+      if (error instanceof GeolocationPositionError) console.log("Error getting location");
+    }
+    if (coords) tracks.forEach(track => track.location = coords);
     try {
       await lastValueFrom(this.http.post<Track>(`${this.url}tracks/`, tracks, {
         headers: {
