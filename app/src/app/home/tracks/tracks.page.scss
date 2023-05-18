@@ -1,3 +1,11 @@
+:host {
+    overflow-y: scroll;
+}
+
+ion-content::part(scroll) {
+    overflow: inherit;
+}
+
 ion-card {
     width: 200px;
     position: relative;

@@ -43,7 +43,7 @@
   </ion-button>
 </ion-header>
 
-<ion-content>
+<ion-content [scrollY]="false">
   <div id="container">
     <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
       <ng-template>
