@@ -20,7 +20,7 @@
 			"**/Thumbs.db": true,
 			"**/.browserslistrc": true,
 			"**/.editorconfig": true,
-			"**/capacitor.config.ts": true,
+			"**/capacitor.config.ts": false,
 			"**/karma.conf.js": true,
 			"**/ionic.config.json": true,
 			"**/ionic.starter.json": true,
